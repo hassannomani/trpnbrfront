@@ -1,0 +1,80 @@
+<h3>Add User </h3>
+
+
+<form class="example-form" [formGroup]="addUser" #formDir="ngForm" (ngSubmit)="userSubmit()">
+    <table class="example-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Username</mat-label>
+                <input matInput  formControlName="username" type="text"  placeholder="username">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>First Name</mat-label>
+                <input matInput  formControlName="firstName" type="text"  placeholder="First Name">
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Last Name</mat-label>
+                <input matInput  formControlName="lastName" type="text"  placeholder="Last Name">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput  formControlName="email" type="text"  placeholder="Email">
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Password</mat-label>
+                <input matInput  formControlName="password" type="password"  placeholder="Password" (keydown)="onKeydownEvent($event)">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput  formControlName="repassword" type="password"  placeholder="Re Password" (keydown)="onKeydownEvent($event)">
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field appearance="fill" matInput class="example-full-width">
+                    <mat-label>Select Role</mat-label>
+                    <select matNativeControl required formControlName="roles">
+                        <option value=''>-- Select --</option>
+                        <option *ngFor="let role of rolenames" [ngValue]="role.id">{{role.name}}</option>
+                    </select>
+                </mat-form-field>
+            </td>
+       
+        </tr>
+        <tr>
+        <span style="color: red;" *ngIf="notSame && addUser.controls['password'].dirty&&addUser.controls['repassword'].dirty">Password  mismatch </span>
+        <span style="color: red;" *ngIf="failedCreation">User Creation failed </span>
+        <span style="color: red;" *ngIf="failed">{{errorMsg}}</span>
+        <span style="color: green;" *ngIf="addedSuccess">User Added Successfully</span>
+        </tr>
+        <tr class="clear:both;">
+            
+            <td>  
+                <app-button
+                    [label]="buttonLabel"
+                    [color]="buttonColor" 
+                    [type]="buttonType"
+                    (click)="userSubmit()"
+                    >
+                </app-button>
+            </td>
+        </tr>
+    </table>
+
+</form>
