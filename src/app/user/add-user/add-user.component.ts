@@ -33,6 +33,7 @@ export class AddUserComponent implements OnInit{
   notSame: boolean = true
   addedSuccess: boolean = false
   failedCreation: boolean = false
+  rolereq: any = []
   constructor(
     private userService: UserService
   ){}
@@ -69,14 +70,17 @@ export class AddUserComponent implements OnInit{
     let index = -1;
     for(let i=0;i<this.rolenames.length;i++){
       if(this.rolenames[i].id==this.addUser.value["roles"]){
-        this.addUser.value["roles"] = this.rolenames[i]
+        this.rolereq.push( this.rolenames[i])
+        break;
       }
     }
+    this.addUser.value['roles'] = this.rolereq;
     this.userService.addUsers(this.addUser.value).subscribe({
      
       next: (data) => {
         if(data.uuid){
           this.addedSuccess = true
+          this.addUser.reset();
           //console.log(this.roles)
         } 
         else{

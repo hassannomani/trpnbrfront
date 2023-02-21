@@ -18,6 +18,7 @@ import { AddRepresentativeComponent } from './representative/add-representative/
 import { ListRepresentativeComponent } from './representative/list-representative/list-representative.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { ResetUserComponent } from './user/reset-user/reset-user.component';
+import { ListUserComponent } from './user/list-user/list-user.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ResetUserComponent } from './user/reset-user/reset-user.component';
     AddRepresentativeComponent,
     ListRepresentativeComponent,
     AddUserComponent,
-    ResetUserComponent
+    ResetUserComponent,
+    ListUserComponent
   ],
   imports: [
     BrowserModule,

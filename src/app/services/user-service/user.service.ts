@@ -12,6 +12,8 @@ export interface Roles {
 export class UserService {
   private url : string ='http://localhost:8080/api/users/roles';
   private urladd : string ='http://localhost:8080/api/users/add';
+  private url_list : string ='http://localhost:8080/api/users/all';
+  private url_single : string ='http://localhost:8080/api/users/user/';
 
   constructor(
     private http: HttpClient,
@@ -57,5 +59,43 @@ export class UserService {
     }else{
       return this.http.post(this.urladd, body)
     }
+  }
+
+  getAllUSers(): Observable<any[]>{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+        })
+  
+        const httpOptions = {
+          headers: headers_object
+        };
+        
+      return this.http.get<any[]>(this.url_list,httpOptions)
+    }else{
+      return this.http.get<any[]>(this.url)
+    }
+
+  }
+
+  getAUser(username: String): Observable<any>{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+        })
+  
+        const httpOptions = {
+          headers: headers_object
+        };
+        
+      return this.http.get<any>(this.url_single+username,httpOptions)
+    }else{
+      return this.http.get<any>(this.url_single+username)
+    }
+
   }
 }

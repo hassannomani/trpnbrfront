@@ -3,7 +3,7 @@
 
 <form class="example-form" [formGroup]="addAgent" #formDir="ngForm" (ngSubmit)="agentSubmit()">
   
-    <mat-tab-group>
+    <mat-tab-group #tabGroup (selectedTabChange)="selectedTabChange($event)">
         <mat-tab label="Basic Information"> 
 
             <table class="example-full-width" cellspacing="0">
@@ -14,7 +14,7 @@
                             <input matInput formControlName="name">
                         </mat-form-field>
                     </td>
-                    
+                  
                     <td>
                         <mat-form-field class="example-full-width">
                             <mat-label>TIN</mat-label>
@@ -80,6 +80,14 @@
                         </mat-form-field>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>DOB</mat-label>
+                            <input matInput formControlName="dob" type="date">
+                        </mat-form-field>
+                    </td>
+                </tr>
             </table>
     </mat-tab>
  
@@ -97,7 +105,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Division</mat-label>
                         <select matNativeControl required formControlName="bdivision" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let div of division" [ngValue]="div.name">{{div.name}}</option>  
                         </select>
                     </mat-form-field>
                 </td>
@@ -105,7 +114,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select District</mat-label>
                         <select matNativeControl required formControlName="bdistrict" >
-                        <option value="2023-2024">2023-2024</option> 
+                        <option value="">--Select--</option>
+                        <option *ngFor="let dis of district" [ngValue]="dis.name">{{dis.name}}</option> 
                         </select>
                     </mat-form-field>
                 </td>
@@ -115,7 +125,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Thana</mat-label>
                         <select matNativeControl required formControlName="bthana" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let th of thana" [ngValue]="th.name">{{th.name}}</option>  
                         </select>
                     </mat-form-field>
                 </td>
@@ -135,7 +146,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Division</mat-label>
                         <select matNativeControl required formControlName="prdivision" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let div of division" [ngValue]="div.name">{{div.name}}</option>  
                         </select>
                     </mat-form-field>
                 </td>
@@ -143,7 +155,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select District</mat-label>
                         <select matNativeControl required formControlName="prdistrict" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let dis of district" [ngValue]="dis.name">{{dis.name}}</option> 
                         </select>
                     </mat-form-field>
                 </td>
@@ -153,7 +166,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Thana</mat-label>
                         <select matNativeControl required formControlName="prthana" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let th of thana" [ngValue]="th.name">{{th.name}}</option>  
                         </select>
                     </mat-form-field>
                 </td>
@@ -172,7 +186,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Division</mat-label>
                         <select matNativeControl required formControlName="pmdivision" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let div of division" [ngValue]="div.name">{{div.name}}</option>   
                         </select>
                     </mat-form-field>
                 </td>
@@ -180,8 +195,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select District</mat-label>
                         <select matNativeControl required formControlName="pmdistrict" >
-                        <option value="2023-2024">2023-2024</option> 
-                        </select>
+                            <option value="">--Select--</option>
+                            <option *ngFor="let dis of district" [ngValue]="dis.name">{{dis.name}}</option>                         </select>
                     </mat-form-field>
                 </td>
             </tr>     
@@ -190,7 +205,8 @@
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Thana</mat-label>
                         <select matNativeControl required formControlName="pmthana" >
-                        <option value="2023-2024">2023-2024</option> 
+                            <option value="">--Select--</option>
+                            <option *ngFor="let th of thana" [ngValue]="th.name">{{th.name}}</option> 
                         </select>
                     </mat-form-field>
                 </td>
@@ -200,6 +216,9 @@
                     <input matInput  formControlName="baddress" type="text"  placeholder="Permanent Address">
                     </mat-form-field>
                 </td>
+            </tr>
+            <tr>
+                <p style="color: red;" *ngIf="addressfailed">Error saving Address Information</p>
             </tr>
         </table>
     </mat-tab>
@@ -240,10 +259,13 @@
             <tr>
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
-                        <mat-label>Bank Branch</mat-label>
+                        <mat-label>Bank Routing No</mat-label>
                         <input matInput formControlName="routingNo" type="text"  placeholder="Routing No">
                     </mat-form-field>
                 </td>
+            </tr>
+            <tr>
+                <p style="color: red;" *ngIf="bankfailed">Error saving bank Information</p>
             </tr>
             
         
@@ -274,13 +296,17 @@
                     </mat-form-field>
                 </td>
             </tr>
+            <tr>
+                <p style="color:red;" *ngIf="failed">Error saving agent!</p>
+                <p style="color:green;" *ngIf="success">Successfully saved agent!</p>
+            </tr>
             <tr class="clear:both;">
               
                 <td>  
                     <app-button
-                        [label]="buttonLabel1"
-                        [color]="buttonColor1" 
-                        [type]="buttonType1"
+                        [label]="buttonLabel"
+                        [color]="buttonColor" 
+                        [type]="buttonType"
                         (click)="agentSubmit()"
                         >
                     </app-button>

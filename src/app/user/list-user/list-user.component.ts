@@ -1,0 +1,81 @@
+import { Component, OnInit  } from '@angular/core';
+import { UserService } from 'src/app/services/user-service/user.service';
+import { Router } from '@angular/router';
+
+
+@Component({
+  selector: 'app-list-user',
+  templateUrl: './list-user.component.html',
+  styleUrls: ['./list-user.component.css']
+})
+export class ListUserComponent implements OnInit{
+  agentsArr: any = []
+  loaded: boolean = false
+  noDatafound:boolean = false
+  failed: boolean = false
+  errorMsg: String = ""
+  displayedColumns : any = []
+  singleUser: any = {}
+  buttonLabel: string = "Edit"
+  buttonColor: string = "Basic"
+  buttonType: string = "button"
+  constructor(
+    private userService: UserService,
+    private router: Router,
+
+  ){}
+  ngOnInit(): void {
+    this.userService.getAllUSers().subscribe({
+     
+      next: (data) => {
+        if(data.length){
+          this.agentsArr = data
+          this.loaded  = true
+          this.displayedColumns = [ 'username','firstName','lastName','email','roles','addedDate','action']
+
+          console.log(this.agentsArr)
+        } 
+        else{
+          this.noDatafound = true
+        }
+      },
+      error: (e) => {
+        this.errorMsg = e
+        this.failed = true
+      }  
+    });
+  }
+
+  edit(id: string, username: string){
+    console.log(id)
+    console.log(username)
+    this.userService.getAUser(username).subscribe({
+     
+      next: (data) => {
+        if(data.uuid){
+          this.singleUser = data;
+          let role = data.roles?data.roles[0].name:null;
+          if(role!=null&&role=="ROLE_AGENT"){
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['add-agent'],{ queryParams: {username: this.singleUser.username}});
+            }); 
+          }else if(role!=null&&role=="ROLE_REPRESENTATIVE"){
+
+          }else[
+
+          ]
+        } 
+        else{
+          this.noDatafound = true
+        }
+      },
+      error: (e) => {
+        // this.errorMsg = e
+        // this.failed = true
+        console.log(e)
+      }  
+    });
+
+  }
+
+}

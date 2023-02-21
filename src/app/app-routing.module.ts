@@ -4,12 +4,14 @@ import { AddAgentComponent } from './agent/add-agent/add-agent.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AddRepresentativeComponent } from './representative/add-representative/add-representative.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
+import { ListUserComponent } from './user/list-user/list-user.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
   {path: "add-agent", component: AddAgentComponent},
   {path: "add-representative", component: AddRepresentativeComponent},
   {path: "add-user", component: AddUserComponent},
+  {path: "users", component: ListUserComponent},
 
 ];
 
