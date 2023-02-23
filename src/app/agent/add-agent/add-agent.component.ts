@@ -4,6 +4,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { forkJoin } from 'rxjs';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
+import { ActivatedRoute, Route } from '@angular/router';
+import { UserService } from 'src/app/services/user-service/user.service';
 @Component({
   selector: 'app-add-agent',
   templateUrl: './add-agent.component.html',
@@ -12,7 +14,7 @@ import { CommonService } from 'src/app/services/common-service/common.service';
 export class AddAgentComponent implements OnInit{
     addAgent = new FormGroup({
       'name' : new FormControl('',[Validators.required]),
-      'username' : new FormControl('',[Validators.required]),
+      'tin' : new FormControl('',[Validators.required]),
       'phone' : new FormControl('',[Validators.required]),
       'registrationType' : new FormControl('',[Validators.required]),
       'registrationNo' : new FormControl('',[Validators.required]),
@@ -55,7 +57,7 @@ export class AddAgentComponent implements OnInit{
     addressfailed: boolean = false
     buttonLabel: string= "Submit"
     buttonColor: string = "primary"
-    buttonType: string = "submit"
+    buttonType: string = "button"
 
     buttonLabel1: string= "Calculate"
     buttonColor1: string = "success"
@@ -68,9 +70,36 @@ export class AddAgentComponent implements OnInit{
     addressArr: any =[]
     constructor(
       private agentService: AgentService,  
-      private commonService: CommonService,  
+      private commonService: CommonService, 
+      private route: ActivatedRoute,
+      private userService: UserService
     ){}
     ngOnInit(): void {
+      this
+      .route
+      .queryParams
+      .subscribe(paramsg=>{
+        let uname = paramsg['username']
+        if(uname!=null){
+          this.userService.getAUser(uname).subscribe({
+            next: (data) => {
+              console.log(data)
+              if(data.uuid){
+                this.addAgent.get('name')?.setValue(data.firstName+" "+data.lastName);
+                this.addAgent.get('tin')?.setValue(data.username)
+              }
+            },
+            error: (e) => {
+             
+                console.log("Error retrieving")
+            }
+          })
+        }
+
+      })
+
+      
+
       this.onTabChanged();
       forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana()])
       .subscribe({
@@ -97,8 +126,9 @@ export class AddAgentComponent implements OnInit{
       .subscribe({
         
         next: (data) => {
-          if(data?.token!=""){
+          if(data?.id!=""){ //uuid
             this.success = true;
+            this.addAgent.reset()
           } 
           else{
             this.failed = true

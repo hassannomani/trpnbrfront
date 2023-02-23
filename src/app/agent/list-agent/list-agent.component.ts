@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user-service/user.service';
+import { AgentService } from 'src/app/services/agent-service/agent.service';
 @Component({
   selector: 'app-list-agent',
   templateUrl: './list-agent.component.html',
@@ -8,11 +8,25 @@ import { UserService } from 'src/app/services/user-service/user.service';
 export class ListAgentComponent implements OnInit{
   agentsArr: any = []
   loaded: boolean = false
-
+  displayedColumns: any = []
   constructor(
-    private userService: UserService
+    private agentService: AgentService
   ){}
   ngOnInit(): void {
+    this.agentService.getAll()
+    .subscribe({
+      next: (data) => {
+        //console.log(data)
+        this.agentsArr = data
+        this.loaded = true
+        this.displayedColumns = [ 'name','username','mobile_no','registration_no','contact_email']
+
+      },
+      error: (e) => {
+        this.loaded = false;
+        console.log("Error retrieving")
+      }
+    });
   }
 
 }

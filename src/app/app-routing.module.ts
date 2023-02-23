@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddAgentComponent } from './agent/add-agent/add-agent.component';
+import { ListAgentComponent } from './agent/list-agent/list-agent.component';
 import { LoginComponent } from './auth/login/login.component';
+import { LogoutComponent } from './layouts/logout/logout.component';
 import { AddRepresentativeComponent } from './representative/add-representative/add-representative.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
@@ -12,6 +14,8 @@ const routes: Routes = [
   {path: "add-representative", component: AddRepresentativeComponent},
   {path: "add-user", component: AddUserComponent},
   {path: "users", component: ListUserComponent},
+  {path: "logout", component: LogoutComponent},
+  {path: "list-agents", component: ListAgentComponent}
 
 ];
 

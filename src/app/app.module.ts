@@ -19,6 +19,11 @@ import { ListRepresentativeComponent } from './representative/list-representativ
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { ResetUserComponent } from './user/reset-user/reset-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
+import { LogoutComponent } from './layouts/logout/logout.component';
+import { AgentMenuComponent } from './layouts/agent-menu/agent-menu.component';
+import { AdminMenuComponent } from './layouts/admin-menu/admin-menu.component';
+import { RepresentativeMenuComponent } from './layouts/representative-menu/representative-menu.component';
+import { ViewerMenuComponent } from './layouts/viewer-menu/viewer-menu.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,12 @@ import { ListUserComponent } from './user/list-user/list-user.component';
     ListRepresentativeComponent,
     AddUserComponent,
     ResetUserComponent,
-    ListUserComponent
+    ListUserComponent,
+    LogoutComponent,
+    AgentMenuComponent,
+    AdminMenuComponent,
+    RepresentativeMenuComponent,
+    ViewerMenuComponent
   ],
   imports: [
     BrowserModule,

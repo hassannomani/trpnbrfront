@@ -9,7 +9,7 @@ export class SigninService {
   private loggedIn: Subject<boolean> = new ReplaySubject<boolean>(1);
 
   private url : string ='http://localhost:8080/api/auth/signin';
-  private url1 : string ='http://localhost:8080/api/v1/users/logout';
+  private url1 : string ='http://localhost:8080/api/auth/logout';
   
   constructor(
     private http: HttpClient,
@@ -24,11 +24,16 @@ export class SigninService {
   }
 
   loginStatusChange(): Observable<boolean> {
-
     let object = this.localstorageserv.getStorageItems()
     if(object.token!=""&&object.token!=null){
        this.loggedIn.next(true);
     }
     return this.loggedIn.asObservable()
+  }
+  
+  logout(): Observable<any> {
+    this.localstorageserv.deletetorageItems()
+    return this.http.post(this.url1, {}).pipe(
+      tap(() => this.loggedIn.next(false)));
   }
 }
