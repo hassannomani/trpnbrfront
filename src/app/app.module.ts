@@ -24,6 +24,8 @@ import { AgentMenuComponent } from './layouts/agent-menu/agent-menu.component';
 import { AdminMenuComponent } from './layouts/admin-menu/admin-menu.component';
 import { RepresentativeMenuComponent } from './layouts/representative-menu/representative-menu.component';
 import { ViewerMenuComponent } from './layouts/viewer-menu/viewer-menu.component';
+import { ApproveRepresentativeComponent } from './representative/approve-representative/approve-representative.component';
+import { ApproveRepresentativeSingleComponent } from './representative/approve-representative-single/approve-representative-single.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { ViewerMenuComponent } from './layouts/viewer-menu/viewer-menu.component
     AgentMenuComponent,
     AdminMenuComponent,
     RepresentativeMenuComponent,
-    ViewerMenuComponent
+    ViewerMenuComponent,
+    ApproveRepresentativeComponent,
+    ApproveRepresentativeSingleComponent
   ],
   imports: [
     BrowserModule,

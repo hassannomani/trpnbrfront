@@ -14,6 +14,8 @@ export class UserService {
   private urladd : string ='http://localhost:8080/api/users/add';
   private url_list : string ='http://localhost:8080/api/users/all';
   private url_single : string ='http://localhost:8080/api/users/user/';
+  private url_pending_all : string ='http://localhost:8080/api/users/pending-all';
+  private url_approve_representative : string ='http://localhost:8080/api/users/approve/';
 
   constructor(
     private http: HttpClient,
@@ -80,6 +82,25 @@ export class UserService {
 
   }
 
+  getAllPendingUsers(): Observable<any[]>{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+        })
+  
+        const httpOptions = {
+          headers: headers_object
+        };
+        
+      return this.http.get<any[]>(this.url_pending_all,httpOptions)
+    }else{
+      return this.http.get<any[]>(this.url_pending_all)
+    }
+
+  }
+
   getAUser(username: String): Observable<any>{
     let obj = this.localStorageServc.getStorageItems()
     if(obj.token!=""&&obj.token!=null){
@@ -95,6 +116,26 @@ export class UserService {
       return this.http.get<any>(this.url_single+username,httpOptions)
     }else{
       return this.http.get<any>(this.url_single+username)
+    }
+
+  }
+
+  approvePendingUser(uuid:string): Observable<any>{
+    let obj = this.localStorageServc.getStorageItems()
+   
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+        })
+  
+        const httpOptions = {
+          headers: headers_object
+        };
+        
+      return this.http.get<any>(this.url_approve_representative+uuid,httpOptions)
+    }else{
+      return this.http.get<any>(this.url_approve_representative+uuid)
     }
 
   }

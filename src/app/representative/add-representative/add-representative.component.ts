@@ -79,7 +79,12 @@ export class AddRepresentativeComponent implements OnInit{
   addressArr: any =[]
   roles: any = []
   roleRep: any = []
-
+  bDistrict: any = []
+  bThana: any = []
+  pmDistrict: any = []
+  pmThana: any = []
+  prDistrict: any = []
+  prThana: any = []
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -143,10 +148,16 @@ export class AddRepresentativeComponent implements OnInit{
   }
 
   saveAddresses(){
+    let prdistrict:any={}
+    prdistrict=this.addRepresentative.value['prdistrict']
+    let bdistrict:any={}
+    bdistrict=this.addRepresentative.value['bdistrict']
+    let pmdistrict:any={}
+    pmdistrict=this.addRepresentative.value['pmdistrict']
     let presentobj={
       type: "PRESENT",
       division: this.addRepresentative.value['prdivision'],
-      district: this.addRepresentative.value['prdistrict'],
+      district: prdistrict.name,
       thana: this.addRepresentative.value['prthana'],
       address: this.addRepresentative.value['praddress'],
       addedBy: "AGENT" 
@@ -154,7 +165,7 @@ export class AddRepresentativeComponent implements OnInit{
     let businessobj={
       type: "BUSINESS",
       division: this.addRepresentative.value['bdivision'],
-      district: this.addRepresentative.value['bdistrict'],
+      district: pmdistrict.name,
       thana: this.addRepresentative.value['bthana'],
       address: this.addRepresentative.value['baddress'],
       addedBy: "AGENT" 
@@ -162,7 +173,7 @@ export class AddRepresentativeComponent implements OnInit{
     let permanentobj={
       type: "PERMANENT",
       division: this.addRepresentative.value['pmdivision'],
-      district: this.addRepresentative.value['pmdistrict'],
+      district: pmdistrict.name,
       thana: this.addRepresentative.value['pmthana'],
       address: this.addRepresentative.value['pmaddress'],
       addedBy: "AGENT" 
@@ -222,7 +233,7 @@ export class AddRepresentativeComponent implements OnInit{
   }
 
   registerUser(){
-    this.addUser.value['addedBy']="Agent"
+    this.addUser.value['addedBy']=this.localStore.id
     this.addUser.value['status']="0"
     this.addUser.value['photo']=""
     let index = -1;
@@ -240,6 +251,7 @@ export class AddRepresentativeComponent implements OnInit{
           this.addedSuccess = true
           this.addRepresentative.get("reName")?.setValue(data.firstName+" "+data.lastName)
           this.addRepresentative.get("tinNo")?.setValue(data.username)
+          this.addUser.reset()
           //console.log(this.roles)
         } 
         else{
@@ -265,5 +277,62 @@ export class AddRepresentativeComponent implements OnInit{
       this.saveAddresses()
     }
   }
+
+  bdivisionChange(value:any){
+    console.log(value)
+    this.bDistrict = []
+    for(let i=0;i<this.district.length;i++){
+      if(this.district[i].divisionId==value)
+      this.bDistrict.push(this.district[i])
+    }
+  }
+
+  bdistrictChange(value:any){
+    console.log(value)
+    this.bThana = []
+    this.addRepresentative.value['bdistrict']=value.name
+    for(let i=0;i<this.thana.length;i++){
+      if(this.thana[i].districtId==value.districtId)
+      this.bThana.push(this.thana[i])
+    }
+  }
+
+  prdivisionChange(value:any){
+    console.log(value)
+    this.prDistrict = []
+    for(let i=0;i<this.district.length;i++){
+      if(this.district[i].divisionId==value)
+      this.prDistrict.push(this.district[i])
+    }
+  }
+
+  prdistrictChange(value:any){
+    console.log(value)
+    this.addRepresentative.value['prdistrict']=value.name
+    this.prThana = []
+    for(let i=0;i<this.thana.length;i++){
+      if(this.thana[i].districtId==value.districtId)
+      this.prThana.push(this.thana[i])
+    }
+  }
+
+  pmdivisionChange(value:any){
+    console.log(value)
+    this.pmDistrict = []
+    for(let i=0;i<this.district.length;i++){
+      if(this.district[i].divisionId==value)
+      this.pmDistrict.push(this.district[i])
+    }
+  }
+
+  pmdistrictChange(value:any){
+    console.log(value)
+    this.pmThana = []
+    for(let i=0;i<this.thana.length;i++){
+      if(this.thana[i].districtId==value.districtId)
+      this.pmThana.push(this.thana[i])
+    }
+  }
+
 
 }
