@@ -10,6 +10,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 export class RepresentativeService {
 
   private urladd : string ='http://localhost:8080/api/representative/add';
+  private urlgetrep : string ='http://localhost:8080/api/representative/';
 
   constructor(
     private http: HttpClient,
@@ -36,6 +37,26 @@ export class RepresentativeService {
     }else{
       
       return this.http.post(this.urladd, body)
+    }
+  }
+
+  getARepresentative(username: string): Observable<any>{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+      })
+
+      const httpOptions = {
+        headers: headers_object
+      };
+      
+      return this.http.get(this.urlgetrep+username,httpOptions)
+
+    }else{
+      
+      return this.http.get(this.urlgetrep+username)
     }
   }
 }

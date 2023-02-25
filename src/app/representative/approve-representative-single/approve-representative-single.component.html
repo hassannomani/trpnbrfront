@@ -1,1 +1,65 @@
-<p>approve-representative-single works!</p>
+
+<mat-accordion class="example-headers-align">
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Basic Information
+        </mat-panel-title>
+        <mat-panel-description>
+            Click to Expand
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>Name: {{representative.reName}}</p>
+      <p>Date of Birth: {{representative.reDob | date}}</p>
+      <p>Mobile No: {{representative.reMobile | date}}</p>
+      <p>User Name: {{representative.tinNo}}</p>
+      <p>NID: {{representative.nid}}</p>  
+      <mat-action-row>
+        <button mat-button color="primary" (click)="nextStep()">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              Bank Information
+            </mat-panel-title>
+            <mat-panel-description>
+                Click to Expand
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>Account Name: {{representative.re_bankinformation[0]?.bankAccountName}}</p>
+          <p>Bank Account No: {{representative.re_bankinformation[0]?.bankAccountNo}}</p>
+          <p>Bank Name: {{representative.re_bankinformation[0]?.bankName}}</p>
+          <p>Bank Branch: {{representative.re_bankinformation[0]?.bankBranch}}</p>
+          <p>Routing No: {{representative.re_bankinformation[0]?.routingNo}}</p>  
+          <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Previous</button>
+            <button mat-button color="primary" (click)="nextStep()">Next</button>
+          </mat-action-row>
+    </mat-expansion-panel>
+  
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              Address Information
+            </mat-panel-title>
+            <mat-panel-description>
+                Click to Expand
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div *ngFor="let address of representative.re_address">
+            <h3>Address Type: {{address.type}}</h3>
+            <p>District: {{address.district}}</p>
+            <p>Thana: {{address.thana}}</p>
+            <p>Address: {{address.address}}</p>
+            <p>Date Added: {{address.addedDate | date}}</p> 
+          </div>
+          <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Previous</button>
+            <button mat-button color="primary" (click)="nextStep()">End</button>
+            <button mat-button color="primary" (click)="nextStep()">End</button>
+          </mat-action-row>
+    </mat-expansion-panel>
+  
+  </mat-accordion>

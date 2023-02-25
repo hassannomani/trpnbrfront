@@ -65,7 +65,7 @@ export class AddRepresentativeComponent implements OnInit{
   goSuccess: boolean = false
   bankfailed: boolean = false
   addressfailed: boolean = false
-  buttonLabel: string= "Button"
+  buttonLabel: string= "Submit"
   buttonColor: string = "primary"
   buttonType: string = "button"
   buttonLabel1: string= "Create User"

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { SigninService } from 'src/app/services/signin-service/signin.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   loginForm = new FormGroup({
     'username' : new FormControl('',[Validators.required, Validators.minLength(4)]),
     'password' : new FormControl('',[Validators.required, Validators.minLength(4)])
@@ -23,7 +23,17 @@ export class LoginComponent {
     private signinService: SigninService,
     private router: Router,
     private localstorageservc: LocalStorageService
-    ){}
+  ){}
+
+  ngOnInit(): void {
+    let local = this.localstorageservc.getStorageItems()
+    if(local.id!=null&&local.id!=""&&local.token!=null){
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['dashboard']);
+      });
+    }
+   
+  }  
 
   login(){
     
@@ -38,7 +48,7 @@ export class LoginComponent {
           if(data?.token!=""){
             this.localstorageservc.saveStorageItems(data)
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-              this.router.navigate(['add-agent']);
+              this.router.navigate(['dashboard']);
             }); 
             //this.router.navigate(['profile']);
 

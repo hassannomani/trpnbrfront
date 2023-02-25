@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef,ChangeDetectionStrategy,NgZone } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-approve-representative',
   templateUrl: './approve-representative.component.html',
-  styleUrls: ['./approve-representative.component.css']
+  styleUrls: ['./approve-representative.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
+
 })
 export class ApproveRepresentativeComponent implements OnInit{
   representativesArr: any[] = []
   loaded: boolean = true;
   zeroData : boolean = false;
+  approveFailed : boolean = false;
   displayedColumns: any = []
   buttonLabel: string = "See Details"
   buttonColor: string = "Basic"
@@ -18,10 +21,12 @@ export class ApproveRepresentativeComponent implements OnInit{
   buttonLabel1: string = "Approve"
   buttonColor1: string = "primary"
   buttonType1: string = "button"
+  helperArr: any =[]
   constructor(
     private userService: UserService,
     private router: Router,
-
+    private changeDetector: ChangeDetectorRef,
+    private zone: NgZone
   ){}
   ngOnInit(): void {
     this
@@ -31,6 +36,7 @@ export class ApproveRepresentativeComponent implements OnInit{
       next: (data) => {
         if(data.length){
           this.representativesArr = data
+          this.helperArr = data
           this.loaded  = true
           this.displayedColumns = [ 'username','firstName','lastName','email','addedDate','action']
         } 
@@ -44,23 +50,38 @@ export class ApproveRepresentativeComponent implements OnInit{
     })
   }
 
-  approve(uuid : string, username: string){
+  approve(uuid : string, index: string){   
+ 
+    // let data = this.helperArr.splice(parseInt(index),1)
+    // let dtemp  = data
+    // data = this.representativesArr
+    // //this.representativesArr = this.helperArr
+    // this.zone.run(()=>{
+    //       // this.helperArr = this.representativesArr
+    //       // console.log(this.helperArr)
+          
+    //       this.representativesArr=this.helperArr
+    //       //this.changeDetector.detectChanges();
+    // }) 
+
     this.userService.approvePendingUser(uuid).subscribe({
       next: (data) => {
-        if(data.length){
-          
+        if(data.uuid){
+          alert("User Approved!")
+          this.ngOnInit()          
         } 
-        else{
-        }
       },
       error: (e) => {
-       
+        this.approveFailed = true;
+        console.log(e)
       } 
     })
   }
 
-  edit(uuid : string, username: string){
-    console.log(uuid)
+  details(tin : string, index: string){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['approve-representative-details'],{ queryParams: {username:tin}});
+    });
   }
 
 }

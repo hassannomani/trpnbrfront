@@ -26,6 +26,7 @@ import { RepresentativeMenuComponent } from './layouts/representative-menu/repre
 import { ViewerMenuComponent } from './layouts/viewer-menu/viewer-menu.component';
 import { ApproveRepresentativeComponent } from './representative/approve-representative/approve-representative.component';
 import { ApproveRepresentativeSingleComponent } from './representative/approve-representative-single/approve-representative-single.component';
+import { DashboardComponent } from './user/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ApproveRepresentativeSingleComponent } from './representative/approve-r
     RepresentativeMenuComponent,
     ViewerMenuComponent,
     ApproveRepresentativeComponent,
-    ApproveRepresentativeSingleComponent
+    ApproveRepresentativeSingleComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
