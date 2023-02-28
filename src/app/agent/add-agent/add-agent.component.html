@@ -104,19 +104,20 @@
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Division</mat-label>
-                        <select matNativeControl required formControlName="bdivision" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let div of division" [ngValue]="div.name">{{div.name}}</option>  
-                        </select>
+                      
+                        <mat-select matNativeControl required formControlName="bdivision" (selectionChange)="bdivisionChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let div of division" [value]="div.divId">{{div.name}}</mat-option>   
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select District</mat-label>
-                        <select matNativeControl required formControlName="bdistrict" >
-                        <option value="">--Select--</option>
-                        <option *ngFor="let dis of district" [ngValue]="dis.name">{{dis.name}}</option> 
-                        </select>
+                        <mat-select matNativeControl required formControlName="bdistrict" (selectionChange)="bdistrictChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let dis of bDistrict" [value]="dis">{{dis.name}}</mat-option> 
+                        </mat-select>
                     </mat-form-field>
                 </td>
             </tr>
@@ -124,10 +125,10 @@
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Thana</mat-label>
-                        <select matNativeControl required formControlName="bthana" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let th of thana" [ngValue]="th.name">{{th.name}}</option>  
-                        </select>
+                        <mat-select matNativeControl required formControlName="bthana" >
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let th of bThana" [value]="th.name">{{th.name}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
@@ -145,19 +146,19 @@
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Division</mat-label>
-                        <select matNativeControl required formControlName="prdivision" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let div of division" [ngValue]="div.name">{{div.name}}</option>  
-                        </select>
+                        <mat-select matNativeControl required formControlName="prdivision" (selectionChange)="prdivisionChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let div of division" [value]="div.divId">{{div.name}}</mat-option>  
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select District</mat-label>
-                        <select matNativeControl required formControlName="prdistrict" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let dis of district" [ngValue]="dis.name">{{dis.name}}</option> 
-                        </select>
+                        <mat-select matNativeControl required formControlName="prdistrict" (selectionChange)="prdistrictChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let dis of prDistrict" [value]="dis">{{dis.name}}</mat-option>  
+                        </mat-select>
                     </mat-form-field>
                 </td>
             </tr>
@@ -165,10 +166,10 @@
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Thana</mat-label>
-                        <select matNativeControl required formControlName="prthana" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let th of thana" [ngValue]="th.name">{{th.name}}</option>  
-                        </select>
+                        <mat-select matNativeControl required formControlName="prthana" >
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let th of prThana" [value]="th.name">{{th.name}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
@@ -185,18 +186,19 @@
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Division</mat-label>
-                        <select matNativeControl required formControlName="pmdivision" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let div of division" [ngValue]="div.name">{{div.name}}</option>   
-                        </select>
+                        <mat-select matNativeControl required formControlName="pmdivision" (selectionChange)="pmdivisionChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let div of division" [value]="div.divId">{{div.name}}</mat-option>  
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select District</mat-label>
-                        <select matNativeControl required formControlName="pmdistrict" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let dis of district" [ngValue]="dis.name">{{dis.name}}</option>                         </select>
+                         <mat-select matNativeControl required formControlName="pmdistrict" (selectionChange)="pmdistrictChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let dis of pmDistrict" [value]="dis">{{dis.name}}</mat-option> 
+                        </mat-select>
                     </mat-form-field>
                 </td>
             </tr>     
@@ -204,10 +206,10 @@
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Select Thana</mat-label>
-                        <select matNativeControl required formControlName="pmthana" >
-                            <option value="">--Select--</option>
-                            <option *ngFor="let th of thana" [ngValue]="th.name">{{th.name}}</option> 
-                        </select>
+                        <mat-select matNativeControl required formControlName="pmthana" >
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let th of pmThana" [value]="th.name">{{th.name}}</mat-option> 
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>

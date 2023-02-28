@@ -68,6 +68,13 @@ export class AddAgentComponent implements OnInit{
     bankInfo: any=[]
     index: any = 0
     addressArr: any =[]
+    bDistrict: any = []
+    bThana: any = []
+    pmDistrict: any = []
+    pmThana: any = []
+    prDistrict: any = []
+    prThana: any = []
+
     constructor(
       private agentService: AgentService,  
       private commonService: CommonService, 
@@ -142,10 +149,16 @@ export class AddAgentComponent implements OnInit{
     }
 
     saveAddresses(){
+      let prdistrict:any={}
+      prdistrict=this.addAgent.value['prdistrict']
+      let bdistrict:any={}
+      bdistrict=this.addAgent.value['bdistrict']
+      let pmdistrict:any={}
+      pmdistrict=this.addAgent.value['pmdistrict']
       let presentobj={
         type: "PRESENT",
         division: this.addAgent.value['prdivision'],
-        district: this.addAgent.value['prdistrict'],
+        district: prdistrict.name,
         thana: this.addAgent.value['prthana'],
         address: this.addAgent.value['praddress'],
         addedBy: "ADMIN" 
@@ -153,7 +166,7 @@ export class AddAgentComponent implements OnInit{
       let businessobj={
         type: "BUSINESS",
         division: this.addAgent.value['bdivision'],
-        district: this.addAgent.value['bdistrict'],
+        district: bdistrict.name,
         thana: this.addAgent.value['bthana'],
         address: this.addAgent.value['baddress'],
         addedBy: "ADMIN" 
@@ -161,7 +174,7 @@ export class AddAgentComponent implements OnInit{
       let permanentobj={
         type: "PERMANENT",
         division: this.addAgent.value['pmdivision'],
-        district: this.addAgent.value['pmdistrict'],
+        district: pmdistrict.name,
         thana: this.addAgent.value['pmthana'],
         address: this.addAgent.value['pmaddress'],
         addedBy: "ADMIN" 
@@ -236,4 +249,61 @@ export class AddAgentComponent implements OnInit{
         this.saveBankDetails()
       }
     }
+
+    bdivisionChange(value:any){
+      console.log(value)
+      this.bDistrict = []
+      for(let i=0;i<this.district.length;i++){
+        if(this.district[i].divisionId==value)
+        this.bDistrict.push(this.district[i])
+      }
+    }
+  
+    bdistrictChange(value:any){
+      console.log(value)
+      this.bThana = []
+      this.addAgent.value['bdistrict']=value.name
+      for(let i=0;i<this.thana.length;i++){
+        if(this.thana[i].districtId==value.districtId)
+        this.bThana.push(this.thana[i])
+      }
+    }
+  
+    prdivisionChange(value:any){
+      console.log(value)
+      this.prDistrict = []
+      for(let i=0;i<this.district.length;i++){
+        if(this.district[i].divisionId==value)
+        this.prDistrict.push(this.district[i])
+      }
+    }
+  
+    prdistrictChange(value:any){
+      console.log(value)
+      this.addAgent.value['prdistrict']=value.name
+      this.prThana = []
+      for(let i=0;i<this.thana.length;i++){
+        if(this.thana[i].districtId==value.districtId)
+        this.prThana.push(this.thana[i])
+      }
+    }
+  
+    pmdivisionChange(value:any){
+      console.log(value)
+      this.pmDistrict = []
+      for(let i=0;i<this.district.length;i++){
+        if(this.district[i].divisionId==value)
+        this.pmDistrict.push(this.district[i])
+      }
+    }
+  
+    pmdistrictChange(value:any){
+      console.log(value)
+      this.pmThana = []
+      for(let i=0;i<this.thana.length;i++){
+        if(this.thana[i].districtId==value.districtId)
+        this.pmThana.push(this.thana[i])
+      }
+    }
+  
 }

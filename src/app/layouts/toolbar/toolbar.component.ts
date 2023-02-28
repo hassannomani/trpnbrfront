@@ -29,12 +29,31 @@ export class ToolbarComponent implements OnInit{
         let role = local.role!=null?JSON.parse(local.role):null;
         if(role=="ROLE_ADMIN")
           this.isAdmin = true
-        else if(role=="ROLE_AGENT")
+        else if(role=="ROLE_AGENT"){
           this.isAgent = true
-        else if(role=="ROLE_REPRESENTATIVE")
+          this.isAdmin = false
+          this.isRepresentative = false
+          this.isViewer = false
+        }
+          
+        else if(role=="ROLE_REPRESENTATIVE"){
           this.isRepresentative = true
-        else if(role=="ROLE_VIEWER")
+          this.isAdmin = false
+          this.isAgent = false
+          this.isViewer = false
+        }
+          
+        else if(role=="ROLE_VIEWER"){
           this.isViewer = true
+          this.isRepresentative = false
+          this.isAdmin = false
+          this.isAgent = false
+        }
+          
+          console.log(this.isAdmin)
+          console.log(this.isAgent)
+          console.log(this.isRepresentative)
+          console.log(this.isViewer)
       }
       
     })

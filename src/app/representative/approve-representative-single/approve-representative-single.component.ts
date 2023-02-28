@@ -2,6 +2,7 @@ import { Component, OnInit,ChangeDetectorRef,ChangeDetectionStrategy,NgZone } fr
 import { RepresentativeService } from 'src/app/services/representative-service/representative.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute, Route } from '@angular/router';
+import { UserService } from 'src/app/services/user-service/user.service';
 
 @Component({
   selector: 'app-approve-representative-single',
@@ -25,6 +26,7 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
     private representativeServ: RepresentativeService,
     private router: Router,
     private actroute: ActivatedRoute,
+    private userService: UserService
 
   ){}
   ngOnInit(): void {
@@ -62,5 +64,23 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
 
   prevStep() {
     this.step--;
+  }
+
+  approve(username : string,){   
+
+    this.userService.approvePendingUserByTin(username).subscribe({
+      next: (data) => {
+        if(data.uuid){
+          alert("User Approved!")
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['approve-representatives']);
+          });        
+        } 
+      },
+      error: (e) => {
+        alert("Approval Failed!")
+        console.log(e)
+      } 
+    })
   }
 }

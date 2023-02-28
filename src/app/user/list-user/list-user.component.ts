@@ -16,7 +16,7 @@ export class ListUserComponent implements OnInit{
   errorMsg: String = ""
   displayedColumns : any = []
   singleUser: any = {}
-  buttonLabel: string = "Edit"
+  buttonLabel: string = "View"
   buttonColor: string = "Basic"
   buttonType: string = "button"
   constructor(

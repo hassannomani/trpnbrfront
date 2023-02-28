@@ -58,7 +58,7 @@
        
         </tr>
         <tr>
-        <span style="color: red;" *ngIf="notSame && addUser.controls['password'].dirty&&addUser.controls['repassword'].dirty">Password  mismatch </span>
+        <!-- <span style="color: red;" *ngIf="notSame && addUser.controls['password'].dirty&&addUser.controls['repassword'].dirty">Password  mismatch </span> -->
         <span style="color: red;" *ngIf="failedCreation">User Creation failed </span>
         <span style="color: red;" *ngIf="failed">{{errorMsg}}</span>
         <span style="color: green;" *ngIf="addedSuccess">User Added Successfully</span>
