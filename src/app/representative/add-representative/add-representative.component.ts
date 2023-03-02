@@ -115,7 +115,7 @@ export class AddRepresentativeComponent implements OnInit{
   }
   representativeSubmit(){
    
-    this.addRepresentative.value['agentId'] = this.localStore.id
+    this.addRepresentative.value['agentId'] = JSON.parse(this.localStore.id)
     this.addRepresentative.value['re_address']=this.addressArr
     //this.addAgent.value['address']?.push(this.businessAdd)
     this.addRepresentative.value['re_bankinformation'] = this.bankInfo 
@@ -233,7 +233,7 @@ export class AddRepresentativeComponent implements OnInit{
   }
 
   registerUser(){
-    this.addUser.value['addedBy']=this.localStore.id
+    this.addUser.value['addedBy']=JSON.parse(this.localStore.id)
     this.addUser.value['status']="0"
     this.addUser.value['photo']=""
     let index = -1;

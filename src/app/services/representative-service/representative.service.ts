@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 
 
 @Injectable({
@@ -11,10 +12,12 @@ export class RepresentativeService {
 
   private urladd : string ='http://localhost:8080/api/representative/add';
   private urlgetrep : string ='http://localhost:8080/api/representative/';
+  private urlgetrepsbyagentid : string ='http://localhost:8080/api/representative/agent/';
 
   constructor(
     private http: HttpClient,
-    private localStorageServc: LocalStorageService
+    private localStorageServc: LocalStorageService,
+    private commonService: CommonService,
   ) {}
 
 
@@ -58,5 +61,15 @@ export class RepresentativeService {
       
       return this.http.get(this.urlgetrep+username)
     }
+  }
+
+  getRepresentativeUnderAnAgent(uuid: string): Observable<any[]>{
+    
+    const headerObj = this.commonService.httpReturner()
+    const httpOptions = {
+      headers: headerObj
+    };
+    return this.http.get<any[]>(this.urlgetrepsbyagentid+JSON.parse(uuid),httpOptions);
+
   }
 }

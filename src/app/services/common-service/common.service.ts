@@ -119,4 +119,22 @@ export class CommonService {
       return this.http.post<any[]>(this.urladdbank,body)
     }
   }
+
+  httpReturner(): any{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+      })
+  
+    }else{
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': ""
+      })
+    }
+    return headers_object
+
+  }
 }

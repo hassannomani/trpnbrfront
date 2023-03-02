@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddAgentComponent } from './agent/add-agent/add-agent.component';
+import { AgentRepresentativeComponent } from './agent/agent-representative/agent-representative.component';
 import { ListAgentComponent } from './agent/list-agent/list-agent.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './layouts/logout/logout.component';
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path: "list-agents", component: ListAgentComponent},
   {path: "approve-representatives", component: ApproveRepresentativeComponent},
   {path: "dashboard", component: DashboardComponent},
-  {path: "approve-representative-details", component: ApproveRepresentativeSingleComponent}
+  {path: "approve-representative-details", component: ApproveRepresentativeSingleComponent},
+  {path: "agent-representative", component: AgentRepresentativeComponent},
 
 ];
 
