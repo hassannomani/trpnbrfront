@@ -6,6 +6,7 @@ import { RepresentativeService } from 'src/app/services/representative-service/r
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-representative',
@@ -85,12 +86,14 @@ export class AddRepresentativeComponent implements OnInit{
   pmThana: any = []
   prDistrict: any = []
   prThana: any = []
+  agentId: any = ""
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
     private localStorage: LocalStorageService,
     private router: Router,
-    private userService: UserService 
+    private userService: UserService,
+    private agentService: AgentService 
   ){}
   ngOnInit(): void {
     this.localStore = this.localStorage.getStorageItems();
@@ -98,7 +101,7 @@ export class AddRepresentativeComponent implements OnInit{
       this.router.navigate(['/logout']);
     }
     this.onTabChanged();
-      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.userService.getRoles()])
+      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.userService.getRoles(),this.agentService.getAgentInfo(JSON.parse(this.localStore.username))])
       .subscribe({
         next: (data) => {
           //console.log(data)
@@ -106,6 +109,7 @@ export class AddRepresentativeComponent implements OnInit{
           this.division = data[1];
           this.thana = data[2];
           this.roles = data[3];
+          this.agentId = data[4].id;
         },
         error: (e) => {
          
@@ -115,7 +119,7 @@ export class AddRepresentativeComponent implements OnInit{
   }
   representativeSubmit(){
    
-    this.addRepresentative.value['agentId'] = JSON.parse(this.localStore.id)
+    this.addRepresentative.value['agentId'] = this.agentId
     this.addRepresentative.value['re_address']=this.addressArr
     //this.addAgent.value['address']?.push(this.businessAdd)
     this.addRepresentative.value['re_bankinformation'] = this.bankInfo 

@@ -11,7 +11,7 @@ export class AgentService {
   private urladd : string ='http://localhost:8080/api/agent/add';
   private urlall : string ='http://localhost:8080/api/agent/all';
   private urlanagent : string ='http://localhost:8080/api/users/user/';
-
+  private urlagent: string ='http://localhost:8080/api/agent/';
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService
@@ -74,5 +74,22 @@ export class AgentService {
     }
   }
 
+  getAgentInfo(uname: string): Observable<any>{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+      })
+
+      const httpOptions = {
+        headers: headers_object
+      };
+      
+      return this.http.get<any>(this.urlagent+uname,httpOptions)
+    }else{
+      return this.http.get<any>(this.urlagent+uname)
+    }
+  }
 
 }

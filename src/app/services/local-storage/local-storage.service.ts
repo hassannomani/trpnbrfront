@@ -41,7 +41,7 @@ export class LocalStorageService {
       "username": "",
       "token": "",
       "role": "",
-      "tin": ""
+      "email": ""
     };
   }
 }
