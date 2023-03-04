@@ -5,6 +5,7 @@ import { AgentRepresentativeComponent } from './agent/agent-representative/agent
 import { ListAgentComponent } from './agent/list-agent/list-agent.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './layouts/logout/logout.component';
+import { AgentLedgerComponent } from './ledger/agent-ledger/agent-ledger.component';
 import { AddRepresentativeComponent } from './representative/add-representative/add-representative.component';
 import { ApproveRepresentativeSingleComponent } from './representative/approve-representative-single/approve-representative-single.component';
 import { ApproveRepresentativeComponent } from './representative/approve-representative/approve-representative.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: "dashboard", component: DashboardComponent},
   {path: "approve-representative-details", component: ApproveRepresentativeSingleComponent},
   {path: "agent-representative", component: AgentRepresentativeComponent},
+  {path: "ledger-agent", component: AgentLedgerComponent},
 
 ];
 
