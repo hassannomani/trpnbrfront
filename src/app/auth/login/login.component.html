@@ -1,7 +1,16 @@
 <div class="login-container">
-    <div class="logo"> LOGIN</div>
+    
+    <div class="login-left">
+      <h1>Welcome to the </h1>
+      <h1><b>Tax Return Preparer</b></h1>
+      <h1>of NBR</h1>
+     
+    </div>
     <div class="login-form">
       <form class="example-form" [formGroup]="loginForm" #formDir="ngForm" (ngSubmit)="login()">
+        <img src="../../assets/img/NBR_logo.png" alt="nbr_logo" id="nbr_logo"/>
+        <div class="logo"> Log In</div>
+
         <div class="form-group">
           <mat-form-field class="example-full-width">
             <mat-label>Username</mat-label>

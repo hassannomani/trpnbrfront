@@ -1,6 +1,9 @@
-/* .login-container {
+.login-container {
     width: 100%;
-    height: 80vh;
+    float: left;
+    display: block;
+    height: 100%;
+}
     /* background: linear-gradient(135deg, #ffe645 0%, #e2aa02 100%); */
    /* background: url('../../assets/img/nbr.jpg');
     background-size: content;
@@ -8,15 +11,16 @@
     position: relative;
     background-position: 16% 53%;
     background-size: 20%;
-} */
-.login-container .logo {
-    font-size: 40px;
+}*/
+.login-form .logo {
+    font-size: 20px;
     font-weight: bold;
-    letter-spacing: 10px;
-    position: absolute;
-    top: 50px;
-    left: 43%;
-    width: 12%;
+    letter-spacing: 2px;
+    width: 100%;
+    clear: both;
+    color: forestgreen;
+    margin-top: 30px;
+    text-align: center;
 }
 .login-container .desc {
     font-size: 34px;
@@ -29,16 +33,20 @@
     width: 1200px;
 }
 .login-container .login-form {
-    width: 30%;
-    height: 300px;
+    width: 22%;
+    height: auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
-    position: absolute;
-    bottom: 50px;
-    left: 30%;
-    top: 30%;
+    position: relative;
+    float: left;
     box-shadow: 5px 5px 20px #383838;
+    margin-top: 8%;
+}
+.login-container .login-left{
+    width: 65%;
+    float: left;
+    height: 100%;
 }
 .login-container .login-form .form-group {
     margin-top: 20px;
@@ -72,4 +80,18 @@
 
 .example-spacer {
     flex: 1 1 auto;
-  }
+}
+
+#nbr_logo{
+    width: 60%;
+    margin-left: 20%;
+}
+.login-left>h1 {
+    color: forestgreen;
+    font-weight: 100;
+    margin-left: 0%;
+    text-align: center;
+}
+.login-left:first-child {
+    margin-top: 16%;
+}
