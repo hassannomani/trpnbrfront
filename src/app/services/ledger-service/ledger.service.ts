@@ -10,6 +10,8 @@ import { CommonService } from '../common-service/common.service';
 export class LedgerService {
 
   private urlagentledger: string ='http://localhost:8080/api/ledgers/agent/';
+  private urlrepledger: string ='http://localhost:8080/api/ledgers/representative/';
+  private urladmledger: string ='http://localhost:8080/api/ledgers/admin';
 
   constructor(
     private http: HttpClient,
@@ -21,7 +23,23 @@ export class LedgerService {
     const httpOptions = {
       headers: this.commonServ.httpReturner()
     }
-    return this.http.get<any>(this.urlagentledger+agentId,httpOptions)
+    return this.http.get<any[]>(this.urlagentledger+agentId,httpOptions)
+
+  }
+
+  getRepresentativeLedger(representativeId: string): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.urlrepledger+representativeId,httpOptions)
+
+  }
+
+  getAdminLedger(): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.urladmledger,httpOptions)
 
   }
 }
