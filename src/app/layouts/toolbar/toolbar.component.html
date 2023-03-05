@@ -21,7 +21,7 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <div style="height:90vh;">
+        <div [style.height]="heightReturner()">
             <router-outlet>
             
             </router-outlet>

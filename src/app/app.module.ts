@@ -29,6 +29,7 @@ import { ApproveRepresentativeSingleComponent } from './representative/approve-r
 import { DashboardComponent } from './user/dashboard/dashboard.component';
 import { AgentRepresentativeComponent } from './agent/agent-representative/agent-representative.component';
 import { AgentLedgerComponent } from './ledger/agent-ledger/agent-ledger.component';
+import { AdminLedgerComponent } from './ledger/admin-ledger/admin-ledger.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AgentLedgerComponent } from './ledger/agent-ledger/agent-ledger.compone
     ApproveRepresentativeSingleComponent,
     DashboardComponent,
     AgentRepresentativeComponent,
-    AgentLedgerComponent
+    AgentLedgerComponent,
+    AdminLedgerComponent
   ],
   imports: [
     BrowserModule,
