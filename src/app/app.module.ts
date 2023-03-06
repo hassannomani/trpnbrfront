@@ -30,6 +30,7 @@ import { DashboardComponent } from './user/dashboard/dashboard.component';
 import { AgentRepresentativeComponent } from './agent/agent-representative/agent-representative.component';
 import { AgentLedgerComponent } from './ledger/agent-ledger/agent-ledger.component';
 import { AdminLedgerComponent } from './ledger/admin-ledger/admin-ledger.component';
+import { RepresentativeLedgerComponent } from './ledger/representative-ledger/representative-ledger.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AdminLedgerComponent } from './ledger/admin-ledger/admin-ledger.compone
     DashboardComponent,
     AgentRepresentativeComponent,
     AgentLedgerComponent,
-    AdminLedgerComponent
+    AdminLedgerComponent,
+    RepresentativeLedgerComponent
   ],
   imports: [
     BrowserModule,

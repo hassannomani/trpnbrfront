@@ -4,7 +4,7 @@
     <div *ngIf="!loaded" style="text-align: center; margin-top: 50px;">
         <p style="color:red;">Data Couldn't be loaded</p>
     </div>
-    <table mat-table [dataSource]="agentLedger" class="mat-elevation-z8" *ngIf="loaded">
+    <table mat-table [dataSource]="representativeLedger" class="mat-elevation-z8" *ngIf="loaded">
     
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->

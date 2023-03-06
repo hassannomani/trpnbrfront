@@ -14,6 +14,7 @@ export class AgentLedgerComponent implements OnInit{
   localStore: any ={}
   loaded: Boolean = true
   agentLedger: any =[]
+  displayedColumn : any = []
   constructor(
     private localStorage: LocalStorageService,
     private agentService: AgentService ,
@@ -38,6 +39,9 @@ export class AgentLedgerComponent implements OnInit{
       next: (data) => {
         if(data.length)
           this.agentLedger = data
+          this.loaded = true
+          this.displayedColumn = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+
       },
       error: (e) => {
         this.loaded = false
