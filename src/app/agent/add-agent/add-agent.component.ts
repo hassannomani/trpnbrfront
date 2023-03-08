@@ -74,6 +74,7 @@ export class AddAgentComponent implements OnInit{
     pmThana: any = []
     prDistrict: any = []
     prThana: any = []
+    banks: any = []
 
     constructor(
       private agentService: AgentService,  
@@ -108,13 +109,14 @@ export class AddAgentComponent implements OnInit{
       
 
       this.onTabChanged();
-      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana()])
+      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.commonService.getBank()])
       .subscribe({
         next: (data) => {
           //console.log(data)
           this.district = data[0];
           this.division = data[1];
           this.thana = data[2];
+          this.banks = data[3];
         },
         error: (e) => {
          

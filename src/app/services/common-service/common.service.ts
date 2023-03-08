@@ -16,6 +16,7 @@ export class CommonService {
   private urldistrict : string ='http://localhost:8080/api/common/district';
   private urldiv : string ='http://localhost:8080/api/common/division';
   private urlthana : string ='http://localhost:8080/api/common/thana';
+  private urlbank : string ='http://localhost:8080/api/common/bank';
   private urladdaddress : string ='http://localhost:8080/api/address/add';
   private urladdbank : string ='http://localhost:8080/api/bank/add';
 
@@ -136,5 +137,16 @@ export class CommonService {
     }
     return headers_object
 
+  }
+
+  
+  getBank(): Observable<any[]>{
+
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+  
+    return this.http.get<any[]>(this.urlbank,httpOptions)
+    
   }
 }
