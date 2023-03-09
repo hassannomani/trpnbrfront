@@ -247,18 +247,39 @@
             <tr>
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
+                        <mat-label>Select Bank</mat-label>
+                         <mat-select matNativeControl required formControlName="bankName" (selectionChange)="bankChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let bn of banks" [value]="bn.bank_name">{{bn.bank_name}}</mat-option> 
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Bank Name</mat-label>
                         <input matInput formControlName="bankName" type="text"  placeholder="Bank Name">
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </td>
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
-                        <mat-label>Bank Branch</mat-label>
-                        <input matInput formControlName="bankBranch" type="text"  placeholder="Bank Branch">
+                        <mat-label>Select Bank District</mat-label>
+                         <mat-select matNativeControl required formControlName="bankDistName" (selectionChange)="bankDistChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let bn of bankdist" [value]="bn.dist_name">{{bn.dist_name}}</mat-option> 
+                        </mat-select>
                     </mat-form-field>
                 </td>
             </tr>
             <tr>
+                <td>
+                    <mat-form-field appearance="fill" matInput class="example-full-width">
+                        <mat-label>Select Bank Branches</mat-label>
+                         <mat-select matNativeControl required formControlName="bankBranch" (selectionChange)="bankBranchChange($event.value)">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngIf="noDataFound" value="">No Data Found</mat-option>
+                            <mat-option *ngFor="let bn of bankBranches" [value]="bn.branchName">{{bn.branchName}}</mat-option> 
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+           
                 <td>
                     <mat-form-field appearance="fill" matInput class="example-full-width">
                         <mat-label>Bank Routing No</mat-label>

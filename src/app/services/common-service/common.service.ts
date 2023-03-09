@@ -19,6 +19,8 @@ export class CommonService {
   private urlbank : string ='http://localhost:8080/api/common/bank';
   private urladdaddress : string ='http://localhost:8080/api/address/add';
   private urladdbank : string ='http://localhost:8080/api/bank/add';
+  private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
+  private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
 
 
   getDistrict(): Observable<any[]>{
@@ -147,6 +149,26 @@ export class CommonService {
     };
   
     return this.http.get<any[]>(this.urlbank,httpOptions)
+    
+  }
+
+  getBankDist(): Observable<any[]>{
+
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+  
+    return this.http.get<any[]>(this.urlbankdist,httpOptions)
+    
+  }
+
+  getBankBranches(name: string, district: string): Observable<any[]>{
+
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+  
+    return this.http.get<any[]>(this.urlbankbranches+name+"/"+district,httpOptions)
     
   }
 }

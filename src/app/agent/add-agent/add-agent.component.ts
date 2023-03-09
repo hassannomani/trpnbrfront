@@ -25,6 +25,7 @@ export class AddAgentComponent implements OnInit{
       'bankAccountName': new FormControl('',[Validators.required]),
       'bankAccountNo': new FormControl('',[Validators.required]),
       'bankName': new FormControl('',[Validators.required]),
+      'bankDistName': new FormControl('',[Validators.required]),
       'bankBranch': new FormControl('',[Validators.required]),
       'routingNo': new FormControl('',[Validators.required]),
       'fatherName': new FormControl(''),
@@ -75,7 +76,11 @@ export class AddAgentComponent implements OnInit{
     prDistrict: any = []
     prThana: any = []
     banks: any = []
-
+    bankdist: any = []
+    bankBranches: any = []
+    bankName: string = ""
+    noDataFound: boolean = false
+    routeNo: string = ""
     constructor(
       private agentService: AgentService,  
       private commonService: CommonService, 
@@ -109,7 +114,7 @@ export class AddAgentComponent implements OnInit{
       
 
       this.onTabChanged();
-      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.commonService.getBank()])
+      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.commonService.getBank(),this.commonService.getBankDist()])
       .subscribe({
         next: (data) => {
           //console.log(data)
@@ -117,6 +122,7 @@ export class AddAgentComponent implements OnInit{
           this.division = data[1];
           this.thana = data[2];
           this.banks = data[3];
+          this.bankdist = data[4];
         },
         error: (e) => {
          
@@ -305,6 +311,42 @@ export class AddAgentComponent implements OnInit{
       for(let i=0;i<this.thana.length;i++){
         if(this.thana[i].districtId==value.districtId)
         this.pmThana.push(this.thana[i])
+      }
+    }
+
+    bankChange(value:any){
+      this.bankName = value
+    }
+
+    bankDistChange(value:any){
+      console.log(value)
+      this.commonService
+      .getBankBranches(this.bankName,value)
+      .subscribe({
+        
+        next: (data) => {
+          if(data.length){ //uuid
+            //this.success = true;
+           this.bankBranches = data
+          } 
+          else{
+            this.noDataFound=true            
+          }
+        },
+        error: (e) => {
+          this.noDataFound=true            
+        }
+        
+      });
+    }
+
+    bankBranchChange(value: any){
+      for(let i=0;i<this.bankBranches.length;i++){
+        if(this.bankBranches[i].branchName==value){
+          this.routeNo = this.bankBranches[i].routingNo
+          this.addAgent.get('routingNo')?.setValue(this.routeNo)
+          break;
+        }
       }
     }
   
