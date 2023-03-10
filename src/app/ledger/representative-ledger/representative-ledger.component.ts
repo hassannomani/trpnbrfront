@@ -2,6 +2,8 @@ import { Component,OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
 import { RepresentativeService } from 'src/app/services/representative-service/representative.service';
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-representative-ledger',
   templateUrl: './representative-ledger.component.html',
@@ -16,8 +18,12 @@ export class RepresentativeLedgerComponent implements OnInit{
   constructor(
     private localStorage: LocalStorageService,
     private ledgerService: LedgerService,
-    private representativeServ: RepresentativeService
-  ){}
+    private representativeServ: RepresentativeService,
+    private titleService:Title
+  ){
+    this.titleService.setTitle("Ledger");
+
+  }
 
   ngOnInit(): void {
     this.localStore = this.localStorage.getStorageItems()

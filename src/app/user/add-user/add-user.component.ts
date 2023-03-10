@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { FormControl, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-add-user',
@@ -26,7 +27,7 @@ export class AddUserComponent implements OnInit{
   
   failed: boolean = false
   buttonLabel: string= "Submit"
-  buttonColor: string = "primary"
+  buttonColor: string = "primaryalt"
   buttonType: string = "submit"
   errorMsg: string = ""
   rolenames: any[] = []
@@ -35,8 +36,12 @@ export class AddUserComponent implements OnInit{
   failedCreation: boolean = false
   rolereq: any = []
   constructor(
-    private userService: UserService
-  ){}
+    private userService: UserService,
+    private titleService:Title
+
+  ){
+    this.titleService.setTitle("Add User");
+  }
   ngOnInit(): void {
     this.userService.getRoles().subscribe({
      

@@ -2,3 +2,21 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-toolbar{
+    background-color: #00A600 !important;
+}
+.headerdiv > h2 {
+    color: forestgreen;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.headerdiv{
+    margin-bottom: 20px;
+    border-bottom: 2px solid forestgreen;
+}
+
+.mat-primaryalt {
+    background-color: forestgreen !important;
+    color: #fff !important;
+}

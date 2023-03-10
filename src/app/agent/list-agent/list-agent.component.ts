@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-list-agent',
   templateUrl: './list-agent.component.html',
@@ -10,8 +12,13 @@ export class ListAgentComponent implements OnInit{
   loaded: boolean = false
   displayedColumns: any = []
   constructor(
-    private agentService: AgentService
-  ){}
+    private agentService: AgentService,
+    private titleService:Title
+
+  ){
+    this.titleService.setTitle("List of Agents");
+
+  }
   ngOnInit(): void {
     this.agentService.getAll()
     .subscribe({

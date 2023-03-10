@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-agent-ledger',
@@ -19,7 +20,12 @@ export class AgentLedgerComponent implements OnInit{
     private localStorage: LocalStorageService,
     private agentService: AgentService ,
     private ledgerService: LedgerService ,
-  ){}
+    private titleService:Title
+
+  ){
+    this.titleService.setTitle("Ledger");
+
+  }
 
   ngOnInit(): void {
     this.localStore = this.localStorage.getStorageItems()

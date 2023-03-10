@@ -69,7 +69,7 @@ export class RepresentativeService {
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.get<any[]>(this.urlgetrepsbyagentid+JSON.parse(uuid),httpOptions);
+    return this.http.get<any[]>(this.urlgetrepsbyagentid+uuid,httpOptions);
 
   }
 }

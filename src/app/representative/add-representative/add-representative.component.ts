@@ -8,6 +8,8 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
 import { UserService } from 'src/app/services/user-service/user.service';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-add-representative',
   templateUrl: './add-representative.component.html',
@@ -67,10 +69,10 @@ export class AddRepresentativeComponent implements OnInit{
   bankfailed: boolean = false
   addressfailed: boolean = false
   buttonLabel: string= "Submit"
-  buttonColor: string = "primary"
+  buttonColor: string = "primaryalt"
   buttonType: string = "button"
   buttonLabel1: string= "Create User"
-  buttonColor1: string = "primary"
+  buttonColor1: string = "primaryalt"
   buttonType1: string = "button"
   division: any[] = []
   district: any[] = []
@@ -87,21 +89,39 @@ export class AddRepresentativeComponent implements OnInit{
   prDistrict: any = []
   prThana: any = []
   agentId: any = ""
+  banks: any = []
+  bankdist: any = []
+  bankBranches: any = []
+  bankName: string = ""
+  noDataFound: boolean = false
+  routeNo: string = ""
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
     private localStorage: LocalStorageService,
     private router: Router,
     private userService: UserService,
-    private agentService: AgentService 
-  ){}
+    private agentService: AgentService,
+    private titleService:Title
+ 
+  ){
+    this.titleService.setTitle("Add Representative");
+
+  }
   ngOnInit(): void {
     this.localStore = this.localStorage.getStorageItems();
     if(this.localStore.token==""){
       this.router.navigate(['/logout']);
     }
     this.onTabChanged();
-      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.userService.getRoles(),this.agentService.getAgentInfo(JSON.parse(this.localStore.username))])
+      forkJoin(
+        [this.commonService.getDistrict(),
+        this.commonService.getDivision(),
+        this.commonService.getThana(),
+        this.userService.getRoles(),
+        this.agentService.getAgentInfo(JSON.parse(this.localStore.username)),
+        this.commonService.getBank(),
+        this.commonService.getBankDist()])
       .subscribe({
         next: (data) => {
           //console.log(data)
@@ -110,6 +130,8 @@ export class AddRepresentativeComponent implements OnInit{
           this.thana = data[2];
           this.roles = data[3];
           this.agentId = data[4].id;
+          this.banks = data[5];
+          this.bankdist = data[6];
         },
         error: (e) => {
          
@@ -337,6 +359,39 @@ export class AddRepresentativeComponent implements OnInit{
       this.pmThana.push(this.thana[i])
     }
   }
+  bankChange(value:any){
+    this.bankName = value
+  }
+  bankDistChange(value:any){
+    console.log(value)
+    this.commonService
+    .getBankBranches(this.bankName,value)
+    .subscribe({
+      
+      next: (data) => {
+        if(data.length){ //uuid
+          //this.success = true;
+         this.bankBranches = data
+        } 
+        else{
+          this.noDataFound=true            
+        }
+      },
+      error: (e) => {
+        this.noDataFound=true            
+      }
+      
+    });
+  }
 
+  bankBranchChange(value: any){
+    for(let i=0;i<this.bankBranches.length;i++){
+      if(this.bankBranches[i].branchName==value){
+        this.routeNo = this.bankBranches[i].routingNo
+        this.addRepresentative.get('routingNo')?.setValue(this.routeNo)
+        break;
+      }
+    }
+  }
 
 }

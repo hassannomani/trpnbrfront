@@ -6,6 +6,8 @@ import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-add-agent',
   templateUrl: './add-agent.component.html',
@@ -57,7 +59,7 @@ export class AddAgentComponent implements OnInit{
     bankfailed: boolean = false
     addressfailed: boolean = false
     buttonLabel: string= "Submit"
-    buttonColor: string = "primary"
+    buttonColor: string = "primaryalt"
     buttonType: string = "button"
 
     buttonLabel1: string= "Calculate"
@@ -85,8 +87,11 @@ export class AddAgentComponent implements OnInit{
       private agentService: AgentService,  
       private commonService: CommonService, 
       private route: ActivatedRoute,
-      private userService: UserService
-    ){}
+      private userService: UserService,
+      private titleService:Title
+    ){
+      this.titleService.setTitle("Add Agent");
+    }
     ngOnInit(): void {
       this
       .route

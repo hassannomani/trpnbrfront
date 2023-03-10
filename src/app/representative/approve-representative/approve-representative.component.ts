@@ -1,6 +1,7 @@
 import { Component, OnInit,ChangeDetectorRef,ChangeDetectionStrategy,NgZone } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-approve-representative',
@@ -19,15 +20,19 @@ export class ApproveRepresentativeComponent implements OnInit{
   buttonColor: string = "Basic"
   buttonType: string = "button"
   buttonLabel1: string = "Approve"
-  buttonColor1: string = "primary"
+  buttonColor1: string = "primaryalt"
   buttonType1: string = "button"
   helperArr: any =[]
   constructor(
     private userService: UserService,
     private router: Router,
     private changeDetector: ChangeDetectorRef,
-    private zone: NgZone
-  ){}
+    private zone: NgZone,
+    private titleService:Title
+  ){
+    this.titleService.setTitle("Approve Representative");
+
+  }
   ngOnInit(): void {
     this
     .userService

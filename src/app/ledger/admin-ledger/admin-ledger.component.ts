@@ -2,6 +2,8 @@ import { Component,OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
 import { AdminService } from 'src/app/services/admin-service/admin.service';
+import {Title} from "@angular/platform-browser";
+
 @Component({
   selector: 'app-admin-ledger',
   templateUrl: './admin-ledger.component.html',
@@ -15,7 +17,12 @@ export class AdminLedgerComponent implements OnInit{
     private localStorage: LocalStorageService,
     private adminService: AdminService ,
     private ledgerService: LedgerService ,
-  ){}
+    private titleService:Title
+
+  ){
+    this.titleService.setTitle("Ledger");
+
+  }
   ngOnInit(): void {
     this.adminService.getAdminLedger().subscribe({
       next: (data) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -22,8 +23,11 @@ export class ListUserComponent implements OnInit{
   constructor(
     private userService: UserService,
     private router: Router,
+    private titleService:Title
+  ){
+    this.titleService.setTitle("User List");
 
-  ){}
+  }
   ngOnInit(): void {
     this.userService.getAllUSers().subscribe({
      

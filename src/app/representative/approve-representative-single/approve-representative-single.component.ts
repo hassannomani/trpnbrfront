@@ -3,6 +3,7 @@ import { RepresentativeService } from 'src/app/services/representative-service/r
 import { Router } from '@angular/router';
 import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-approve-representative-single',
@@ -26,9 +27,13 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
     private representativeServ: RepresentativeService,
     private router: Router,
     private actroute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private titleService:Title
 
-  ){}
+  ){
+    this.titleService.setTitle("Approve Representative");
+
+  }
   ngOnInit(): void {
     this
       .actroute

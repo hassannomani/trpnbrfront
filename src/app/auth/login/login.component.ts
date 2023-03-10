@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { SigninService } from 'src/app/services/signin-service/signin.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-login',
@@ -16,14 +17,17 @@ export class LoginComponent implements OnInit{
   })
   failed: boolean = false
   buttonLabel: string= "Log In"
-  buttonColor: string = "primary"
+  buttonColor: string = "primaryalt"
   buttonType: string = "submit"
   errorMsg: string = ""
   constructor(
     private signinService: SigninService,
     private router: Router,
-    private localstorageservc: LocalStorageService
-  ){}
+    private localstorageservc: LocalStorageService,
+    private titleService:Title
+  ){
+    this.titleService.setTitle("Sign In");
+  }
 
   ngOnInit(): void {
     let local = this.localstorageservc.getStorageItems()
