@@ -40,6 +40,7 @@ export class AddRepresentativeComponent implements OnInit{
     'bankAccountNo': new FormControl('',[Validators.required]),
     'bankName': new FormControl('',[Validators.required]),
     'bankBranch': new FormControl('',[Validators.required]),
+    'bankDistName': new FormControl('',[Validators.required]),
     'routingNo': new FormControl('',[Validators.required]),
     'reDob': new FormControl('',[Validators.required]),
     'bdivision': new FormControl('',[Validators.required]),
@@ -59,6 +60,8 @@ export class AddRepresentativeComponent implements OnInit{
 
   })
   addedSuccess: boolean = false
+  addedSuccess2: boolean = false
+  addedSuccess3: boolean = false
   failedCreation: boolean = false
   localStore: any = {}
   failed: boolean = false
@@ -95,6 +98,8 @@ export class AddRepresentativeComponent implements OnInit{
   bankName: string = ""
   noDataFound: boolean = false
   routeNo: string = ""
+  saving: boolean = false
+  savingMsg: string = ""
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -139,34 +144,98 @@ export class AddRepresentativeComponent implements OnInit{
         }
       });
   }
+  
   representativeSubmit(){
-   
-    this.addRepresentative.value['agentId'] = this.agentId
-    this.addRepresentative.value['re_address']=this.addressArr
-    //this.addAgent.value['address']?.push(this.businessAdd)
-    this.addRepresentative.value['re_bankinformation'] = this.bankInfo 
-      
-    this.representativeServ
-    .addRepresentative(this.addRepresentative.value)
+    this.saving = true
+    let bankObj={
+      bankAccountName: this.addRepresentative.value['bankAccountName'],
+      bankAccountNo: this.addRepresentative.value['bankAccountNo'],
+      bankName: this.addRepresentative.value['bankName'],
+      bankBranch: this.addRepresentative.value['bankBranch'],
+      routingNo: this.addRepresentative.value['routingNo']
+    }
+
+    this.commonService
+    .addBank(bankObj)
     .subscribe({
       
       next: (data) => {
-        if(data?.uuid!=""){
-          this.success = true;
-          this.addRepresentative.reset()
-          this.failed=false;
+        if(data?.token!=""){
+          this.bankInfo.push(bankObj);
         } 
         else{
-          this.failed = true
+          this.bankfailed = true
         }
       },
       error: (e) => {
-        this.failed = true
+        this.bankfailed = true
+        this.saving = false
       }
       
     });
+    
 
   }
+
+  representativeSave(){
+    let bankObj={
+      bankAccountName: this.addRepresentative.value['bankAccountName'],
+      bankAccountNo: this.addRepresentative.value['bankAccountNo'],
+      bankName: this.addRepresentative.value['bankName'],
+      bankBranch: this.addRepresentative.value['bankBranch'],
+      routingNo: this.addRepresentative.value['routingNo']
+    }
+
+  this.commonService
+  .addBank(bankObj)
+  .subscribe({
+    
+    next: (data) => {
+      if(data?.uuid!=""){
+        this.bankInfo.push(bankObj);
+        if(this.bankInfo.length){
+
+          this.addRepresentative.value['agentId'] = this.agentId
+          this.addRepresentative.value['re_address']=this.addressArr
+          //this.addAgent.value['address']?.push(this.businessAdd)
+          this.addRepresentative.value['re_bankinformation'] = this.bankInfo 
+            
+          this.representativeServ
+          .addRepresentative(this.addRepresentative.value)
+          .subscribe({
+            
+            next: (data) => {
+              if(data?.userid!=""){
+                this.success = true;
+                this.saving = false
+                this.addRepresentative.reset()
+                this.failed=false;
+              } 
+              else{
+                this.saving = false
+                this.failed = true
+              }
+            },
+            error: (e) => {
+              this.failed = true
+              this.saving = false
+
+            }
+
+          })
+        } 
+        else{
+          this.bankfailed = true
+        }
+      }
+    },
+    error: (e) => {
+      this.bankfailed = true
+      this.saving = false
+    }
+    
+  });}
+
   selectedTabChange($event:any) {
     this.index = $event.index
     console.log(this.index)
@@ -253,6 +322,7 @@ export class AddRepresentativeComponent implements OnInit{
       },
       error: (e) => {
         this.bankfailed = true
+        this.saving = false
       }
       
     });
@@ -295,10 +365,10 @@ export class AddRepresentativeComponent implements OnInit{
   onTabChanged() {
     console.log(this.index)
     if(this.index==1){
-      this.registerUser()
+      //this.registerUser()
     }
     else if (this.index==2) {
-      this.saveBankDetails()
+      //this.saveBankDetails()
     } else if (this.index==3) {
       this.saveAddresses()
     }

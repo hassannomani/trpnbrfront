@@ -99,7 +99,7 @@
 
         <table class="example-full-width" cellspacing="0">
             <tr>
-                <h4>Business Address</h4>
+                <h4 class="address">Business Address</h4>
             </tr>
             <tr>
                 <td>
@@ -140,7 +140,7 @@
                 </td>
             </tr>
             <tr>
-                <h4>Present Address</h4>
+                <h4 class="address">Present Address</h4>
             </tr>
             <tr>
 
@@ -181,7 +181,7 @@
                 </td>
             </tr>
             <tr>
-                <h4>Permanent Address</h4>
+                <h4 class="address">Permanent Address</h4>
             </tr>
             <tr>
                 <td>
@@ -302,7 +302,12 @@
                 <td>
                     <mat-form-field class="example-full-width">
                     <mat-label>Registration Type</mat-label>
-                    <input matInput  formControlName="registrationType" type="text"  placeholder="registrationType">
+                         <mat-select matNativeControl required formControlName="registrationType">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option value="Company">Company</mat-option>
+                            <mat-option value="Firm">Firm</mat-option>
+                            <mat-option value="Associates">Associates</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>

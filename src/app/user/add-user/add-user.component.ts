@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { FormControl, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
 import {Title} from "@angular/platform-browser";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -28,7 +29,7 @@ export class AddUserComponent implements OnInit{
   failed: boolean = false
   buttonLabel: string= "Submit"
   buttonColor: string = "primaryalt"
-  buttonType: string = "submit"
+  buttonType: string = "button"
   errorMsg: string = ""
   rolenames: any[] = []
   notSame: boolean = true
@@ -37,7 +38,8 @@ export class AddUserComponent implements OnInit{
   rolereq: any = []
   constructor(
     private userService: UserService,
-    private titleService:Title
+    private titleService:Title,
+    private router: Router,
 
   ){
     this.titleService.setTitle("Add User");
@@ -73,9 +75,11 @@ export class AddUserComponent implements OnInit{
     this.addUser.value['status']="1"
     this.addUser.value['photo']=""
     let index = -1;
+    var rolename=""
     for(let i=0;i<this.rolenames.length;i++){
       if(this.rolenames[i].id==this.addUser.value["roles"]){
         this.rolereq.push( this.rolenames[i])
+        rolename = this.rolenames[i].name
         break;
       }
     }
@@ -85,8 +89,16 @@ export class AddUserComponent implements OnInit{
       next: (data) => {
         if(data.uuid){
           this.addedSuccess = true
-          this.addUser.reset();
+          
           //console.log(this.roles)
+          if(rolename=="ROLE_AGENT"){
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['add-agent'],{ queryParams: {username: this.addUser.value['username']}});
+            }); 
+          }
+          else{
+            this.addUser.reset();
+          }
         } 
         else{
           this.failedCreation = true
@@ -94,6 +106,11 @@ export class AddUserComponent implements OnInit{
       },
       error: (e) => {
         this.failed = true
+        if(e.status==400){
+          this.errorMsg = "A User already exists with this Username. Please try another"
+        }else{
+          this.errorMsg = e.error.message
+        }
       }  
     });
     

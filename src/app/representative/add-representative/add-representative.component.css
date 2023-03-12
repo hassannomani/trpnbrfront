@@ -24,3 +24,19 @@ app-button{
   margin-left: 40%;
   margin-bottom: 200px;
 }
+.address{
+  color: forestgreen;
+  font-weight: 600;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+.spinner{
+  width: 100%;
+}
+mat-spinner{
+  float: left;
+  height: 30px !important;
+}
+.spinner > h4{
+  float: left;
+}
