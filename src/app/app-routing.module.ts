@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddAgentComponent } from './agent/add-agent/add-agent.component';
 import { AgentRepresentativeComponent } from './agent/agent-representative/agent-representative.component';
+import { EditAgentComponent } from './agent/edit-agent/edit-agent.component';
 import { ListAgentComponent } from './agent/list-agent/list-agent.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './layouts/logout/logout.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path: "ledger-agent", component: AgentLedgerComponent},
   {path: "ledger-admin", component: AdminLedgerComponent},
   {path: "ledger-representative", component: RepresentativeLedgerComponent},
+  {path: "edit-agent", component: EditAgentComponent},
 
 ];
 
