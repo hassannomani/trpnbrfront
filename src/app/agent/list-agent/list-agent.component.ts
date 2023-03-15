@@ -13,7 +13,7 @@ export class ListAgentComponent implements OnInit{
   loaded: boolean = false
   displayedColumns: any = []
   buttonLabel: string = "Edit"
-  buttonColor: string = "primaryalt"
+  buttonColor: string = "primary"
   buttonType: string = "Button"
 
   constructor(

@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit{
   })
   failed: boolean = false
   buttonLabel: string= "Log In"
-  buttonColor: string = "primaryalt"
+  buttonColor: string = "primary"
   buttonType: string = "submit"
   errorMsg: string = ""
   constructor(

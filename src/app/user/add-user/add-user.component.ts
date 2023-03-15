@@ -28,7 +28,7 @@ export class AddUserComponent implements OnInit{
   
   failed: boolean = false
   buttonLabel: string= "Submit"
-  buttonColor: string = "primaryalt"
+  buttonColor: string = "primary"
   buttonType: string = "button"
   errorMsg: string = ""
   rolenames: any[] = []

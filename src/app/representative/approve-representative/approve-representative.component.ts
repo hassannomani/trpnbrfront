@@ -20,7 +20,7 @@ export class ApproveRepresentativeComponent implements OnInit{
   buttonColor: string = "Basic"
   buttonType: string = "button"
   buttonLabel1: string = "Approve"
-  buttonColor1: string = "primaryalt"
+  buttonColor1: string = "primary"
   buttonType1: string = "button"
   helperArr: any =[]
   constructor(

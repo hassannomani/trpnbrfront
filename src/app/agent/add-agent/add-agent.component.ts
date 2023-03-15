@@ -59,7 +59,7 @@ export class AddAgentComponent implements OnInit{
     bankfailed: boolean = false
     addressfailed: boolean = false
     buttonLabel: string= "Submit"
-    buttonColor: string = "primaryalt"
+    buttonColor: string = "primary"
     buttonType: string = "button"
 
     buttonLabel1: string= "Calculate"

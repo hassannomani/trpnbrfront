@@ -72,10 +72,10 @@ export class AddRepresentativeComponent implements OnInit{
   bankfailed: boolean = false
   addressfailed: boolean = false
   buttonLabel: string= "Submit"
-  buttonColor: string = "primaryalt"
+  buttonColor: string = "primary"
   buttonType: string = "button"
   buttonLabel1: string= "Create User"
-  buttonColor1: string = "primaryalt"
+  buttonColor1: string = "primary"
   buttonType1: string = "button"
   division: any[] = []
   district: any[] = []

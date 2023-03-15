@@ -18,7 +18,7 @@
     letter-spacing: 2px;
     width: 100%;
     clear: both;
-    color: forestgreen;
+    color: #3f51b5;
     margin-top: 30px;
     text-align: center;
 }
@@ -84,11 +84,11 @@
 }
 
 #nbr_logo{
-    width: 60%;
-    margin-left: 20%;
+    width: 70%;
+    margin-left: 15%;
 }
 .login-left>h1 {
-    color: forestgreen;
+    color: #3f51b5;
     font-weight: 100;
     margin-left: 0%;
     text-align: center;

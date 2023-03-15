@@ -62,7 +62,7 @@ export class ToolbarComponent implements OnInit{
 
   heightReturner(){
     if(this.isLoggedIn)
-      return "90vh";
+      return "89vh";
     else
       return "";
   }
