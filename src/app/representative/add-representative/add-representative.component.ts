@@ -63,6 +63,7 @@ export class AddRepresentativeComponent implements OnInit{
   addedSuccess2: boolean = false
   addedSuccess3: boolean = false
   failedCreation: boolean = false
+  duplicateEntry: boolean = false
   localStore: any = {}
   failed: boolean = false
   errorMsg: string = ""
@@ -355,7 +356,10 @@ export class AddRepresentativeComponent implements OnInit{
         }
       },
       error: (e) => {
-        this.failedCreation = true
+        if(e.status==400)
+          this.duplicateEntry = true
+        else
+          this.failedCreation = true
       }  
     });
     

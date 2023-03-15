@@ -49,6 +49,11 @@
                     </mat-form-field>
                 </td>
             </tr>
+            <tr style="margin-top:10px;margin-bottom:10px;">
+                <p style="color:red;" *ngIf="failedCreation">User Creation Failed!</p>
+                <p style="color:red;" *ngIf="duplicateEntry">Username already exists!</p>
+                <p style="color:green;" *ngIf="addedSuccess">User Created Successfully!</p>
+            </tr>
             <tr><app-button
                 [label]="buttonLabel1"
                 [color]="buttonColor1" 
@@ -57,10 +62,7 @@
                 [disabled]="addedSuccess"
                 >
             </app-button></tr>
-            <tr>
-                <p style="color:red;" *ngIf="failedCreation">User Creation Failed!</p>
-                <p style="color:green;" *ngIf="addedSuccess">User Created Successfully!</p>
-            </tr>
+          
         </table>
     </mat-tab>
     </form>
