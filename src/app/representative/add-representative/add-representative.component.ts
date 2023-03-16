@@ -78,11 +78,14 @@ export class AddRepresentativeComponent implements OnInit{
   buttonLabel1: string= "Create User"
   buttonColor1: string = "primary"
   buttonType1: string = "button"
+  buttonLabel2: string= "Save and Continue"
+  buttonColor2: string = "primary"
+  buttonType2: string = "button"
   division: any[] = []
   district: any[] = []
   thana: any[] = []
   bankInfo: any=[]
-  index: any = -1
+  index: any = 0
   addressArr: any =[]
   roles: any = []
   roleRep: any = []
@@ -101,6 +104,8 @@ export class AddRepresentativeComponent implements OnInit{
   routeNo: string = ""
   saving: boolean = false
   savingMsg: string = ""
+  step1Success : boolean = false
+  step2Success : boolean = false
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -290,6 +295,8 @@ export class AddRepresentativeComponent implements OnInit{
           this.addressArr.push(presentobj)
           this.addressArr.push(businessobj)
           this.addressArr.push(permanentobj)
+          this.index+=1;
+          this.step2Success = true
         }
       },
       error: (e) => {
@@ -330,6 +337,7 @@ export class AddRepresentativeComponent implements OnInit{
   }
 
   registerUser(){
+   
     this.addUser.value['addedBy']=JSON.parse(this.localStore.id)
     this.addUser.value['status']="0"
     this.addUser.value['photo']=""
@@ -349,6 +357,7 @@ export class AddRepresentativeComponent implements OnInit{
           this.addRepresentative.get("reName")?.setValue(data.firstName+" "+data.lastName)
           this.addRepresentative.get("tinNo")?.setValue(data.username)
           this.addUser.reset()
+          this.index +=1
           //console.log(this.roles)
         } 
         else{
@@ -374,8 +383,16 @@ export class AddRepresentativeComponent implements OnInit{
     else if (this.index==2) {
       //this.saveBankDetails()
     } else if (this.index==3) {
-      this.saveAddresses()
+      //his.saveAddresses()
     }
+  }
+  step1(){
+    this.step1Success = true
+    this.index+=1;
+  }
+  step2(){
+  
+    this.saveAddresses();
   }
 
   bdivisionChange(value:any){

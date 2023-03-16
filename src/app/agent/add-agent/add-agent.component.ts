@@ -4,10 +4,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { forkJoin } from 'rxjs';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
 import {Title} from "@angular/platform-browser";
-
+import { MatDialog } from '@angular/material/dialog';
+import { UsernameNotFoundRedirectComponent } from 'src/app/dialogs/username-not-found-redirect/username-not-found-redirect.component';
 @Component({
   selector: 'app-add-agent',
   templateUrl: './add-agent.component.html',
@@ -62,8 +63,8 @@ export class AddAgentComponent implements OnInit{
     buttonColor: string = "primary"
     buttonType: string = "button"
 
-    buttonLabel1: string= "Calculate"
-    buttonColor1: string = "success"
+    buttonLabel1: string= "Save and Continue"
+    buttonColor1: string = "primary"
     buttonType1: string = "button"
     division: any[] = []
     district: any[] = []
@@ -83,12 +84,17 @@ export class AddAgentComponent implements OnInit{
     bankName: string = ""
     noDataFound: boolean = false
     routeNo: string = ""
+    enable1: boolean = false
+    enable2:boolean = false
+    enable3: boolean = false
     constructor(
       private agentService: AgentService,  
       private commonService: CommonService, 
       private route: ActivatedRoute,
       private userService: UserService,
-      private titleService:Title
+      private titleService:Title,
+      public dialog: MatDialog,
+      private router: Router
     ){
       this.titleService.setTitle("Add Agent");
     }
@@ -112,6 +118,11 @@ export class AddAgentComponent implements OnInit{
                 console.log("Error retrieving")
             }
           })
+        } else{
+          this.openDialog()
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['add-user']);
+          });
         }
 
       })
@@ -208,6 +219,8 @@ export class AddAgentComponent implements OnInit{
             this.addressArr.push(presentobj)
             this.addressArr.push(businessobj)
             this.addressArr.push(permanentobj)
+            this.index+= 1;
+            this.enable2=true
           }
         },
         error: (e) => {
@@ -234,6 +247,8 @@ export class AddAgentComponent implements OnInit{
         next: (data) => {
           if(data?.token!=""){
             this.bankInfo.push(bankObj);
+            this.enable3 = true
+            this.index++
           } 
           else{
             this.bankfailed = true
@@ -252,14 +267,25 @@ export class AddAgentComponent implements OnInit{
       console.log(this.index)
       this.onTabChanged()
     }
+
+    step1(){
+      this.index+= 1;
+      this.enable1=true
+    }
+    step2(){
+     this.saveAddresses();
+    }
+    step3(){
+      this.saveBankDetails();
+    }
     
     onTabChanged() {
       if (this.index==0) {
         
       } else if (this.index==2) {
-        this.saveAddresses()
+        //this.saveAddresses()
       }else if(this.index==3){
-        this.saveBankDetails()
+        //this.saveBankDetails()
       }
     }
 
@@ -354,5 +380,14 @@ export class AddAgentComponent implements OnInit{
         }
       }
     }
+
+    openDialog() {
+      const dialogRef = this.dialog.open(UsernameNotFoundRedirectComponent);
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   
 }
+

@@ -32,6 +32,7 @@ import { AgentLedgerComponent } from './ledger/agent-ledger/agent-ledger.compone
 import { AdminLedgerComponent } from './ledger/admin-ledger/admin-ledger.component';
 import { RepresentativeLedgerComponent } from './ledger/representative-ledger/representative-ledger.component';
 import { EditAgentComponent } from './agent/edit-agent/edit-agent.component';
+import { UsernameNotFoundRedirectComponent } from './dialogs/username-not-found-redirect/username-not-found-redirect.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { EditAgentComponent } from './agent/edit-agent/edit-agent.component';
     AgentLedgerComponent,
     AdminLedgerComponent,
     RepresentativeLedgerComponent,
-    EditAgentComponent
+    EditAgentComponent,
+    UsernameNotFoundRedirectComponent
   ],
   imports: [
     BrowserModule,

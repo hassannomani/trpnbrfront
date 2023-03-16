@@ -3,73 +3,75 @@
   </div>
 
   
-    <mat-tab-group #tabGroup (selectedTabChange)="selectedTabChange($event)">
-    <form class="example-form" [formGroup]="addUser" #formDir="ngForm">
+    <mat-tab-group #tabGroup (selectedTabChange)="selectedTabChange($event)" [selectedIndex]="index">
     <mat-tab label="Account Information" [disabled]="addedSuccess">
-        <table class="example-full-width" cellspacing="0">
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                    <mat-label>Username</mat-label>
-                    <input matInput  formControlName="username" type="text"  placeholder="username">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-full-width">
-                    <mat-label>First Name</mat-label>
-                    <input matInput  formControlName="firstName" type="text"  placeholder="First Name">
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput  formControlName="lastName" type="text"  placeholder="Last Name">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput  formControlName="email" type="text"  placeholder="Email">
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                    <mat-label>Password</mat-label>
-                    <input matInput  formControlName="password" type="password"  placeholder="Password">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-full-width">
-                    <mat-label>Confirm Password</mat-label>
-                    <input matInput  formControlName="repassword" type="password"  placeholder="Re Password">
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr style="margin-top:10px;margin-bottom:10px;">
-                <p style="color:red;" *ngIf="failedCreation">User Creation Failed!</p>
-                <p style="color:red;" *ngIf="duplicateEntry">Username already exists!</p>
-                <p style="color:green;" *ngIf="addedSuccess">User Created Successfully!</p>
-            </tr>
-            <tr><app-button
-                [label]="buttonLabel1"
-                [color]="buttonColor1" 
-                [type]="buttonType1"
-                (click)="registerUser()"
-                [disabled]="addedSuccess"
-                >
-            </app-button></tr>
-          
-        </table>
+        <form class="example-form" [formGroup]="addUser" #formDir="ngForm">
+
+            <table class="example-full-width" cellspacing="0">
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Username</mat-label>
+                        <input matInput  formControlName="username" type="text"  placeholder="username">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>First Name</mat-label>
+                        <input matInput  formControlName="firstName" type="text"  placeholder="First Name">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput  formControlName="lastName" type="text"  placeholder="Last Name">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput  formControlName="email" type="text"  placeholder="Email">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Password</mat-label>
+                        <input matInput  formControlName="password" type="password"  placeholder="Password">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Confirm Password</mat-label>
+                        <input matInput  formControlName="repassword" type="password"  placeholder="Re Password">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr style="margin-top:10px;margin-bottom:10px;">
+                    <p style="color:red;" *ngIf="failedCreation">User Creation Failed!</p>
+                    <p style="color:red;" *ngIf="duplicateEntry">Username already exists!</p>
+                    <p style="color:green;" *ngIf="addedSuccess">User Created Successfully!</p>
+                </tr>
+                <tr><app-button
+                    [label]="buttonLabel1"
+                    [color]="buttonColor1" 
+                    [type]="buttonType1"
+                    (click)="registerUser()"
+                    [disabled]="addedSuccess"
+                    >
+                </app-button></tr>
+            
+            </table>
+        </form>
     </mat-tab>
-    </form>
+   
     <form class="example-form" [formGroup]="addRepresentative" #formDir="ngForm" (ngSubmit)="representativeSubmit()">    
    
 
-    <mat-tab label="Basic Information" > 
+    <mat-tab label="Basic Information" [disabled]="!addedSuccess"> 
 
         <table class="example-full-width" cellspacing="0">
             <tr>
@@ -110,10 +112,18 @@
                 </td>
            
             </tr>
+            <tr><app-button
+                [label]="buttonLabel2"
+                [color]="buttonColor2" 
+                [type]="buttonType2"
+                [disabled]="step1Success"
+                (click)="step1()"
+                >
+            </app-button></tr>
         </table>
     </mat-tab>
 
-    <mat-tab label="Addresses" > 
+    <mat-tab label="Addresses"  [disabled]="!step1Success"> 
 
         <table class="example-full-width" cellspacing="0">
             <tr>
@@ -237,10 +247,18 @@
                     </mat-form-field>
                 </td>
             </tr>
+            <tr><app-button
+                [label]="buttonLabel2"
+                [color]="buttonColor2" 
+                [type]="buttonType2"
+                (click)="step2()"
+                [disabled]="step2Success"
+                >
+            </app-button></tr>
         </table>
     </mat-tab>
 
-    <mat-tab label="Bank Account Information" > 
+    <mat-tab label="Bank Account Information" [disabled]="!step2Success"> 
 
         <table class="example-full-width" cellspacing="0">
             <tr>
