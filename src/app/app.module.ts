@@ -33,6 +33,8 @@ import { AdminLedgerComponent } from './ledger/admin-ledger/admin-ledger.compone
 import { RepresentativeLedgerComponent } from './ledger/representative-ledger/representative-ledger.component';
 import { EditAgentComponent } from './agent/edit-agent/edit-agent.component';
 import { UsernameNotFoundRedirectComponent } from './dialogs/username-not-found-redirect/username-not-found-redirect.component';
+import { ReportAdminComponent } from './report/report-admin/report-admin.component';
+import { ReportAdminOutputComponent } from './report/report-admin-output/report-admin-output.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { UsernameNotFoundRedirectComponent } from './dialogs/username-not-found-
     AdminLedgerComponent,
     RepresentativeLedgerComponent,
     EditAgentComponent,
-    UsernameNotFoundRedirectComponent
+    UsernameNotFoundRedirectComponent,
+    ReportAdminComponent,
+    ReportAdminOutputComponent
   ],
   imports: [
     BrowserModule,
