@@ -12,6 +12,7 @@ export class LedgerService {
   private urlagentledger: string ='http://localhost:8080/api/ledgers/agent/';
   private urlrepledger: string ='http://localhost:8080/api/ledgers/representative/';
   private urladmledger: string ='http://localhost:8080/api/ledgers/admin';
+  private urlallrangeledger: string ='http://localhost:8080/api/ledgers/range';
 
   constructor(
     private http: HttpClient,
@@ -41,5 +42,17 @@ export class LedgerService {
     }
     return this.http.get<any[]>(this.urladmledger,httpOptions)
 
+  }
+
+  getAllRangeLedger(start: string,  end: string){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    let body = {
+      "start": start,
+      "end": end
+    }
+    let finalBody = JSON.stringify(body)
+    return this.http.post<any[]>(this.urladmledger, body, httpOptions)
   }
 }
