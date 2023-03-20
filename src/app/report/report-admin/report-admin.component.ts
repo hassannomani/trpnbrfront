@@ -6,6 +6,8 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import {Title} from "@angular/platform-browser";
 import { AdminService } from 'src/app/services/admin-service/admin.service';
 import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-report-admin',
   templateUrl: './report-admin.component.html',
@@ -13,6 +15,7 @@ import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
 })
 export class ReportAdminComponent implements OnInit{
   buttonLabel: string= "Submit"
+  buttonLabel1: string= "Download as PDF"
   buttonColor: string = "primary"
   buttonType: string = "button"
   dataSecondary: any =[]
@@ -22,10 +25,11 @@ export class ReportAdminComponent implements OnInit{
   showThirdD2: boolean = false
   firstOption: string = ""
   secondOption: string = ""
-  loaded: boolean = true
+  loaded: boolean = false
   empty: boolean = true
   dataArr : any =[]
   displayedColumns: any =[]
+  logoBase : string = ""
   reportSubmission = new FormGroup({
     'type' : new FormControl('',[Validators.required]),
     'subtype' : new FormControl('',[Validators.required]),
@@ -40,13 +44,14 @@ export class ReportAdminComponent implements OnInit{
     private representativeService: RepresentativeService,
     private ledgerService: LedgerService,
     private titleService:Title,
-    private adminService: AdminService
+    private adminService: AdminService,
+   
   ){
     this.titleService.setTitle("Report");
   }
 
   ngOnInit(): void {
-    
+   
   }
 
   reportType(value:any){
@@ -127,7 +132,7 @@ export class ReportAdminComponent implements OnInit{
     this.agentService.getAll()
     .subscribe({
       next: (data) => {
-        let col = [ 'name','username','mobile_no','registration_no','contact_email', 'action']
+        let col = [ 'name','tin','phone','registration_no','contact_email']
         this.positiveResponse(data, col)
       },
       error: (e) => {
@@ -162,7 +167,7 @@ export class ReportAdminComponent implements OnInit{
   getAllLedgers(){
     this.adminService.getAdminLedger().subscribe({
       next: (data) => {
-        let col = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']     
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']     
          this.positiveResponse(data, col)
       },
       error: (e) => {
@@ -204,7 +209,15 @@ export class ReportAdminComponent implements OnInit{
   }
 
   getAllLedgerRange(startDate: any, endDate: any){
-
+    this.ledgerService.getAllRangeLedger(startDate,endDate).subscribe({
+      next: (data) => {
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        this.positiveResponse(data, col)
+      },
+      error: (e) => {
+        this.loaded = false;
+      }  
+    })
   }
 
   getAllRepresentativeOfAnAgentSecStep(val: any){
@@ -221,7 +234,7 @@ export class ReportAdminComponent implements OnInit{
   getAllLedgerAgentSecStep(agentId: any){
     this.ledgerService.getAgentLedger(agentId).subscribe({
       next: (data) => {
-        let col = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
         this.positiveResponse(data, col)
       },
       error: (e) => {
@@ -232,7 +245,7 @@ export class ReportAdminComponent implements OnInit{
   getAllLedgerRepresentativeSecStep(repId:any){
     this.ledgerService.getRepresentativeLedger(repId).subscribe({
       next: (data) => {
-        let col = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
         this.positiveResponse(data,col)
       },
       error: (e) => {
@@ -241,6 +254,50 @@ export class ReportAdminComponent implements OnInit{
     
     })
   }
+
+  open(){
+    var logobase = ""
+    this.toDataURL('../../assets/img/bdlogo.png', function(dataUrl:any) {
+     logobase  = dataUrl
+    })
+    
+    let DATA: any = document.getElementById('dataTable');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+
+
+      PDF.addImage(logobase, 'PNG', 100, 15, 10, 10);
+      PDF.setFontSize(12);
+      PDF.text("National Board of Revenue", 82, 35);
+      PDF.setFontSize(8);
+
+      PDF.text("Tax Return Preparer", 90, 43);
+      PDF.addImage(FILEURI, 'PNG', 0, 55, fileWidth, fileHeight);
+      PDF.save('angular-demo.pdf');
+    });
+    
+  }
+
+  toDataURL(url: any, callback:any) {
+  
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+  
+  
 
   positiveResponse(data : any, arr:any){
     if(data.length){

@@ -48,11 +48,7 @@ export class LedgerService {
     const httpOptions = {
       headers: this.commonServ.httpReturner()
     }
-    let body = {
-      "start": start,
-      "end": end
-    }
-    let finalBody = JSON.stringify(body)
-    return this.http.post<any[]>(this.urladmledger, body, httpOptions)
+  
+    return this.http.get<any[]>(this.urlallrangeledger+"/"+start+"/"+end, httpOptions)
   }
 }
