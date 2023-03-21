@@ -48,6 +48,7 @@ export class AddAgentComponent implements OnInit{
       'pmdistrict': new FormControl('',[Validators.required]),
       'pmthana': new FormControl('',[Validators.required]),
       'pmaddress': new FormControl('',[Validators.required]),
+      'checked': new FormControl('',[Validators.required]),
       'address': new FormControl(<Object>[]),
       'bankinformation': new FormControl(<Object>[]),
       
@@ -387,6 +388,33 @@ export class AddAgentComponent implements OnInit{
       dialogRef.afterClosed().subscribe(result => {
         console.log(`Dialog result: ${result}`);
       });
+    }
+
+    checkAddress($event:any){
+      //console.log(this.addAgent.value['checked'])
+      let pmaddress= this.addAgent.value['pmaddress']
+      console.log(pmaddress)
+      if(pmaddress!=null)
+        this.addAgent.get('praddress')?.setValue(pmaddress)
+      let div = this.addAgent.value['pmdivision']
+      console.log(div)
+
+      if(div!=null)
+        this.addAgent.get('prdivision')?.setValue(div)
+
+      this.prdivisionChange(div)
+
+      let dist = this.addAgent.value['pmdistrict']
+      console.log(dist)
+      console.log(this.prDistrict)
+      if(dist!=null)
+        this.addAgent.get('prdistrict')?.setValue(dist)
+      this.prdistrictChange(dist)
+      
+      let thana = this.addAgent.value['pmthana']
+      if(thana!=null)
+        this.addAgent.get('prthana')?.setValue(thana)
+
     }
   
 }

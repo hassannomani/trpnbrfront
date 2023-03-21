@@ -31,3 +31,9 @@ app-button{
   margin-bottom: 10px;
   margin-top: 10px;
 }
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}

@@ -150,9 +150,56 @@
                         </mat-form-field>
                     </td>
                 </tr>
+     
+                <tr>
+                    <h4 class="address">Permanent Address</h4>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <mat-form-field appearance="fill" matInput class="example-full-width">
+                            <mat-label>Select Division</mat-label>
+                            <mat-select matNativeControl required formControlName="pmdivision" (selectionChange)="pmdivisionChange($event.value)">
+                                <mat-option value="">--Select--</mat-option>
+                                <mat-option *ngFor="let div of division" [value]="div.divId">{{div.name}}</mat-option>  
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill" matInput class="example-full-width">
+                            <mat-label>Select District</mat-label>
+                            <mat-select matNativeControl required formControlName="pmdistrict" (selectionChange)="pmdistrictChange($event.value)">
+                                <mat-option value="">--Select--</mat-option>
+                                <mat-option *ngFor="let dis of pmDistrict" [value]="dis">{{dis.name}}</mat-option> 
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>     
+                <tr>
+                    <td>
+                        <mat-form-field appearance="fill" matInput class="example-full-width">
+                            <mat-label>Select Thana</mat-label>
+                            <mat-select matNativeControl required formControlName="pmthana" >
+                                <mat-option value="">--Select--</mat-option>
+                                <mat-option *ngFor="let th of pmThana" [value]="th.name">{{th.name}}</mat-option> 
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Address</mat-label>
+                        <input matInput  formControlName="pmaddress" type="text"  placeholder="Permanent Address">
+                        </mat-form-field>
+                    </td>
+                </tr>
+
+
                 <tr>
                     <h4 class="address">Present Address</h4>
                 </tr>
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" formControlName="checked" (click)="checkAddress($event)">Same as Permanent Address</mat-checkbox>
+                </section>
                 <tr>
 
                     <td>
@@ -191,46 +238,8 @@
                         </mat-form-field>
                     </td>
                 </tr>
-                <tr>
-                    <h4 class="address">Permanent Address</h4>
-                </tr>
-                <tr>
-                    <td>
-                        <mat-form-field appearance="fill" matInput class="example-full-width">
-                            <mat-label>Select Division</mat-label>
-                            <mat-select matNativeControl required formControlName="pmdivision" (selectionChange)="pmdivisionChange($event.value)">
-                                <mat-option value="">--Select--</mat-option>
-                                <mat-option *ngFor="let div of division" [value]="div.divId">{{div.name}}</mat-option>  
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <mat-form-field appearance="fill" matInput class="example-full-width">
-                            <mat-label>Select District</mat-label>
-                            <mat-select matNativeControl required formControlName="pmdistrict" (selectionChange)="pmdistrictChange($event.value)">
-                                <mat-option value="">--Select--</mat-option>
-                                <mat-option *ngFor="let dis of pmDistrict" [value]="dis">{{dis.name}}</mat-option> 
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                </tr>     
-                <tr>
-                    <td>
-                        <mat-form-field appearance="fill" matInput class="example-full-width">
-                            <mat-label>Select Thana</mat-label>
-                            <mat-select matNativeControl required formControlName="pmthana" >
-                                <mat-option value="">--Select--</mat-option>
-                                <mat-option *ngFor="let th of pmThana" [value]="th.name">{{th.name}}</mat-option> 
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <mat-form-field class="example-full-width">
-                        <mat-label>Address</mat-label>
-                        <input matInput  formControlName="baddress" type="text"  placeholder="Permanent Address">
-                        </mat-form-field>
-                    </td>
-                </tr>
+
+
                 <tr>
                     <p style="color: red;" *ngIf="addressfailed">Error saving Address Information</p>
                 </tr>

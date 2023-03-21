@@ -55,6 +55,7 @@ export class AddRepresentativeComponent implements OnInit{
     'pmdistrict': new FormControl('',[Validators.required]),
     'pmthana': new FormControl('',[Validators.required]),
     'pmaddress': new FormControl('',[Validators.required]),
+    'checked': new FormControl('',[Validators.required]),
     're_address': new FormControl(<Object>[]),
     're_bankinformation': new FormControl(<Object>[]),
 
@@ -483,6 +484,31 @@ export class AddRepresentativeComponent implements OnInit{
         break;
       }
     }
+  }
+
+  checkAddress($event:any){
+    let pmaddress= this.addRepresentative.value['pmaddress']
+      console.log(pmaddress)
+      if(pmaddress!=null)
+        this.addRepresentative.get('praddress')?.setValue(pmaddress)
+      let div = this.addRepresentative.value['pmdivision']
+      console.log(div)
+
+      if(div!=null)
+        this.addRepresentative.get('prdivision')?.setValue(div)
+
+      this.prdivisionChange(div)
+
+      let dist = this.addRepresentative.value['pmdistrict']
+      console.log(dist)
+      console.log(this.prDistrict)
+      if(dist!=null)
+        this.addRepresentative.get('prdistrict')?.setValue(dist)
+      this.prdistrictChange(dist)
+      
+      let thana = this.addRepresentative.value['pmthana']
+      if(thana!=null)
+        this.addRepresentative.get('prthana')?.setValue(thana)
   }
 
 }
