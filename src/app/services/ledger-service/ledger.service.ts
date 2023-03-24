@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
+import { Observable, ReplaySubject, Subject, switchMap, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { CommonService } from '../common-service/common.service';
@@ -13,6 +13,10 @@ export class LedgerService {
   private urlrepledger: string ='http://localhost:8080/api/ledgers/representative/';
   private urladmledger: string ='http://localhost:8080/api/ledgers/admin';
   private urlallrangeledger: string ='http://localhost:8080/api/ledgers/range';
+  private urlallreprangeledger: string ='http://localhost:8080/api/ledgers/range-representative/';
+  private urlallagrangeledger: string ='http://localhost:8080/api/ledgers/range-agent/';
+  private representativeGet: string = 'http://localhost:8080/api/representative/'
+  private urlagentGet: string ='http://localhost:8080/api/agent/';
 
   constructor(
     private http: HttpClient,
@@ -50,5 +54,31 @@ export class LedgerService {
     }
   
     return this.http.get<any[]>(this.urlallrangeledger+"/"+start+"/"+end, httpOptions)
+  }
+
+  getRepresentativeRangeLedger(start: string,  end: string, repId: string){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+
+    return this
+      .http.get<any>(this.representativeGet+repId, httpOptions)
+      .pipe(
+        switchMap(representative=>this.http.get(this.urlallreprangeledger+representative.userid+"/"+start+"/"+end, httpOptions))
+      )
+    
+  }
+
+  getAgentRangeLedger(start: string,  end: string, agId: string){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    console.log(start+" "+end)
+    return this
+      .http.get<any>(this.urlagentGet+agId, httpOptions)
+      .pipe(
+        switchMap(agent=>this.http.get(this.urlallagrangeledger+agent.id+"/"+start+"/"+end, httpOptions))
+      )
+    
   }
 }

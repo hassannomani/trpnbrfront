@@ -13,6 +13,7 @@ export class RepresentativeService {
   private urladd : string ='http://localhost:8080/api/representative/add';
   private urlgetrep : string ='http://localhost:8080/api/representative/';
   private urlgetrepsbyagentid : string ='http://localhost:8080/api/representative/agent/';
+  private urlgetAllRep : string ='http://localhost:8080/api/representative/all';
 
   constructor(
     private http: HttpClient,
@@ -70,6 +71,16 @@ export class RepresentativeService {
       headers: headerObj
     };
     return this.http.get<any[]>(this.urlgetrepsbyagentid+uuid,httpOptions);
+
+  }
+
+  getAllRepresentatives(): Observable<any[]>{
+    
+    const headerObj = this.commonService.httpReturner()
+    const httpOptions = {
+      headers: headerObj
+    };
+    return this.http.get<any[]>(this.urlgetAllRep,httpOptions);
 
   }
 }

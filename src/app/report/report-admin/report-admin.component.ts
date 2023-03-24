@@ -59,11 +59,18 @@ export class ReportAdminComponent implements OnInit{
     console.log(value)
     this.firstOption = value
     if(value==1)
-      this.dataSecondary = [{"id":1,"value":"All Agents"},{"id":2, "value": "All Representative of an Agent"}]
+      this.dataSecondary = [{"id":1,"value":"All Agents"},{"id":2, "value": "All Representative of an Agent"}, {"id":1,"value":"Search By Creation Date"}]
     else if(value==2)
-      this.dataSecondary = [{"id":1,"value":"All Representatives"}]
+      this.dataSecondary = [{"id":1,"value":"All Representatives"},{"id":2,"value":"Search By Creation Date"}]
     else if (value==3)
-      this.dataSecondary = [{"id":1,"value":"All"},{"id":2, "value": "Agent"},{"id":"3", "value":"Representative"},{"id":"4","value":"Date Range"}]
+      this.dataSecondary = [
+        {"id":"1","value":"All"},
+        {"id":"2", "value": "Agent"},
+        {"id":"3", "value":"Representative"},
+        {"id":"4","value":"Date Range"},
+        {"id":"5","value":"Agent Ledger with Date Range"},
+        {"id":"6","value":"Representative Ledger with Date Range"}
+      ]
 
   }
   reportSubType(value: any){
@@ -73,17 +80,32 @@ export class ReportAdminComponent implements OnInit{
       this.showThirdR = false
       this.showThirdD1=false
       this.showThirdD2=false
+    }else if((value=="3"&&this.firstOption=="1")||(value=="2"&&this.firstOption=="2")){
+      this.showThirdA = false
+      this.showThirdR = false
+      this.showThirdD1=true
+      this.showThirdD2=true
     }
     else if(value=="3" && this.firstOption=="3"){
       this.showThirdR =  true
       this.showThirdA = false
       this.showThirdD1=false
       this.showThirdD2=false
-    }else if(value=="4"&&this.firstOption=="3"){
+    }else if((value=="4"||value=="5"||value=="6")&&this.firstOption=="3"){
+      
       this.showThirdD1=true
       this.showThirdD2=true
-      this.showThirdA=false
-      this.showThirdR = false
+      if(value=="4"){
+        this.showThirdA=false
+        this.showThirdR = false
+      }else if(value=="5"){
+        this.showThirdA=true
+        this.showThirdR = false
+      }else{
+        this.showThirdA=false
+        this.showThirdR = true
+      }
+     
     }
     else{
       this.showThirdA = false
@@ -105,8 +127,15 @@ export class ReportAdminComponent implements OnInit{
       this.getAllRepresentativeOfAnAgent(thirdVal)
 
     }
-    else if(this.firstOption=="2")
+    else if(this.firstOption=="2" && this.secondOption=="1")
       this.getAllRepresentatives()
+
+    else if(this.firstOption=="2" && this.secondOption=="2"){
+      let thirdVal= this.reportSubmission.value["startDate"]
+      let fourthVal= this.reportSubmission.value["endDate"]
+      this.getAllRepresentativesWithDate(thirdVal,fourthVal)
+
+    }
 
     else if(this.firstOption=="3"&&this.secondOption=="1")
       this.getAllLedgers()
@@ -121,10 +150,20 @@ export class ReportAdminComponent implements OnInit{
       this.getAllLedgerRepresentative(thirVal)
     } 
     
-    else if(this.firstOption=="3"&&this.secondOption=="4"){
+    else if(this.firstOption=="3"&&(this.secondOption=="4"||this.secondOption=="5"||this.secondOption=="6")){
       let thirdVal= this.reportSubmission.value["startDate"]
       let fourthVal= this.reportSubmission.value["endDate"]
-      this.getAllLedgerRange(thirdVal,fourthVal)
+      if(this.secondOption=="4")
+        this.getAllLedgerRange(thirdVal,fourthVal)
+      else if(this.secondOption=="5"){
+        let fifthVal = this.reportSubmission.value["agusername"]
+        this.getagentLedgerRange(thirdVal,fourthVal,fifthVal)
+      }
+      else if(this.secondOption=="6"){
+        let fifthVal = this.reportSubmission.value["repusername"]
+        this.getrepresentativeLedgerRange(thirdVal,fourthVal,fifthVal)
+      }
+       
     }
   }
 
@@ -161,7 +200,15 @@ export class ReportAdminComponent implements OnInit{
   }
 
   getAllRepresentatives(){
-
+    this.representativeService.getAllRepresentatives().subscribe({
+      next: (data) => {
+        let col = [ 'tinNo','reName','reDob','reMobileNo','nid']     
+         this.positiveResponse(data, col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
   }
 
   getAllLedgers(){
@@ -220,6 +267,30 @@ export class ReportAdminComponent implements OnInit{
     })
   }
 
+  getagentLedgerRange(startDate: any, endDate: any, agentId: any){
+    this.ledgerService.getAgentRangeLedger(startDate,endDate,agentId).subscribe({
+      next: (data) => {
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        this.positiveResponse(data, col) 
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
+  }
+
+  getrepresentativeLedgerRange(startDate: any, endDate: any, representativeId: any){
+    this.ledgerService.getRepresentativeRangeLedger(startDate,endDate,representativeId).subscribe({
+      next: (data) => {
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        this.positiveResponse(data, col) 
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
+  }
+
   getAllRepresentativeOfAnAgentSecStep(val: any){
     this.representativeService.getRepresentativeUnderAnAgent(val).subscribe({
       next: (data) => {
@@ -253,6 +324,12 @@ export class ReportAdminComponent implements OnInit{
       }
     
     })
+  }
+
+  getAllRepresentativesWithDate(startDate: any, endDate: any){
+    // this.representativeService.getAllRepresentativesInRange(startDate,endDate).subscribe({
+
+    // })
   }
 
   open(){
@@ -306,6 +383,7 @@ export class ReportAdminComponent implements OnInit{
       this.displayedColumns = arr
     } 
     else{
+      this.dataArr = []
       this.empty = true
     }
   }
