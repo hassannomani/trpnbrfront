@@ -35,6 +35,8 @@ import { EditAgentComponent } from './agent/edit-agent/edit-agent.component';
 import { UsernameNotFoundRedirectComponent } from './dialogs/username-not-found-redirect/username-not-found-redirect.component';
 import { ReportAdminComponent } from './report/report-admin/report-admin.component';
 import { ReportAdminOutputComponent } from './report/report-admin-output/report-admin-output.component';
+import { ReturnSubmitComponent } from './submission/return-submit/return-submit.component';
+import { ReturnAcknowledgementComponent } from './submission/return-acknowledgement/return-acknowledgement.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { ReportAdminOutputComponent } from './report/report-admin-output/report-
     EditAgentComponent,
     UsernameNotFoundRedirectComponent,
     ReportAdminComponent,
-    ReportAdminOutputComponent
+    ReportAdminOutputComponent,
+    ReturnSubmitComponent,
+    ReturnAcknowledgementComponent
   ],
   imports: [
     BrowserModule,

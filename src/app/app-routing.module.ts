@@ -16,6 +16,7 @@ import { ApproveRepresentativeComponent } from './representative/approve-represe
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { DashboardComponent } from './user/dashboard/dashboard.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
+import { ReturnSubmitComponent } from './submission/return-submit/return-submit.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: "ledger-representative", component: RepresentativeLedgerComponent},
   {path: "edit-agent", component: EditAgentComponent},
   {path: "report-admin", component: ReportAdminComponent},
+  {path: "return-submit", component: ReturnSubmitComponent},
 
 ];
 
