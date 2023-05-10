@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 import { FormControl, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import {Title} from "@angular/platform-browser";
 import { Router } from '@angular/router';
 
@@ -36,10 +38,13 @@ export class AddUserComponent implements OnInit{
   addedSuccess: boolean = false
   failedCreation: boolean = false
   rolereq: any = []
+  tinnotFound: boolean = false
   constructor(
     private userService: UserService,
     private titleService:Title,
     private router: Router,
+    private commonService: CommonService,
+    private localStorageServ: LocalStorageService,
 
   ){
     this.titleService.setTitle("Add User");
@@ -66,6 +71,34 @@ export class AddUserComponent implements OnInit{
   onKeydownEvent(event: KeyboardEvent): void {
     this.notSame= this.addUser.value['password']!=this.addUser.value['repassword']?true:false
   
+  }
+
+  verify(){
+    let username = this.addUser.value["username"]?this.addUser.value["username"]:""
+    this.commonService.getTin(username).subscribe({
+      next: (data) => {
+        console.log(data)
+        if(data.isError==1){
+          this.tinnotFound = true
+        }else{
+          this.localStorageServ.saveAgent(data)
+          this.addUser.get('email')?.setValue(data.email)
+          let name = data.name
+          if(name!=null && name!=''){
+            let split = name.split(" ")
+            let lastpart=""
+            this.addUser.get("firstName")?.setValue(split[0])
+            for (let i=1;i<split.length;i++)
+              lastpart+=split[i]+" "
+            this.addUser.get("lastName")?.setValue(lastpart)
+          }
+        }
+      },
+      error: (e) => {
+        console.log(e)
+
+      }  
+    })
   }
 
   userSubmit(){
@@ -98,6 +131,7 @@ export class AddUserComponent implements OnInit{
           }
           else{
             this.addUser.reset();
+            this.localStorageServ.deleteAgent()
           }
         } 
         else{
@@ -115,5 +149,7 @@ export class AddUserComponent implements OnInit{
     });
     
   }
+
+
 
 }

@@ -8,6 +8,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
 import {Title} from "@angular/platform-browser";
 import { MatDialog } from '@angular/material/dialog';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { UsernameNotFoundRedirectComponent } from 'src/app/dialogs/username-not-found-redirect/username-not-found-redirect.component';
 @Component({
   selector: 'app-add-agent',
@@ -95,7 +96,8 @@ export class AddAgentComponent implements OnInit{
       private userService: UserService,
       private titleService:Title,
       public dialog: MatDialog,
-      private router: Router
+      private router: Router,
+      private localStorage: LocalStorageService,
     ){
       this.titleService.setTitle("Add Agent");
     }
@@ -113,6 +115,11 @@ export class AddAgentComponent implements OnInit{
                 this.addAgent.get('name')?.setValue(data.firstName+" "+data.lastName);
                 this.addAgent.get('tin')?.setValue(data.username)
               }
+              let localData = this.localStorage.getAgent()
+              console.log(localData)
+              // this.addAgent.get("motherName")?.setValue(localData.mothersName)
+              // this.addAgent.get("fatherName")?.setValue(localData.fathersName)
+
             },
             error: (e) => {
              
@@ -225,7 +232,6 @@ export class AddAgentComponent implements OnInit{
           }
         },
         error: (e) => {
-          
             console.log("Error retrieving")
             this.addressfailed = true
         }

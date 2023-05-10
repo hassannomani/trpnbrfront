@@ -40,3 +40,8 @@ mat-spinner{
 .spinner > h4{
   float: left;
 }
+.verifyclass{
+  color: #3f51b5;
+  font-size: 30px;
+  cursor: pointer;
+}

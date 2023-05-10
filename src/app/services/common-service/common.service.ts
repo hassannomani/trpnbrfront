@@ -21,6 +21,7 @@ export class CommonService {
   private urladdbank : string ='http://localhost:8080/api/bank/add';
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
   private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
+  private urletin : string ='http://localhost:8080/api/etin/tin/';
 
 
   getDistrict(): Observable<any[]>{
@@ -169,6 +170,16 @@ export class CommonService {
     };
   
     return this.http.get<any[]>(this.urlbankbranches+name+"/"+district,httpOptions)
+    
+  }
+
+  getTin(tin: string): Observable<any>{
+
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+  
+    return this.http.get<any>(this.urletin+tin,httpOptions)
     
   }
 }

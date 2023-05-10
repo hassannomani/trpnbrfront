@@ -107,6 +107,7 @@ export class AddRepresentativeComponent implements OnInit{
   savingMsg: string = ""
   step1Success : boolean = false
   step2Success : boolean = false
+  tinnotFound : boolean = false
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -510,5 +511,34 @@ export class AddRepresentativeComponent implements OnInit{
       if(thana!=null)
         this.addRepresentative.get('prthana')?.setValue(thana)
   }
+  verify(){
+    let username = this.addUser.value["username"]?this.addUser.value["username"]:""
+    this.commonService.getTin(username).subscribe({
+      next: (data) => {
+        console.log(data)
+        if(data.isError==1){
+          this.tinnotFound = true
+        }else{
+          this.localStorage.saveRepresentative(data)
+          this.addUser.get('email')?.setValue(data.email)
+          let name = data.name
+          if(name!=null && name!=''){
+            let split = name.split(" ")
+            let lastpart=""
+            this.addUser.get("firstName")?.setValue(split[0])
+            for (let i=1;i<split.length;i++)
+              lastpart+=split[i]+" "
+            this.addUser.get("lastName")?.setValue(lastpart)
+            this.addRepresentative.get('reDob')?.setValue('dob')
+            this.addRepresentative.get('reMobileNo')?.setValue(data.mobile)
+            this.addRepresentative.get('nid')?.setValue(data.nid)
+          }
+        }
+      },
+      error: (e) => {
+        console.log(e)
 
+      }  
+    })
+  }
 }

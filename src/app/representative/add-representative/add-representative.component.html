@@ -11,8 +11,9 @@
                 <tr>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Username</mat-label>
+                        <mat-label>Username (TIN)</mat-label>
                         <input matInput  formControlName="username" type="text"  placeholder="username">
+                        <mat-icon matSuffix (click)="verify()" class="verifyclass">check_box</mat-icon>
                         </mat-form-field>
                     </td>
                     <td>
@@ -54,6 +55,7 @@
                     <p style="color:red;" *ngIf="failedCreation">User Creation Failed!</p>
                     <p style="color:red;" *ngIf="duplicateEntry">Username already exists!</p>
                     <p style="color:green;" *ngIf="addedSuccess">User Created Successfully!</p>
+                    <p style="color:red;" *ngIf="tinnotFound">TIN not found!</p>
                 </tr>
                 <tr><app-button
                     [label]="buttonLabel1"
@@ -71,7 +73,7 @@
     <form class="example-form" [formGroup]="addRepresentative" #formDir="ngForm" (ngSubmit)="representativeSubmit()">    
    
 
-    <mat-tab label="Basic Information" [disabled]="!addedSuccess"> 
+    <mat-tab label="Basic Information"> 
 
         <table class="example-full-width" cellspacing="0">
             <tr>
@@ -123,7 +125,7 @@
         </table>
     </mat-tab>
 
-    <mat-tab label="Addresses"  [disabled]="!step1Success"> 
+    <mat-tab label="Addresses"> 
 
         <table class="example-full-width" cellspacing="0">
             <tr>
@@ -263,7 +265,7 @@
         </table>
     </mat-tab>
 
-    <mat-tab label="Bank Account Information" [disabled]="!step2Success"> 
+    <mat-tab label="Bank Account Information"> 
 
         <table class="example-full-width" cellspacing="0">
             <tr>

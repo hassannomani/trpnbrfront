@@ -7,8 +7,10 @@
         <tr>
             <td>
                 <mat-form-field class="example-full-width">
-                <mat-label>Username</mat-label>
+                <mat-label>Username (TIN)</mat-label>
                 <input matInput  formControlName="username" type="text"  placeholder="username">
+                
+                    <mat-icon matSuffix (click)="verify()" class="verifyclass">check_box</mat-icon>
                 </mat-form-field>
             </td>
             <td>
@@ -63,6 +65,7 @@
         <span style="color: red;" *ngIf="failedCreation">User Creation failed </span>
         <span style="color: red;" *ngIf="failed">{{errorMsg}}</span>
         <span style="color: green;" *ngIf="addedSuccess">User Added Successfully</span>
+        <span style="color: red;" *ngIf="tinnotFound">TIN not found</span>
         </tr>
         <tr class="clear:both;">
             
@@ -71,6 +74,7 @@
                     [label]="buttonLabel"
                     [color]="buttonColor" 
                     [type]="buttonType"
+                   
                     (click)="userSubmit()"
                     >
                 </app-button>

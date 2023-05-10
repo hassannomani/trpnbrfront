@@ -7,6 +7,10 @@ export interface storedUser {
   roles: String,
   email: String
 }
+export interface storedAgntReptv{
+  agent: {},
+  representative: {}
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -44,4 +48,26 @@ export class LocalStorageService {
       "email": ""
     };
   }
+
+  saveAgent(obj: any){
+    localStorage.setItem("agent",JSON.stringify(obj))
+  }
+  getAgent(){
+    let obj= localStorage.getItem("agent")
+    return obj?JSON.parse(obj):""
+  }
+  deleteAgent(){
+    localStorage.removeItem("agent")
+  }
+  saveRepresentative(obj: any){
+    localStorage.setItem("representative",JSON.stringify(obj))
+  }
+  getRepresentative(){
+    let obj= localStorage.getItem("representative")
+    return obj?JSON.parse(obj):""
+  }
+  deleteRepresentative(){
+    localStorage.removeItem("representative")
+  }
 }
+

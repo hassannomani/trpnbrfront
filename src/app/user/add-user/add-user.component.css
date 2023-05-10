@@ -24,3 +24,8 @@ app-button{
   margin-left: 40%;
   margin-bottom: 200px;
 }
+.verifyclass{
+    color: #3f51b5;
+    font-size: 30px;
+    cursor: pointer;
+}
