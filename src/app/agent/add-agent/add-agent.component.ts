@@ -117,6 +117,8 @@ export class AddAgentComponent implements OnInit{
               }
               let localData = this.localStorage.getAgent()
               console.log(localData)
+              this.addAgent.get('phone')?.setValue(localData.mobile)
+              this.addAgent.get('contactEmail')?.setValue(localData.email)
               // this.addAgent.get("motherName")?.setValue(localData.mothersName)
               // this.addAgent.get("fatherName")?.setValue(localData.fathersName)
 

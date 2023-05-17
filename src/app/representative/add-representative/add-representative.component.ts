@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { Router } from '@angular/router';
 import {Title} from "@angular/platform-browser";
+import { formatDate } from '@angular/common' 
 
 @Component({
   selector: 'app-add-representative',
@@ -529,9 +530,14 @@ export class AddRepresentativeComponent implements OnInit{
             for (let i=1;i<split.length;i++)
               lastpart+=split[i]+" "
             this.addUser.get("lastName")?.setValue(lastpart)
-            this.addRepresentative.get('reDob')?.setValue('dob')
+            let dt= new Date(data.dob)
+            this.setDate(dt)
             this.addRepresentative.get('reMobileNo')?.setValue(data.mobile)
-            this.addRepresentative.get('nid')?.setValue(data.nid)
+            let pattern = /\d+/g
+            let string= data.nid  
+            let final = string.match(pattern)
+            if(final.length)
+              this.addRepresentative.get('nid')?.setValue(final[0])
           }
         }
       },
@@ -540,5 +546,9 @@ export class AddRepresentativeComponent implements OnInit{
 
       }  
     })
+  }
+  setDate(value:any){
+    this.addRepresentative.get('reDob')?.setValue(formatDate(value,'yyyy-MM-dd','en'))
+
   }
 }
