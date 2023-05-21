@@ -21,6 +21,7 @@ export class CommonService {
   private urladdbank : string ='http://localhost:8080/api/bank/add';
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
   private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
+  private urlfile : string ='http://localhost:8080/api/common/file';
   private urletin : string ='http://localhost:8080/api/etin/tin/';
 
 
@@ -142,6 +143,21 @@ export class CommonService {
 
   }
 
+  httpReturnerCustom(): any{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+      })
+  
+    }else{
+      var headers_object = new HttpHeaders({
+        'Authorization': ""
+      })
+    }
+    return headers_object
+
+  }
   
   getBank(): Observable<any[]>{
 
@@ -180,6 +196,18 @@ export class CommonService {
     };
   
     return this.http.get<any>(this.urletin+tin,httpOptions)
+    
+  }
+
+  uploadFile(file: File): Observable<any>{
+
+    const httpOptions = {
+      headers: this.httpReturnerCustom()
+    };
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post<any>(this.urlfile,formData, httpOptions)
     
   }
 }

@@ -112,8 +112,37 @@
                     <input matInput  formControlName="nid" type="number"  placeholder="NID">
                     </mat-form-field>
                 </td>
-           
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>TRP Id</mat-label>
+                    <input matInput  formControlName="trpId" type="text"  placeholder="TRP Id">
+                    </mat-form-field>
+                </td>
             </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Smarok No</mat-label>
+                    <input matInput  formControlName="refNo" type="String"  placeholder="Smarok No">
+                    </mat-form-field>
+                </td>
+                <td style="width: 50%;">
+                    <div class="example-full-width">
+                    <label>Registration Certificate</label>
+                    <br>
+                    <input (change)="selectFile($event)" #fileInput type="file" id="file">
+
+                    <app-button
+                        [label]="buttonLabel3"
+                        [color]="buttonColor3" 
+                        [type]="buttonType3"
+                        (click)="uploadFile()"
+                        >
+                    </app-button>
+                </div>
+                </td>
+            </tr>
+
             <tr><app-button
                 [label]="buttonLabel2"
                 [color]="buttonColor2" 

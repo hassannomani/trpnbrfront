@@ -57,6 +57,10 @@ export class AddRepresentativeComponent implements OnInit{
     'pmthana': new FormControl('',[Validators.required]),
     'pmaddress': new FormControl('',[Validators.required]),
     'checked': new FormControl('',[Validators.required]),
+    'display': new FormControl('',[Validators.required]),
+    'trpId': new FormControl('',[Validators.required]),
+    'refNo': new FormControl('',[Validators.required]),
+    'file': new FormControl('',[Validators.required]),
     're_address': new FormControl(<Object>[]),
     're_bankinformation': new FormControl(<Object>[]),
 
@@ -83,6 +87,9 @@ export class AddRepresentativeComponent implements OnInit{
   buttonLabel2: string= "Save and Continue"
   buttonColor2: string = "primary"
   buttonType2: string = "button"
+  buttonLabel3: string= "Uploaad"
+  buttonColor3: string = "primary"
+  buttonType3: string = "button"
   division: any[] = []
   district: any[] = []
   thana: any[] = []
@@ -109,6 +116,8 @@ export class AddRepresentativeComponent implements OnInit{
   step1Success : boolean = false
   step2Success : boolean = false
   tinnotFound : boolean = false
+  file!: File;
+  file_list: Array<string> = [];
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -550,5 +559,22 @@ export class AddRepresentativeComponent implements OnInit{
   setDate(value:any){
     this.addRepresentative.get('reDob')?.setValue(formatDate(value,'yyyy-MM-dd','en'))
 
+  }
+  selectFile(event: any){
+    this.file = event.target.files.item(0);
+  }
+
+  uploadFile() {
+    this.commonService.uploadFile(this.file).subscribe({
+      next: (data) => {
+        console.log(data)
+        //this.fileDetails = data;
+        //this.fileUris.push(this.fileDetails.fileUri);
+        //alert("File Uploaded Successfully")
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    });
   }
 }
