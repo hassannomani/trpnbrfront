@@ -45,3 +45,6 @@ mat-spinner{
   font-size: 30px;
   cursor: pointer;
 }
+.success{
+  color: green;
+}

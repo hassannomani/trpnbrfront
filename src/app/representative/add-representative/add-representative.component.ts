@@ -60,7 +60,7 @@ export class AddRepresentativeComponent implements OnInit{
     'display': new FormControl('',[Validators.required]),
     'trpId': new FormControl('',[Validators.required]),
     'refNo': new FormControl('',[Validators.required]),
-    'file': new FormControl('',[Validators.required]),
+    'filePath': new FormControl('',[Validators.required]),
     're_address': new FormControl(<Object>[]),
     're_bankinformation': new FormControl(<Object>[]),
 
@@ -78,6 +78,7 @@ export class AddRepresentativeComponent implements OnInit{
   goSuccess: boolean = false
   bankfailed: boolean = false
   addressfailed: boolean = false
+  fileUploaded: boolean = false
   buttonLabel: string= "Submit"
   buttonColor: string = "primary"
   buttonType: string = "button"
@@ -152,7 +153,7 @@ export class AddRepresentativeComponent implements OnInit{
           this.division = data[1];
           this.thana = data[2];
           this.roles = data[3];
-          this.agentId = data[4].id;
+          this.agentId = JSON.parse(this.localStore.username);
           this.banks = data[5];
           this.bankdist = data[6];
         },
@@ -350,7 +351,7 @@ export class AddRepresentativeComponent implements OnInit{
 
   registerUser(){
    
-    this.addUser.value['addedBy']=JSON.parse(this.localStore.id)
+    this.addUser.value['addedBy']=JSON.parse(this.localStore.username)
     this.addUser.value['status']="0"
     this.addUser.value['photo']=""
     let index = -1;
@@ -567,8 +568,12 @@ export class AddRepresentativeComponent implements OnInit{
   uploadFile() {
     this.commonService.uploadFile(this.file).subscribe({
       next: (data) => {
-        console.log(data)
-        //this.fileDetails = data;
+        console.log(data.fileUri)
+        if(data.fileUri){
+          this.addRepresentative.get('filePath')?.setValue(data.fileUri);
+          console.log(this.addRepresentative)
+          this.fileUploaded = true
+        }
         //this.fileUris.push(this.fileDetails.fileUri);
         //alert("File Uploaded Successfully")
       },

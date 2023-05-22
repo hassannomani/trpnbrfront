@@ -43,7 +43,7 @@ export class ApproveRepresentativeComponent implements OnInit{
           this.representativesArr = data
           this.helperArr = data
           this.loaded  = true
-          this.displayedColumns = [ 'username','firstName','lastName','email','addedDate','action']
+          this.displayedColumns = [ 'username','firstName','lastName','addedBy','addedDate','action']
         } 
         else{
           this.zeroData = true

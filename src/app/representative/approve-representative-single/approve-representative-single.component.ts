@@ -19,6 +19,7 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
   buttonColor: string = "Basic"
   buttonType: string = "button"
   buttonLabel1: string = "Approve"
+  buttonLabel2: string = "Certificate"
   buttonColor1: string = "primary"
   buttonType1: string = "button"
   representative: any ={}
@@ -87,5 +88,11 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
         console.log(e)
       } 
     })
+  }
+
+  openPdf(){
+    window.open(this.representative.filePath, '_blank');
+
+
   }
 }

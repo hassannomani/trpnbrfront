@@ -14,6 +14,13 @@
       <p>Mobile No: {{representative.reMobile | date}}</p>
       <p>User Name: {{representative.tinNo}}</p>
       <p>NID: {{representative.nid}}</p>  
+      <p>
+        <app-button
+        [label]="buttonLabel2"
+        [color]="buttonColor1" 
+        [type]="buttonType1"
+        (click)="openPdf()">
+      </app-button>
       <mat-action-row>
         <button mat-button color="primary" (click)="nextStep()">Next</button>
       </mat-action-row>
