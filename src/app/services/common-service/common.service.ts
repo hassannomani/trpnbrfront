@@ -22,6 +22,7 @@ export class CommonService {
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
   private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
   private urlfile : string ='http://localhost:8080/api/common/file';
+  private urlfileget : string ='http://localhost:8080/api/common/file/';
   private urletin : string ='http://localhost:8080/api/etin/tin/';
 
 
@@ -158,6 +159,23 @@ export class CommonService {
     return headers_object
 
   }
+
+  httpReturnerBlob(): any{
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Authorization': "Bearer "+ JSON.parse(obj.token), 
+        'Content-Type': 'application/pdf',
+      })
+  
+    }else{
+      var headers_object = new HttpHeaders({
+        'Authorization': ""
+      })
+    }
+    return headers_object
+
+  }
   
   getBank(): Observable<any[]>{
 
@@ -209,5 +227,20 @@ export class CommonService {
   
     return this.http.post<any>(this.urlfile,formData, httpOptions)
     
+  }
+
+  loadFile(filename: String): Observable<any>{
+    const httpOptions = {
+      headers: this.httpReturnerBlob()
+    };
+    let headers = new HttpHeaders();
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=null){
+      headers = headers.set('Accept', 'application/pdf');
+      headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
+    }
+  
+    return this.http.get(this.urlfileget+filename, {headers, responseType: 'blob'})
+
   }
 }

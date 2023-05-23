@@ -3,6 +3,7 @@ import { RepresentativeService } from 'src/app/services/representative-service/r
 import { Router } from '@angular/router';
 import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({
@@ -29,7 +30,8 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
     private router: Router,
     private actroute: ActivatedRoute,
     private userService: UserService,
-    private titleService:Title
+    private titleService:Title,
+    private commonService: CommonService
 
   ){
     this.titleService.setTitle("Approve Representative");
@@ -91,8 +93,23 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
   }
 
   openPdf(){
-    window.open(this.representative.filePath, '_blank');
-
+    //window.open(this.representative.filePath, '_blank');
+    let temp = this.representative.filePath.split("\\")
+    if(temp.length){
+      console.log(temp[temp.length-1])
+      this.commonService.loadFile(temp[temp.length-1]).subscribe({
+        next: (data) => {
+         // console.log(data)
+          const fileURL = URL.createObjectURL(data);
+          window.open(fileURL, '_blank');
+        },
+        error: (e) => {
+          alert("File loading Failed!")
+          console.log(e)
+        } 
+      })
+    }else alert("file not found")
+   
 
   }
 }
