@@ -112,4 +112,39 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
    
 
   }
+
+  reject(tin : string){   
+    
+    this.userService.getAUser(tin).subscribe({
+      next: (data) => {
+        if(data!=null){
+          if(data.uuid)
+            this.rejectByTinMainBody(data.uuid)
+        } else{
+          alert("User Not found")
+        } 
+      },
+      error: (e) => {
+        this.approveFailed = true;
+        console.log(e)
+      } 
+    })
+  }
+
+  rejectByTinMainBody(id: string){
+    this.userService.rejectPendingUser(id).subscribe({
+      next: (data) => {
+        if(data.uuid){
+          alert("User Rejected!")
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['approve-representatives']);
+          });         
+        } 
+      },
+      error: (e) => {
+        this.approveFailed = true;
+        console.log(e)
+      } 
+    })
+  }
 }

@@ -22,6 +22,9 @@ export class ApproveRepresentativeComponent implements OnInit{
   buttonLabel1: string = "Approve"
   buttonColor1: string = "primary"
   buttonType1: string = "button"
+  buttonLabel2: string = "Reject"
+  buttonType2: string = "button"
+  buttonColor2: string = "warn"
   helperArr: any =[]
   constructor(
     private userService: UserService,
@@ -87,6 +90,22 @@ export class ApproveRepresentativeComponent implements OnInit{
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['approve-representative-details'],{ queryParams: {username:tin}});
     });
+  }
+
+  reject(uuid : string, index: string){   
+ 
+    this.userService.rejectPendingUser(uuid).subscribe({
+      next: (data) => {
+        if(data.uuid){
+          alert("User Rejected!")
+          this.ngOnInit()          
+        } 
+      },
+      error: (e) => {
+        this.approveFailed = true;
+        console.log(e)
+      } 
+    })
   }
 
 }

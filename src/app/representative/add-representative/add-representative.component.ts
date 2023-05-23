@@ -540,8 +540,10 @@ export class AddRepresentativeComponent implements OnInit{
             for (let i=1;i<split.length;i++)
               lastpart+=split[i]+" "
             this.addUser.get("lastName")?.setValue(lastpart)
-            let dt= new Date(data.dob)
-            this.setDate(dt)
+            if(data.dob!=""){
+              let dt= new Date(data.dob)
+              this.setDate(dt)
+            }
             this.addRepresentative.get('reMobileNo')?.setValue(data.mobile)
             let pattern = /\d+/g
             let string= data.nid  

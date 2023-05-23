@@ -16,6 +16,8 @@ export class UserService {
   private url_single : string ='http://localhost:8080/api/users/user/';
   private url_pending_all : string ='http://localhost:8080/api/users/pending-all';
   private url_approve_representative : string ='http://localhost:8080/api/users/approve/';
+  private url_reject_representative : string ='http://localhost:8080/api/users/reject/';
+  private url_reject_representative_tin : string ='http://localhost:8080/api/users/tinreject/';
   private url_approve_representative_tin : string ='http://localhost:8080/api/users/tinapprove/';
 
   constructor(
@@ -157,6 +159,46 @@ export class UserService {
       return this.http.get<any>(this.url_approve_representative_tin+username,httpOptions)
     }else{
       return this.http.get<any>(this.url_approve_representative_tin+username)
+    }
+
+  }
+
+  rejectPendingUser(uuid:string): Observable<any>{
+    let obj = this.localStorageServc.getStorageItems()
+   
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+        })
+  
+        const httpOptions = {
+          headers: headers_object
+        };
+        
+      return this.http.get<any>(this.url_reject_representative+uuid,httpOptions)
+    }else{
+      return this.http.get<any>(this.url_reject_representative+uuid)
+    }
+
+  }
+
+  rejectPendingUserByTin(tin:string): Observable<any>{
+    let obj = this.localStorageServc.getStorageItems()
+   
+    if(obj.token!=""&&obj.token!=null){
+      var headers_object = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+ JSON.parse(obj.token) 
+        })
+  
+        const httpOptions = {
+          headers: headers_object
+        };
+        
+      return this.http.get<any>(this.url_reject_representative+tin,httpOptions)
+    }else{
+      return this.http.get<any>(this.url_reject_representative+tin)
     }
 
   }
