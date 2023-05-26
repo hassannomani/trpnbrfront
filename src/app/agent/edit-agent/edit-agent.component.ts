@@ -87,6 +87,7 @@ export class EditAgentComponent implements OnInit {
   businessAdd: string = ""
   presentAdd: string = ""
   permanentAdd: string = ""
+  image: string = ""
   constructor(
     private agentService: AgentService,  
     private commonService: CommonService, 
@@ -106,6 +107,7 @@ export class EditAgentComponent implements OnInit {
         this.agentService.getAgentInfo(uname).subscribe({
           next: (data) => {
             this.setData(data)
+            this.loadPhoto(data.contactPhoto)
           },
           error: (e) => {
            
@@ -371,6 +373,25 @@ export class EditAgentComponent implements OnInit {
 
   change(type: string){
     console.log(type)
+  }
+
+  loadPhoto(url: string){
+    let temp = url.split("\\")
+    console.log(temp)
+    if(temp.length){
+      console.log(temp[temp.length-1])
+      this.commonService.loadPhoto(temp[temp.length-1]).subscribe({
+        next: (data) => {
+         // console.log(data)
+          const fileURL = URL.createObjectURL(data);
+          this.image = fileURL
+        },
+        error: (e) => {
+          alert("File loading Failed!")
+          console.log(e)
+        } 
+      })
+    }else alert("file not found")
   }
 
   

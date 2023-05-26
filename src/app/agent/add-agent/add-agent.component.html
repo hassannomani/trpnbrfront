@@ -75,6 +75,22 @@
                         <input matInput  formControlName="regAssNID"  placeholder="Registration Associates NID">
                         </mat-form-field>
                     </td>
+                    <td style="width: 50%;">
+                        <div class="example-full-width">
+                        <label>Registration Associates Photo</label>
+                        <br>
+                        <input (change)="selectFile($event)" #fileInput type="file" id="file">
+    
+                        <app-button
+                            [label]="buttonLabelPh"
+                            [color]="buttonColorPh" 
+                            [type]="buttonTypePh"
+                            (click)="uploadFile()"
+                            >
+                        </app-button>
+                        <p class="success" *ngIf="fileUploaded">Photo Uploaded Successfully</p>
+                    </div>
+                    </td>
                 </tr>
             
                 <tr>
@@ -133,11 +149,35 @@
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Address</mat-label>
-                        <input matInput  formControlName="baddress" type="text"  placeholder="Business Address">
+                        <mat-label>Ward</mat-label>
+                        <input matInput  formControlName="bward" type="text"  placeholder="Business Address- Ward">
                         </mat-form-field>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>House</mat-label>
+                        <input matInput  formControlName="bhouse" type="text"  placeholder="Business Address- House">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Road</mat-label>
+                        <input matInput  formControlName="broad" type="text"  placeholder="Business Address- Road">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Block</mat-label>
+                        <input matInput  formControlName="bblock" type="text"  placeholder="Business Address- Block">
+                        </mat-form-field>
+                    </td>
+                </tr>
+
      
                 <tr>
                     <h4 class="address">Permanent Address</h4>
@@ -175,8 +215,31 @@
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Address</mat-label>
-                        <input matInput  formControlName="pmaddress" type="text"  placeholder="Permanent Address">
+                        <mat-label>Ward</mat-label>
+                        <input matInput  formControlName="pmward" type="text"  placeholder="Permanent Address- Ward">
+                        </mat-form-field>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>House</mat-label>
+                        <input matInput  formControlName="pmhouse" type="text"  placeholder="Permanent Address- House">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Road</mat-label>
+                        <input matInput  formControlName="pmroad" type="text"  placeholder="Permanent Address- Road">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Block</mat-label>
+                        <input matInput  formControlName="pmblock" type="text"  placeholder="Permanent Address- Block">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -221,11 +284,36 @@
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Address</mat-label>
-                        <input matInput  formControlName="praddress" type="text"  placeholder="Present Address">
+                        <mat-label>Ward</mat-label>
+                        <input matInput  formControlName="prward" type="text"  placeholder="Present Address- Ward">
                         </mat-form-field>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>House</mat-label>
+                        <input matInput  formControlName="prhouse" type="text"  placeholder="Present Address- House">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Road</mat-label>
+                        <input matInput  formControlName="prroad" type="text"  placeholder="Present Address- Road">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Block</mat-label>
+                        <input matInput  formControlName="prblock" type="text"  placeholder="Present Address- Block">
+                        </mat-form-field>
+                    </td>
+                </tr>
+
+
 
 
                 <tr>
@@ -334,8 +422,7 @@
                             <mat-select matNativeControl required formControlName="registrationType">
                                 <mat-option value="">--Select--</mat-option>
                                 <mat-option value="Company">Company</mat-option>
-                                <mat-option value="Firm">Firm</mat-option>
-                                <mat-option value="Associates">Associates</mat-option>
+                                <mat-option value="Firm">Registered Firm</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </td>

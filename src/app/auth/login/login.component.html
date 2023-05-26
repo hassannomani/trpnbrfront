@@ -28,6 +28,9 @@
            <span *ngIf="formDir.submitted&& loginForm.get('username')?.invalid &&
           loginForm.get('username')?.errors?.['required']" style="color:red">Username is required</span><br>
           <span *ngIf="formDir.submitted&&loginForm.get('username')?.errors?.['minlength']" style="color:red">Username must contain 4 characters</span>
+          <mat-error *ngIf="formDir.submitted&&loginForm.get('username')?.errors?.['pattern']">
+            TIN should be 12 characters long and only contain numbers!
+          </mat-error>
         </div>
         <div class="form-group">
           <mat-form-field class="example-full-width">

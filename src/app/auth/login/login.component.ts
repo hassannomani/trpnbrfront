@@ -12,7 +12,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class LoginComponent implements OnInit{
   loginForm = new FormGroup({
-    'username' : new FormControl('',[Validators.required, Validators.minLength(4)]),
+    'username' : new FormControl('',[Validators.required, Validators.pattern('[0-9]{12}$')]),
     'password' : new FormControl('',[Validators.required, Validators.minLength(4)])
   })
   failed: boolean = false
@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit{
     
   
     console.log(this.loginForm.value)
-    if(this.loginForm.value.username!=""&&this.loginForm.value.password!=""){
+    let username = this.loginForm.value.username
+    if(username!=""&&this.loginForm.value.password!=""&&username?.length==12){
       this.signinService
       .postVerifyUsers(this.loginForm.value)
       .subscribe({

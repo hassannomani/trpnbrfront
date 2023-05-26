@@ -55,7 +55,14 @@ export class AddUserComponent implements OnInit{
       next: (data) => {
         if(data.length){
           this.rolenames = data
-          //console.log(this.roles)
+          // var index=-1
+          // for(let i=0;i<this.rolenames.length;i++){
+          //   if(this.rolenames[i].name=="ROLE_REPRESENTATIVE"){
+          //     index = i
+          //     break
+          //   }
+          // }
+          // this.rolenames.splice(index,1)
         } 
         else{
           alert('roles not created!')

@@ -22,7 +22,9 @@ export class CommonService {
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
   private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
   private urlfile : string ='http://localhost:8080/api/common/file';
+  private urlPhoto : string ='http://localhost:8080/api/common/photo';
   private urlfileget : string ='http://localhost:8080/api/common/file/';
+  private urlPhotoget : string ='http://localhost:8080/api/common/photo/';
   private urletin : string ='http://localhost:8080/api/etin/tin/';
 
 
@@ -241,6 +243,33 @@ export class CommonService {
     }
   
     return this.http.get(this.urlfileget+filename, {headers, responseType: 'blob'})
+
+  }
+
+  uploadPhoto(file: File): Observable<any>{
+
+    const httpOptions = {
+      headers: this.httpReturnerCustom()
+    };
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post<any>(this.urlPhoto,formData, httpOptions)
+    
+  }
+
+  loadPhoto(filename: String): Observable<any>{
+    const httpOptions = {
+      headers: this.httpReturnerBlob()
+    };
+    let headers = new HttpHeaders();
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=null){
+      //headers = headers.set('Accept', 'application/pdf');
+      headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
+    }
+  
+    return this.http.get(this.urlPhotoget+filename, {headers, responseType: 'blob'})
 
   }
 }

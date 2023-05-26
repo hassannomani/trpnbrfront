@@ -40,16 +40,26 @@ export class AddAgentComponent implements OnInit{
       'bdivision': new FormControl('',[Validators.required]),
       'bdistrict': new FormControl('',[Validators.required]),
       'bthana': new FormControl('',[Validators.required]),
-      'baddress': new FormControl('',[Validators.required]),
+      'bhouse': new FormControl('',[Validators.required]),
+      'broad': new FormControl('',[Validators.required]),
+      'bblock': new FormControl('',[Validators.required]),
+      'bward': new FormControl('',[Validators.required]),
       'prdivision': new FormControl('',[Validators.required]),
       'prdistrict': new FormControl('',[Validators.required]),
       'prthana': new FormControl('',[Validators.required]),
-      'praddress': new FormControl('',[Validators.required]),
+      'prhouse': new FormControl('',[Validators.required]),
+      'prroad': new FormControl('',[Validators.required]),
+      'prblock': new FormControl('',[Validators.required]),
+      'prward': new FormControl('',[Validators.required]),
       'pmdivision': new FormControl('',[Validators.required]),
       'pmdistrict': new FormControl('',[Validators.required]),
       'pmthana': new FormControl('',[Validators.required]),
-      'pmaddress': new FormControl('',[Validators.required]),
+      'pmhouse': new FormControl('',[Validators.required]),
+      'pmroad': new FormControl('',[Validators.required]),
+      'pmblock': new FormControl('',[Validators.required]),
+      'pmward': new FormControl('',[Validators.required]),
       'checked': new FormControl('',[Validators.required]),
+      'contactPhoto': new FormControl('',[Validators.required]),
       'address': new FormControl(<Object>[]),
       'bankinformation': new FormControl(<Object>[]),
       
@@ -61,6 +71,7 @@ export class AddAgentComponent implements OnInit{
     goSuccess: boolean = false
     bankfailed: boolean = false
     addressfailed: boolean = false
+    fileUploaded: boolean = false
     buttonLabel: string= "Submit"
     buttonColor: string = "primary"
     buttonType: string = "button"
@@ -68,6 +79,9 @@ export class AddAgentComponent implements OnInit{
     buttonLabel1: string= "Save and Continue"
     buttonColor1: string = "primary"
     buttonType1: string = "button"
+    buttonLabelPh: string= "Upload photo"
+    buttonColorPh: string = "primary"
+    buttonTypePh: string = "button"
     division: any[] = []
     district: any[] = []
     thana: any[] = []
@@ -89,6 +103,8 @@ export class AddAgentComponent implements OnInit{
     enable1: boolean = false
     enable2:boolean = false
     enable3: boolean = false
+    file!: File;
+    file_list: Array<string> = [];
     constructor(
       private agentService: AgentService,  
       private commonService: CommonService, 
@@ -194,7 +210,10 @@ export class AddAgentComponent implements OnInit{
         division: this.addAgent.value['prdivision'],
         district: prdistrict.name,
         thana: this.addAgent.value['prthana'],
-        address: this.addAgent.value['praddress'],
+        house: this.addAgent.value['prhouse'],
+        road: this.addAgent.value['prroad'],
+        block: this.addAgent.value['prroad'],
+        ward: this.addAgent.value['prroad'],
         addedBy: "ADMIN" 
       }
       let businessobj={
@@ -202,7 +221,10 @@ export class AddAgentComponent implements OnInit{
         division: this.addAgent.value['bdivision'],
         district: bdistrict.name,
         thana: this.addAgent.value['bthana'],
-        address: this.addAgent.value['baddress'],
+        house: this.addAgent.value['bhouse'],
+        road: this.addAgent.value['broad'],
+        block: this.addAgent.value['broad'],
+        ward: this.addAgent.value['broad'],
         addedBy: "ADMIN" 
       }
       let permanentobj={
@@ -210,7 +232,10 @@ export class AddAgentComponent implements OnInit{
         division: this.addAgent.value['pmdivision'],
         district: pmdistrict.name,
         thana: this.addAgent.value['pmthana'],
-        address: this.addAgent.value['pmaddress'],
+        house: this.addAgent.value['pmhouse'],
+        road: this.addAgent.value['pmroad'],
+        block: this.addAgent.value['pmroad'],
+        ward: this.addAgent.value['pmroad'],
         addedBy: "ADMIN" 
       }
     //this.agentService.addAddress
@@ -400,10 +425,22 @@ export class AddAgentComponent implements OnInit{
 
     checkAddress($event:any){
       //console.log(this.addAgent.value['checked'])
-      let pmaddress= this.addAgent.value['pmaddress']
-      console.log(pmaddress)
-      if(pmaddress!=null)
-        this.addAgent.get('praddress')?.setValue(pmaddress)
+      let pmroad= this.addAgent.value['pmroad']
+      if(pmroad!=null)
+        this.addAgent.get('prroad')?.setValue(pmroad)
+
+      let pmhouse= this.addAgent.value['pmhouse']
+      if(pmhouse!=null)
+        this.addAgent.get('prhouse')?.setValue(pmhouse)
+
+      let pmblock= this.addAgent.value['pmblock']
+      if(pmblock!=null)
+        this.addAgent.get('prblock')?.setValue(pmblock)
+
+      let pmward= this.addAgent.value['pmward']
+      if(pmward!=null)
+        this.addAgent.get('prward')?.setValue(pmward)
+      
       let div = this.addAgent.value['pmdivision']
       console.log(div)
 
@@ -423,6 +460,27 @@ export class AddAgentComponent implements OnInit{
       if(thana!=null)
         this.addAgent.get('prthana')?.setValue(thana)
 
+    }
+
+
+    selectFile(event: any){
+      this.file = event.target.files.item(0);
+    }
+  
+    uploadFile() {
+      this.commonService.uploadPhoto(this.file).subscribe({
+        next: (data) => {
+          console.log(data.fileUri)
+          if(data.fileUri){
+            this.addAgent.get('contactPhoto')?.setValue(data.fileUri);
+            console.log(this.addAgent)
+            this.fileUploaded = true
+          }
+        },
+        error: (e) => {
+          console.log(e);
+        }
+      });
     }
   
 }

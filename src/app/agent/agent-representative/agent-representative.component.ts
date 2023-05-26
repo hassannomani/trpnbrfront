@@ -11,7 +11,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class AgentRepresentativeComponent implements OnInit{
   representativeArr : any =[]
-  loaded : Boolean = false
+  loaded : Boolean = true
   empty: Boolean = false
   displayedColumns: any = []
   localStore: any ={}
