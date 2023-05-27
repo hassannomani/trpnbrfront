@@ -126,6 +126,35 @@
                     <input matInput  formControlName="refNo" type="String"  placeholder="Smarok No">
                     </mat-form-field>
                 </td>
+
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Certificate No</mat-label>
+                    <input matInput  formControlName="certNo" type="String"  placeholder="Certificate No">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Certificate Serial</mat-label>
+                    <input matInput  formControlName="certSerial" type="String"  placeholder="Certificate Serial">
+                    </mat-form-field>
+                </td>
+
+                <td>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Date of Pass</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="certPass">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+
                 <td style="width: 50%;">
                     <div class="example-full-width">
                     <label>Registration Certificate</label>
@@ -140,6 +169,23 @@
                         >
                     </app-button>
                     <p class="success" *ngIf="fileUploaded">File Uploaded Successfully</p>
+                </div>
+                </td>
+
+                <td style="width: 50%;">
+                    <div class="example-full-width">
+                    <label>TRP Photo</label>
+                    <br>
+                    <input (change)="selectPhoto($event)" #fileInput type="file" id="photo">
+
+                    <app-button
+                        [label]="buttonLabel4"
+                        [color]="buttonColor4" 
+                        [type]="buttonType4"
+                        (click)="uploadPhoto()"
+                        >
+                    </app-button>
+                    <p class="success" *ngIf="photoUploaded">Photo Uploaded Successfully</p>
                 </div>
                 </td>
             </tr>
@@ -193,8 +239,31 @@
                 </td>
                 <td>
                     <mat-form-field class="example-full-width">
-                    <mat-label>Address</mat-label>
-                    <input matInput  formControlName="baddress" type="text"  placeholder="Business Address">
+                    <mat-label>Ward</mat-label>
+                    <input matInput  formControlName="bward" type="text"  placeholder="Business Address- Ward">
+                    </mat-form-field>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>House</mat-label>
+                    <input matInput  formControlName="bhouse" type="text"  placeholder="Business Address- House">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Road</mat-label>
+                    <input matInput  formControlName="broad" type="text"  placeholder="Business Address- Road">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Block</mat-label>
+                    <input matInput  formControlName="bblock" type="text"  placeholder="Business Address- Block">
                     </mat-form-field>
                 </td>
             </tr>
@@ -234,8 +303,30 @@
                 </td>
                 <td>
                     <mat-form-field class="example-full-width">
-                    <mat-label>Address</mat-label>
-                    <input matInput  formControlName="pmaddress" type="text"  placeholder="Permanent Address">
+                    <mat-label>Ward</mat-label>
+                    <input matInput  formControlName="pmward" type="text"  placeholder="Permanent Address- Ward">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>House</mat-label>
+                    <input matInput  formControlName="pmhouse" type="text"  placeholder="Permanent Address- House">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Road</mat-label>
+                    <input matInput  formControlName="pmroad" type="text"  placeholder="Permanent Address- Road">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Block</mat-label>
+                    <input matInput  formControlName="pmblock" type="text"  placeholder="Permanent Address- Block">
                     </mat-form-field>
                 </td>
             </tr>
@@ -279,11 +370,34 @@
                 </td>
                 <td>
                     <mat-form-field class="example-full-width">
-                    <mat-label>Address</mat-label>
-                    <input matInput  formControlName="praddress" type="text"  placeholder="Present Address">
+                    <mat-label>Ward</mat-label>
+                    <input matInput  formControlName="prward" type="text"  placeholder="Present Address- Ward">
                     </mat-form-field>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>House</mat-label>
+                    <input matInput  formControlName="prhouse" type="text"  placeholder="Present Address- House">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Road</mat-label>
+                    <input matInput  formControlName="prroad" type="text"  placeholder="Present Address- Road">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Block</mat-label>
+                    <input matInput  formControlName="prblock" type="text"  placeholder="Present Address- Block">
+                    </mat-form-field>
+                </td>
+            </tr>
+
             <tr><app-button
                 [label]="buttonLabel2"
                 [color]="buttonColor2" 

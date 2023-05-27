@@ -47,19 +47,32 @@ export class AddRepresentativeComponent implements OnInit{
     'bdivision': new FormControl('',[Validators.required]),
     'bdistrict': new FormControl('',[Validators.required]),
     'bthana': new FormControl('',[Validators.required]),
-    'baddress': new FormControl('',[Validators.required]),
+    'bhouse': new FormControl('',[Validators.required]),
+    'broad': new FormControl('',[Validators.required]),
+    'bblock': new FormControl('',[Validators.required]),
+    'bward': new FormControl('',[Validators.required]),
     'prdivision': new FormControl('',[Validators.required]),
     'prdistrict': new FormControl('',[Validators.required]),
     'prthana': new FormControl('',[Validators.required]),
-    'praddress': new FormControl('',[Validators.required]),
+    'prhouse': new FormControl('',[Validators.required]),
+    'prroad': new FormControl('',[Validators.required]),
+    'prblock': new FormControl('',[Validators.required]),
+    'prward': new FormControl('',[Validators.required]),
     'pmdivision': new FormControl('',[Validators.required]),
     'pmdistrict': new FormControl('',[Validators.required]),
     'pmthana': new FormControl('',[Validators.required]),
-    'pmaddress': new FormControl('',[Validators.required]),
+    'pmhouse': new FormControl('',[Validators.required]),
+    'pmroad': new FormControl('',[Validators.required]),
+    'pmblock': new FormControl('',[Validators.required]),
+    'pmward': new FormControl('',[Validators.required]),
     'checked': new FormControl('',[Validators.required]),
     'display': new FormControl('',[Validators.required]),
     'trpId': new FormControl('',[Validators.required]),
     'refNo': new FormControl('',[Validators.required]),
+    'certNo': new FormControl('',[Validators.required]),
+    'certPass': new FormControl('',[Validators.required]),
+    'certSerial': new FormControl('',[Validators.required]),
+    'rePhoto': new FormControl('',[Validators.required]),
     'filePath': new FormControl('',[Validators.required]),
     're_address': new FormControl(<Object>[]),
     're_bankinformation': new FormControl(<Object>[]),
@@ -79,6 +92,7 @@ export class AddRepresentativeComponent implements OnInit{
   bankfailed: boolean = false
   addressfailed: boolean = false
   fileUploaded: boolean = false
+  photoUploaded: boolean = false
   buttonLabel: string= "Submit"
   buttonColor: string = "primary"
   buttonType: string = "button"
@@ -88,9 +102,12 @@ export class AddRepresentativeComponent implements OnInit{
   buttonLabel2: string= "Save and Continue"
   buttonColor2: string = "primary"
   buttonType2: string = "button"
-  buttonLabel3: string= "Uploaad"
+  buttonLabel3: string= "Upload"
   buttonColor3: string = "primary"
   buttonType3: string = "button"
+  buttonLabel4: string= "Upload"
+  buttonColor4: string = "primary"
+  buttonType4: string = "button"
   division: any[] = []
   district: any[] = []
   thana: any[] = []
@@ -118,6 +135,7 @@ export class AddRepresentativeComponent implements OnInit{
   step2Success : boolean = false
   tinnotFound : boolean = false
   file!: File;
+  photo!: File;
   file_list: Array<string> = [];
   constructor(
     private representativeServ: RepresentativeService,  
@@ -129,7 +147,9 @@ export class AddRepresentativeComponent implements OnInit{
     private titleService:Title
  
   ){
-    this.titleService.setTitle("Add Representative");
+    this.titleService.setTitle
+    
+    ("Add Representative");
 
   }
   ngOnInit(): void {
@@ -273,7 +293,10 @@ export class AddRepresentativeComponent implements OnInit{
       division: this.addRepresentative.value['prdivision'],
       district: prdistrict.name,
       thana: this.addRepresentative.value['prthana'],
-      address: this.addRepresentative.value['praddress'],
+      house: this.addRepresentative.value['prhouse'],
+      road: this.addRepresentative.value['prroad'],
+      block: this.addRepresentative.value['prroad'],
+      ward: this.addRepresentative.value['prroad'],
       addedBy: "AGENT" 
     }
     let businessobj={
@@ -281,7 +304,10 @@ export class AddRepresentativeComponent implements OnInit{
       division: this.addRepresentative.value['bdivision'],
       district: pmdistrict.name,
       thana: this.addRepresentative.value['bthana'],
-      address: this.addRepresentative.value['baddress'],
+      house: this.addRepresentative.value['bhouse'],
+      road: this.addRepresentative.value['broad'],
+      block: this.addRepresentative.value['broad'],
+      ward: this.addRepresentative.value['broad'],
       addedBy: "AGENT" 
     }
     let permanentobj={
@@ -289,7 +315,10 @@ export class AddRepresentativeComponent implements OnInit{
       division: this.addRepresentative.value['pmdivision'],
       district: pmdistrict.name,
       thana: this.addRepresentative.value['pmthana'],
-      address: this.addRepresentative.value['pmaddress'],
+      house: this.addRepresentative.value['pmhouse'],
+      road: this.addRepresentative.value['pmroad'],
+      block: this.addRepresentative.value['pmroad'],
+      ward: this.addRepresentative.value['pmroad'],
       addedBy: "AGENT" 
     }
   //this.agentService.addAddress
@@ -499,28 +528,40 @@ export class AddRepresentativeComponent implements OnInit{
   }
 
   checkAddress($event:any){
-    let pmaddress= this.addRepresentative.value['pmaddress']
-      console.log(pmaddress)
-      if(pmaddress!=null)
-        this.addRepresentative.get('praddress')?.setValue(pmaddress)
-      let div = this.addRepresentative.value['pmdivision']
-      console.log(div)
+    let pmward= this.addRepresentative.value['pmward']
+    if(pmward!=null)
+      this.addRepresentative.get('prward')?.setValue(pmward)
+  
+    let pmroad= this.addRepresentative.value['pmroad']
+    if(pmroad!=null)
+      this.addRepresentative.get('prroad')?.setValue(pmroad)
 
-      if(div!=null)
-        this.addRepresentative.get('prdivision')?.setValue(div)
+    let pmhouse= this.addRepresentative.value['pmhouse']
+    if(pmhouse!=null)
+      this.addRepresentative.get('prhouse')?.setValue(pmhouse)
 
-      this.prdivisionChange(div)
-
-      let dist = this.addRepresentative.value['pmdistrict']
-      console.log(dist)
-      console.log(this.prDistrict)
-      if(dist!=null)
-        this.addRepresentative.get('prdistrict')?.setValue(dist)
-      this.prdistrictChange(dist)
+    let pmblock= this.addRepresentative.value['pmblock']
+    if(pmblock!=null)
+      this.addRepresentative.get('prblock')?.setValue(pmblock)
       
-      let thana = this.addRepresentative.value['pmthana']
-      if(thana!=null)
-        this.addRepresentative.get('prthana')?.setValue(thana)
+    let div = this.addRepresentative.value['pmdivision']
+    console.log(div)
+
+    if(div!=null)
+      this.addRepresentative.get('prdivision')?.setValue(div)
+
+    this.prdivisionChange(div)
+
+    let dist = this.addRepresentative.value['pmdistrict']
+    console.log(dist)
+    console.log(this.prDistrict)
+    if(dist!=null)
+      this.addRepresentative.get('prdistrict')?.setValue(dist)
+    this.prdistrictChange(dist)
+    
+    let thana = this.addRepresentative.value['pmthana']
+    if(thana!=null)
+      this.addRepresentative.get('prthana')?.setValue(thana)
   }
   verify(){
     let username = this.addUser.value["username"]?this.addUser.value["username"]:""
@@ -584,4 +625,27 @@ export class AddRepresentativeComponent implements OnInit{
       }
     });
   }
+
+  selectPhoto(event: any){
+    this.photo = event.target.files.item(0);
+  }
+
+  uploadPhoto() {
+    this.commonService.uploadPhoto(this.photo).subscribe({
+      next: (data) => {
+        console.log(data.fileUri)
+        if(data.fileUri){
+          this.addRepresentative.get('rePhoto')?.setValue(data.fileUri);
+          console.log(this.addRepresentative)
+          this.photoUploaded = true
+        }
+        //this.fileUris.push(this.fileDetails.fileUri);
+        //alert("File Uploaded Successfully")
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    });
+  }
 }
+
