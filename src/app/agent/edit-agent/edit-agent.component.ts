@@ -7,6 +7,8 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { ActivatedRoute, Route } from '@angular/router';
 import {Title} from "@angular/platform-browser";
+import { DomSanitizer } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-edit-agent',
   templateUrl: './edit-agent.component.html',
@@ -87,13 +89,14 @@ export class EditAgentComponent implements OnInit {
   businessAdd: string = ""
   presentAdd: string = ""
   permanentAdd: string = ""
-  image: string = ""
+  image: any
   constructor(
     private agentService: AgentService,  
     private commonService: CommonService, 
     private route: ActivatedRoute,
     private userService: UserService,
-    private titleService:Title
+    private titleService:Title,
+    private sanitizer :DomSanitizer,
   ){
     this.titleService.setTitle("Add Agent");
   }
@@ -383,8 +386,12 @@ export class EditAgentComponent implements OnInit {
       this.commonService.loadPhoto(temp[temp.length-1]).subscribe({
         next: (data) => {
          // console.log(data)
-          const fileURL = URL.createObjectURL(data);
-          this.image = fileURL
+          //const fileURL = URL.createObjectURL(data);
+          let temp = data
+          let objectURL = URL.createObjectURL(temp)
+
+          this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        
         },
         error: (e) => {
           alert("File loading Failed!")
