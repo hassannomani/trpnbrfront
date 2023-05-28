@@ -64,13 +64,13 @@ export class RepresentativeService {
     }
   }
 
-  getRepresentativeUnderAnAgent(uuid: string): Observable<any[]>{
+  getRepresentativeUnderAnAgent(tin: string): Observable<any[]>{
     
     const headerObj = this.commonService.httpReturner()
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.get<any[]>(this.urlgetrepsbyagentid+uuid,httpOptions);
+    return this.http.get<any[]>(this.urlgetrepsbyagentid+tin,httpOptions);
 
   }
 

@@ -23,32 +23,18 @@ export class AgentRepresentativeComponent implements OnInit{
     private titleService:Title
 
   ){
-    this.titleService.setTitle("List of Representative");
+    this.titleService.setTitle("List of TRP");
 
   }
   ngOnInit(): void {
     this.localStore = this.localstorage.getStorageItems();
     let uname = JSON.parse(this.localStore.username)
-    this.agentServ.getAgentInfo(uname)
-    .subscribe({
-      next: (data) => {
-        if(data.id){
-          this.agentId = data.id
-          this.getRepresentativeList(this.agentId)
-
-        } else
-            this.loaded = false
-          
-      },
-      error: (e) => {
-        this.loaded = false
-      }
-    })  
+    this.getRepresentativeList(uname)
   }
 
-  getRepresentativeList(id: string){
+  getRepresentativeList(tin: string){
       console.log("reached here")
-      this.representativeServ.getRepresentativeUnderAnAgent(id).subscribe({
+      this.representativeServ.getRepresentativeUnderAnAgent(tin).subscribe({
         next: (data) => {
           if(data.length){
             this.representativeArr = data

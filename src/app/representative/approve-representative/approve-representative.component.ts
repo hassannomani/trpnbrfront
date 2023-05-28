@@ -33,7 +33,7 @@ export class ApproveRepresentativeComponent implements OnInit{
     private zone: NgZone,
     private titleService:Title
   ){
-    this.titleService.setTitle("Approve Representative");
+    this.titleService.setTitle("Approve TRP");
 
   }
   ngOnInit(): void {

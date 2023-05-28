@@ -5,6 +5,8 @@ import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 import {Title} from "@angular/platform-browser";
+import { DomSanitizer } from '@angular/platform-browser';
+import { AgentService } from 'src/app/services/agent-service/agent.service';
 
 @Component({
   selector: 'app-approve-representative-single',
@@ -24,17 +26,20 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
   buttonColor1: string = "primary"
   buttonType1: string = "button"
   representative: any ={}
+  agent: any ={}
   step: number = 0
+  image: any 
   constructor(
     private representativeServ: RepresentativeService,
     private router: Router,
     private actroute: ActivatedRoute,
     private userService: UserService,
     private titleService:Title,
-    private commonService: CommonService
-
+    private commonService: CommonService,
+    private sanitizer: DomSanitizer,
+    private agentService: AgentService
   ){
-    this.titleService.setTitle("Approve Representative");
+    this.titleService.setTitle("Approve TRP");
 
   }
   ngOnInit(): void {
@@ -49,6 +54,8 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
               if(data.userid){
                 this.representative = data
                 this.loaded = true
+                this.loadPhoto(data.rePhoto)
+                this.loadAgent(data.agentId)
               }
             },
             error: (e) => {
@@ -147,4 +154,41 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
       } 
     })
   }
+
+  loadPhoto(url: string){
+    let temp = url.split("\\")
+    console.log(temp)
+    if(temp.length){
+      console.log(temp[temp.length-1])
+      this.commonService.loadPhoto(temp[temp.length-1]).subscribe({
+        next: (data) => {
+         // console.log(data)
+          //const fileURL = URL.createObjectURL(data);
+          let temp = data
+          let objectURL = URL.createObjectURL(temp)
+
+          this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        
+        },
+        error: (e) => {
+          alert("File loading Failed!")
+          console.log(e)
+        } 
+      })
+    }else alert("file not found")
+  }
+
+  loadAgent(tin: string){
+    this.agentService.getAgentInfo(tin).subscribe({
+      next: (data) => {
+        this.agent = data        
+        console.log(this.agent)
+       },
+       error: (e) => {
+         alert("File loading Failed!")
+         console.log(e)
+       }       
+    })
+  }
+
 }

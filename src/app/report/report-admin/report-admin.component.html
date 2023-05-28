@@ -9,8 +9,8 @@
                 <mat-label>Select Report Type</mat-label>
                     <mat-select matNativeControl required formControlName="type" (selectionChange)="reportType($event.value)">
                         <mat-option value="">--Select--</mat-option>
-                        <mat-option  [value]="1">Agents</mat-option>   
-                        <mat-option  [value]="2">Representative</mat-option>   
+                        <mat-option  [value]="1">TRP Agents</mat-option>   
+                        <mat-option  [value]="2">TRP</mat-option>   
                         <mat-option  [value]="3">Ledgers</mat-option>   
                     </mat-select>
                 </mat-form-field>
@@ -80,11 +80,11 @@
 </form>
 <table mat-table class="example-full-width datatable" cellspacing="0"  [dataSource]="dataArr" class="mat-elevation-z8" *ngIf="loaded" id="dataTable"> 
     <caption *ngIf="firstOption=='1' && secondOption=='1'">All Agents</caption>
-    <caption *ngIf="firstOption=='1'&& secondOption=='2'">List of Representatives of Agent</caption>
-    <caption *ngIf="firstOption=='2'&& secondOption=='1'">List of Representatives</caption>
+    <caption *ngIf="firstOption=='1'&& secondOption=='2'">List of TRP of Agent</caption>
+    <caption *ngIf="firstOption=='2'&& secondOption=='1'">List of TRPs</caption>
     <caption *ngIf="firstOption=='3'&& secondOption=='1'">List of Ledgers</caption>
     <caption *ngIf="firstOption=='3'&& secondOption=='2'">List of Ledgers of Agent</caption>
-    <caption *ngIf="firstOption=='3'&& secondOption=='3'">List of Ledgers of Representative</caption>
+    <caption *ngIf="firstOption=='3'&& secondOption=='3'">List of Ledgers of TRP</caption>
     <caption *ngIf="firstOption=='3'&& secondOption=='4'">List of Ledgers</caption>
    
     <ng-container matColumnDef="name" *ngIf="firstOption=='1'&& secondOption=='1'">
