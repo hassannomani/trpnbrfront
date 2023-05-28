@@ -29,24 +29,12 @@ export class AgentLedgerComponent implements OnInit{
 
   ngOnInit(): void {
     this.localStore = this.localStorage.getStorageItems()
-    this.agentService.getAgentInfo(JSON.parse(this.localStore.username)).subscribe({
-      next: (data) => {
-        if(data.id)
-          this.agentId = data.id
-          this.getAgentLedger(this.agentId)
-      },
-      error: (e) => {
-        this.loaded = false
-      }
-    })  
-  }
-  getAgentLedger(agentId:string){
-    this.ledgerService.getAgentLedger(agentId).subscribe({
+    this.ledgerService.getAgentLedger(JSON.parse(this.localStore.username)).subscribe({
       next: (data) => {
         if(data.length)
           this.agentLedger = data
           this.loaded = true
-          this.displayedColumn = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+          this.displayedColumn = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeTin']
 
       },
       error: (e) => {

@@ -3,11 +3,22 @@
         <!-- <button mat-icon-button (click)="sidenav.toggle()">
             <mat-icon >menu</mat-icon>
         </button> -->
-        <h2>
+        <h2 class="left">
             <!-- <img src="../../assets/img/bdlogo.png" alt="nbr_logo" *ngIf="isLoggedIn" class="headerLogo"/> -->
 
             Tax Return Preparer
         </h2>
+        <div class="right">
+            <div class="icon" *ngIf="isLoggedIn">
+                <i class="material-icons">account_circle</i>
+            </div>
+            <div class="text">
+                <h4 class="first">{{username}}</h4>
+                <h5 class="second">{{role}}</h5>
+            </div>
+          
+        </div>
+        
     </mat-toolbar-row>
 </mat-toolbar>
 

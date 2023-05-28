@@ -13,6 +13,8 @@ export class ToolbarComponent implements OnInit{
   isViewer: boolean = false
   isAgent: boolean = false;
   isRepresentative: boolean = false;
+  role: string = ""
+  username: string = ""
   constructor(
     
     private localStorage: LocalStorageService,
@@ -22,11 +24,19 @@ export class ToolbarComponent implements OnInit{
     this.signInService.loginStatusChange().subscribe(loggedIn => {
       let local = this.localStorage.getStorageItems();
       console.log(local)
-      if(local.token==""||local.token==null)
+      if(local.token==""||local.token==null){
         this.isLoggedIn = false;
+        this.role=""
+        this.username=""
+      }
       else{
+
         this.isLoggedIn = true;
         let role = local.role!=null?JSON.parse(local.role):null;
+
+        this.role = role
+        this.username  = local.username?JSON.parse(local.username): ""
+
         if(role=="ROLE_ADMIN")
           this.isAdmin = true
         else if(role=="ROLE_AGENT"){
@@ -49,7 +59,7 @@ export class ToolbarComponent implements OnInit{
           this.isAdmin = false
           this.isAgent = false
         }
-          
+      
           console.log(this.isAdmin)
           console.log(this.isAgent)
           console.log(this.isRepresentative)

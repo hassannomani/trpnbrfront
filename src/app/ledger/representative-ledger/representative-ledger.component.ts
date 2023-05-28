@@ -26,29 +26,13 @@ export class RepresentativeLedgerComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.localStore = this.localStorage.getStorageItems()
-    this.representativeServ.getARepresentative(JSON.parse(this.localStore.username)).subscribe({
-      next: (data) => {
-        if(data.userid){
-          this.representativeId = data.userid
-          this.getRepresentativeLedger(this.representativeId)
-        } else
-            this.loaded = false
-          
-      },
-      error: (e) => {
-        this.loaded = false
-      }
-    })  
-  }
-
-  getRepresentativeLedger(representativeId:string){
-    this.ledgerService.getRepresentativeLedger(representativeId).subscribe({
+    this.localStore = this.localStorage.getStorageItems()    
+    this.ledgerService.getRepresentativeLedger(JSON.parse(this.localStore.username)).subscribe({
       next: (data) => {
         if(data.length)
           this.representativeLedger = data
           this.loaded = true
-          this.displayedColumn = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+          this.displayedColumn = ['taxpayerId','paidAmount','paymentMethod','assessmentYear','agentTin','representativeTin']
 
       },
       error: (e) => {
