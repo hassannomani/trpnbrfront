@@ -37,6 +37,7 @@ import { ReportAdminComponent } from './report/report-admin/report-admin.compone
 import { ReportAdminOutputComponent } from './report/report-admin-output/report-admin-output.component';
 import { ReturnSubmitComponent } from './submission/return-submit/return-submit.component';
 import { ReturnAcknowledgementComponent } from './submission/return-acknowledgement/return-acknowledgement.component';
+import { UserActionComponent } from './user/user-action/user-action.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ReturnAcknowledgementComponent } from './submission/return-acknowledgem
     ReportAdminComponent,
     ReportAdminOutputComponent,
     ReturnSubmitComponent,
-    ReturnAcknowledgementComponent
+    ReturnAcknowledgementComponent,
+    UserActionComponent
   ],
   imports: [
     BrowserModule,

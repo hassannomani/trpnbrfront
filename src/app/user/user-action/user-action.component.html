@@ -1,0 +1,80 @@
+<h3>Action</h3>
+
+<form class="example-form" [formGroup]="addAction" #formDir="ngForm" (ngSubmit)="actionSubmit()">
+    <table class="example-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Username (TIN)</mat-label>
+                <input matInput  formControlName="receiver" type="text"  placeholder="Receiver">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Enter your message</mat-label>
+                <textarea matInput placeholder=""></textarea>
+            </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Type of Action</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let type of type_of_message" [value]="type">
+                      {{type}}
+                    </mat-option>
+                  </mat-select>                
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Start of Action</mat-label>
+                <input matInput  formControlName="actionFrom" type="text"  placeholder="From">
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>End of Action</mat-label>
+                <input matInput  formControlName="actionFrom" type="text"  placeholder="To">
+                </mat-form-field>
+            </td>
+            <td>
+
+                <input (change)="selectFile($event)" #fileInput type="file" id="file">
+
+                <app-button
+                    [label]="buttonLabel2"
+                    [color]="buttonColor2" 
+                    [type]="buttonType2"
+                    (click)="uploadFile()"
+                    >
+                </app-button>
+                <p class="success" *ngIf="uploaded">File Uploaded Successfully</p>
+                <p style="color: red;" *ngIf="uploadFailed">File Uploaded Failed</p>
+            </td>
+        </tr>
+        
+        <tr>
+        <!-- <span style="color: red;" *ngIf="notSame && addUser.controls['password'].dirty&&addUser.controls['repassword'].dirty">Password  mismatch </span> -->
+        <span style="color: red;" *ngIf="failed">Action adding failed</span>
+        <span style="color: green;" *ngIf="sent">Action Added Successfully</span>
+        </tr>
+        <tr class="clear:both;">
+            
+            <td>  
+                <app-button
+                    [label]="buttonLabel"
+                    [color]="buttonColor" 
+                    [type]="buttonType"
+                   
+                    (click)="actionSubmit()"
+                    >
+                </app-button>
+            </td>
+        </tr>
+    </table>
+
+</form>
