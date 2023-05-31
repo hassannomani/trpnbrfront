@@ -2,9 +2,16 @@
     float: right;
     width: 12%;
 }
+.semileft{
+    float: left;
+    width: 4%;
+}
+.semileft> i{
+    cursor: pointer;
+}
 .left{
     float: left;
-    width: 88%;
+    width: 84%;
 }
 .right> .text>.first{
     margin: 8px 0 3px 0;;

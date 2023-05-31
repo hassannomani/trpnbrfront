@@ -1,4 +1,4 @@
-<h3>Action</h3>
+<h2 class="title">Action</h2>
 
 <form class="example-form" [formGroup]="addAction" #formDir="ngForm" (ngSubmit)="actionSubmit()">
     <table class="example-full-width" cellspacing="0">
@@ -11,37 +11,51 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                <mat-label>Enter your message</mat-label>
-                <textarea matInput placeholder=""></textarea>
-            </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <mat-form-field class="example-full-width">
                 <mat-label>Type of Action</mat-label>
-                <mat-select>
+                <mat-select [value]="selected" formControlName="actionType">
                     <mat-option *ngFor="let type of type_of_message" [value]="type">
                       {{type}}
                     </mat-option>
                   </mat-select>                
                 </mat-form-field>
             </td>
-            <td>
-                <mat-form-field class="example-full-width">
-                <mat-label>Start of Action</mat-label>
-                <input matInput  formControlName="actionFrom" type="text"  placeholder="From">
-                </mat-form-field>
-            </td>
         </tr>
         <tr>
             <td>
                 <mat-form-field class="example-full-width">
-                <mat-label>End of Action</mat-label>
-                <input matInput  formControlName="actionFrom" type="text"  placeholder="To">
+                <mat-label>Subject</mat-label>
+                <input matInput  formControlName="messageTitle" type="text"  placeholder="Subject">
                 </mat-form-field>
             </td>
             <td>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Enter your message</mat-label>
+                    <textarea matInput placeholder="" formControlName="message"></textarea>
+                </mat-form-field>
+            </td>
+        <tr>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>Start of Action</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="actionFrom">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                <mat-label>End of Action</mat-label>
+                <input matInput [matDatepicker]="picker2" formControlName="actionTo">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr style="margin-top: 25px;">
+            
+            <td >
 
                 <input (change)="selectFile($event)" #fileInput type="file" id="file">
 
@@ -69,7 +83,6 @@
                     [label]="buttonLabel"
                     [color]="buttonColor" 
                     [type]="buttonType"
-                   
                     (click)="actionSubmit()"
                     >
                 </app-button>

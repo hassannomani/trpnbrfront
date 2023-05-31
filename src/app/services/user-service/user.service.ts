@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { CommonService } from '../common-service/common.service';
 
 export interface Roles {
   name:String
@@ -22,7 +23,8 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private localStorageServc: LocalStorageService
+    private localStorageServc: LocalStorageService,
+    private commonService: CommonService
   ) {}
   
 
@@ -67,41 +69,17 @@ export class UserService {
   }
 
   getAllUSers(): Observable<any[]>{
-    let obj = this.localStorageServc.getStorageItems()
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-        })
-  
-        const httpOptions = {
-          headers: headers_object
-        };
-        
-      return this.http.get<any[]>(this.url_list,httpOptions)
-    }else{
-      return this.http.get<any[]>(this.url)
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
     }
-
+    return this.http.get<any[]>(this.url_list,httpOptions)
   }
 
   getAllPendingUsers(): Observable<any[]>{
-    let obj = this.localStorageServc.getStorageItems()
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-        })
-  
-        const httpOptions = {
-          headers: headers_object
-        };
-        
-      return this.http.get<any[]>(this.url_pending_all,httpOptions)
-    }else{
-      return this.http.get<any[]>(this.url_pending_all)
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
     }
-
+    return this.http.get<any[]>(this.url_pending_all,httpOptions)
   }
 
   getAUser(username: String): Observable<any>{
@@ -124,23 +102,10 @@ export class UserService {
   }
 
   approvePendingUser(uuid:string): Observable<any>{
-    let obj = this.localStorageServc.getStorageItems()
-   
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-        })
-  
-        const httpOptions = {
-          headers: headers_object
-        };
-        
-      return this.http.get<any>(this.url_approve_representative+uuid,httpOptions)
-    }else{
-      return this.http.get<any>(this.url_approve_representative+uuid)
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
     }
-
+    return this.http.get<any>(this.url_approve_representative+uuid,httpOptions)
   }
 
   approvePendingUserByTin(username:string): Observable<any>{
@@ -164,42 +129,18 @@ export class UserService {
   }
 
   rejectPendingUser(uuid:string): Observable<any>{
-    let obj = this.localStorageServc.getStorageItems()
-   
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-        })
-  
-        const httpOptions = {
-          headers: headers_object
-        };
-        
-      return this.http.get<any>(this.url_reject_representative+uuid,httpOptions)
-    }else{
-      return this.http.get<any>(this.url_reject_representative+uuid)
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
     }
-
+        
+    return this.http.get<any>(this.url_reject_representative+uuid,httpOptions)
   }
 
   rejectPendingUserByTin(tin:string): Observable<any>{
-    let obj = this.localStorageServc.getStorageItems()
-   
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-        })
-  
-        const httpOptions = {
-          headers: headers_object
-        };
-        
-      return this.http.get<any>(this.url_reject_representative+tin,httpOptions)
-    }else{
-      return this.http.get<any>(this.url_reject_representative+tin)
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
     }
-
+      return this.http.get<any>(this.url_reject_representative+tin,httpOptions)
   }
+
 }

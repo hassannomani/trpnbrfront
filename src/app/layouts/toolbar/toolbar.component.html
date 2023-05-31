@@ -8,7 +8,14 @@
 
             Tax Return Preparer
         </h2>
+        <div class="semileft" *ngIf="isLoggedIn">
+            <i class="material-icons"  matBadge="{{unread}}" matBadgePosition="before" matBadgeColor="accent" (click)="seeMessages()"
+            >
+                mail
+            </i>
+        </div>
         <div class="right">
+            
             <div class="icon" *ngIf="isLoggedIn">
                 <i class="material-icons">account_circle</i>
             </div>

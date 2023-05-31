@@ -18,6 +18,8 @@ import { DashboardComponent } from './user/dashboard/dashboard.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
 import { ReturnSubmitComponent } from './submission/return-submit/return-submit.component';
 import { UserActionComponent } from './user/user-action/user-action.component';
+import { ActionListComponent } from './action/action-list/action-list.component';
+import { ActionSingleComponent } from './action/action-single/action-single.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -38,6 +40,8 @@ const routes: Routes = [
   {path: "report-admin", component: ReportAdminComponent},
   {path: "return-submit", component: ReturnSubmitComponent},
   {path: "user-action", component: UserActionComponent},
+  {path: "message-list", component: ActionListComponent},
+  {path: "message", component: ActionSingleComponent},
 
 ];
 

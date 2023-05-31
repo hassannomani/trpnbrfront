@@ -92,20 +92,23 @@ export class ApproveRepresentativeComponent implements OnInit{
     });
   }
 
-  reject(uuid : string, index: string){   
+  reject(username : string, index: string){   
  
-    this.userService.rejectPendingUser(uuid).subscribe({
-      next: (data) => {
-        if(data.uuid){
-          alert("User Rejected!")
-          this.ngOnInit()          
-        } 
-      },
-      error: (e) => {
-        this.approveFailed = true;
-        console.log(e)
-      } 
-    })
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['user-action'],{ queryParams: {username:username,deny:1}});
+    });
+    // this.userService.rejectPendingUser(uuid).subscribe({
+    //   next: (data) => {
+    //     if(data.uuid){
+    //       alert("User Rejected!")
+    //       this.ngOnInit()          
+    //     } 
+    //   },
+    //   error: (e) => {
+    //     this.approveFailed = true;
+    //     console.log(e)
+    //   } 
+    // })
   }
 
 }

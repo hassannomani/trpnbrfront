@@ -38,6 +38,8 @@ import { ReportAdminOutputComponent } from './report/report-admin-output/report-
 import { ReturnSubmitComponent } from './submission/return-submit/return-submit.component';
 import { ReturnAcknowledgementComponent } from './submission/return-acknowledgement/return-acknowledgement.component';
 import { UserActionComponent } from './user/user-action/user-action.component';
+import { ActionListComponent } from './action/action-list/action-list.component';
+import { ActionSingleComponent } from './action/action-single/action-single.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,9 @@ import { UserActionComponent } from './user/user-action/user-action.component';
     ReportAdminOutputComponent,
     ReturnSubmitComponent,
     ReturnAcknowledgementComponent,
-    UserActionComponent
+    UserActionComponent,
+    ActionListComponent,
+    ActionSingleComponent
   ],
   imports: [
     BrowserModule,
