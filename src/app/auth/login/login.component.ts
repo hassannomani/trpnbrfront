@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit{
   buttonColor: string = "primary"
   buttonType: string = "submit"
   errorMsg: string = ""
+  link: boolean = false
+  actionid : string = ""
   constructor(
     private signinService: SigninService,
     private router: Router,
@@ -67,8 +69,29 @@ export class LoginComponent implements OnInit{
           console.log(e.error)
           if(e.status==401)
             this.errorMsg = "Username or password doesn't match"
-          else
+          else if(e.status==403){
+            if(e.error.actionType!=undefined){
+              let errorType = e.error.actionType
+              if(errorType=="DENY")
+                this.errorMsg="Your registration has been denied"
+              else if(errorType=="BLOCK")
+                this.errorMsg="Your Account has been blocked"
+              else if(errorType=="SUSPEND")
+                this.errorMsg="Your Account has been suspended"
+              this.link = true
+              this.actionid = e.error.actionId
+              // if(e.attachment!=null&&e.attachment!=""){
+              //   this.link = true;
+              //   this.actionid = e.actionId
+              // }
+            }
+            else 
             this.errorMsg = e.error
+
+
+          } else {
+            this.errorMsg = e.error
+          }
           
             this.failed = true
 
@@ -76,8 +99,14 @@ export class LoginComponent implements OnInit{
         
       });
     }
+
+  
   }
     
-    
+  openLink(){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['message'],{ queryParams: {id: this.actionid}});
+    });
+  }
   
 }

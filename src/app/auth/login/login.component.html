@@ -61,6 +61,9 @@
          
         </div>
         <p style="color:red" *ngIf="failed">{{errorMsg}}</p>
+        <span (click)="openLink()" *ngIf="link">Click to Know More</span>
+        <!-- <mat-icon (click)="openPdf()" class="icon" *ngIf="link">attachment</mat-icon> -->
+
       </form>
     </div>
   </div>

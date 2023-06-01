@@ -37,7 +37,7 @@
             <td>
                 <mat-form-field class="example-full-width">
                 <mat-label>Start of Action</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="actionFrom">
+                <input matInput [matDatepicker]="picker" type="datetime-local" formControlName="actionFrom">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
