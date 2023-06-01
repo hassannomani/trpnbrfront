@@ -37,19 +37,30 @@
             <td>
                 <mat-form-field class="example-full-width">
                 <mat-label>Start of Action</mat-label>
-                <input matInput [matDatepicker]="picker" type="datetime-local" formControlName="actionFrom">
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <input matInput [ngxMatDatetimePicker]="picker" formControlName="actionFrom">
+                <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                   [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                   [touchUi]="touchUi" [enableMeridian]="enableMeridian" 
+                   [disableMinute]="disableMinute" [hideTime]="hideTime">
+                </ngx-mat-datetime-picker>
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field class="example-full-width">
                 <mat-label>End of Action</mat-label>
+                <input matInput [ngxMatDatetimePicker]="picker2" formControlName="actionTo">
+                <mat-datepicker-toggle matSuffix [for]="$any(picker2)"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #picker2 [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                   [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                   [touchUi]="touchUi" [enableMeridian]="enableMeridian" 
+                   [disableMinute]="disableMinute" [hideTime]="hideTime">
+                </ngx-mat-datetime-picker>
+                <!-- <mat-label>End of Action</mat-label>
                 <input matInput [matDatepicker]="picker2" formControlName="actionTo">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
+                <mat-datepicker #picker2></mat-datepicker> -->
                 </mat-form-field>
             </td>
         </tr>

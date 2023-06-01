@@ -20,6 +20,7 @@ import { ReturnSubmitComponent } from './submission/return-submit/return-submit.
 import { UserActionComponent } from './user/user-action/user-action.component';
 import { ActionListComponent } from './action/action-list/action-list.component';
 import { ActionSingleComponent } from './action/action-single/action-single.component';
+import { ActionListBlockedComponent } from './action/action-list-blocked/action-list-blocked.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
   {path: "user-action", component: UserActionComponent},
   {path: "message-list", component: ActionListComponent},
   {path: "message", component: ActionSingleComponent},
+  {path: "blocked-users", component: ActionListBlockedComponent},
 
 ];
 

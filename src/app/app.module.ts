@@ -40,6 +40,8 @@ import { ReturnAcknowledgementComponent } from './submission/return-acknowledgem
 import { UserActionComponent } from './user/user-action/user-action.component';
 import { ActionListComponent } from './action/action-list/action-list.component';
 import { ActionSingleComponent } from './action/action-single/action-single.component';
+import { ActionListBlockedComponent } from './action/action-list-blocked/action-list-blocked.component';
+import { ActionListDeniedComponent } from './action/action-list-denied/action-list-denied.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import { ActionSingleComponent } from './action/action-single/action-single.comp
     ReturnAcknowledgementComponent,
     UserActionComponent,
     ActionListComponent,
-    ActionSingleComponent
+    ActionSingleComponent,
+    ActionListBlockedComponent,
+    ActionListDeniedComponent
   ],
   imports: [
     BrowserModule,

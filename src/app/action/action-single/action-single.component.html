@@ -18,6 +18,7 @@
         <p class="text">
             {{messageReceived.message}}
         </p>
+        <p class="text">Suspension time: From {{messageReceived.actionFrom | date: 'short'}} To {{messageReceived.actionTo | date: 'short'}}</p>
         <app-button
         [label]="buttonLabel"
         [color]="buttonColor" 

@@ -17,6 +17,8 @@ export class ActionService {
   private url_post_action : string ='http://localhost:8080/api/action/save';
   private url_get_action_sts : string ='http://localhost:8080/api/action/status/';
   private url_get_action_msg : string ='http://localhost:8080/api/action/message/';
+  private url_get_blocked : string ='http://localhost:8080/api/users/blocked';
+  private url_get_unblock : string ='http://localhost:8080/api/users/unblock/';
 
   saveAction(formData: any): Observable<any>{
     const body=JSON.stringify(formData);
@@ -40,4 +42,19 @@ export class ActionService {
     return this.http.get<any>(this.url_get_action_msg+id,httpOptions)
   }
 
+  getBlockedUser(): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_get_blocked,httpOptions)
+  }
+
+  unBlockUser(tin : string): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_get_unblock+tin,httpOptions)
+  }
+
 }
+

@@ -31,6 +31,16 @@ export class UserActionComponent implements OnInit{
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   message : string = ""
   selected: string =""
+  public disabled = false;
+  public showSpinners = true;
+  public showSeconds = false;
+  public touchUi = false;
+  public enableMeridian = false;
+  public stepHour = 1;
+  public stepMinute = 1;
+  public stepSecond = 1;
+  public disableMinute = false;
+  public hideTime = false;
   addAction = new FormGroup({
     'sender' : new FormControl('',[Validators.required]),
     'receiver' : new FormControl('',[Validators.required]),
@@ -97,7 +107,7 @@ export class UserActionComponent implements OnInit{
   }
 
   actionSubmit(){
-    this.openSnackBar()
+    //this.openSnackBar()
     this.addAction.get("sender")?.setValue(this.sender)
     this.actionService.saveAction(this.addAction.value).subscribe({
       next: (data) => {
