@@ -37,7 +37,20 @@ export class ActionListBlockedComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.actionServc.getBlockedUser().subscribe({
+    this.getBlockedUsers()
+  }
+
+  openSnackBar() {
+    this._snackBar.open(this.message, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 5 * 1000,
+
+    });
+  }
+
+  getBlockedUsers(){
+    this.actionServc.getBlockedUser().subscribe({
       next: (data) => {
         if(data.length){
           this.messageList = data
@@ -45,6 +58,7 @@ export class ActionListBlockedComponent implements OnInit{
           console.log(this.messageList)
         } 
         else{
+          this.messageList = []
           this.message = "No Data found"
           this.openSnackBar()
         }
@@ -57,22 +71,13 @@ export class ActionListBlockedComponent implements OnInit{
     })
   }
 
-  openSnackBar() {
-    this._snackBar.open(this.message, 'x', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      duration: 5 * 1000,
-
-    });
-  }
-
-  unblock(tin :string){
+  unblock(tin :string, index: number){
     this.actionServc.unBlockUser(tin).subscribe({
       next: (data) => {
         if(data.uuid!=undefined){
           this.message = "User Successfully unblocked"
           this.openSnackBar()
-          this.ngOnInit()
+          this.getBlockedUsers()
         }else{
           this.message = "User unblocking failed"
           this.openSnackBar()

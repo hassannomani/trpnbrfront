@@ -18,7 +18,9 @@ export class ActionService {
   private url_get_action_sts : string ='http://localhost:8080/api/action/status/';
   private url_get_action_msg : string ='http://localhost:8080/api/action/message/';
   private url_get_blocked : string ='http://localhost:8080/api/users/blocked';
+  private url_get_denied : string ='http://localhost:8080/api/users/denied';
   private url_get_unblock : string ='http://localhost:8080/api/users/unblock/';
+  private url_get_undeny : string ='http://localhost:8080/api/users/tinapprove/';
 
   saveAction(formData: any): Observable<any>{
     const body=JSON.stringify(formData);
@@ -54,6 +56,20 @@ export class ActionService {
       headers: this.commonService.httpReturner()
     }
     return this.http.get<any>(this.url_get_unblock+tin,httpOptions)
+  }
+
+  getDeniedUser(): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_get_denied,httpOptions)
+  }
+
+  unDenyUser(tin : string): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_get_undeny+tin,httpOptions)
   }
 
 }

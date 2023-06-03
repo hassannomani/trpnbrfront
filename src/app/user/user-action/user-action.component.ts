@@ -76,6 +76,9 @@ export class UserActionComponent implements OnInit{
         let items = this.localStore.getStorageItems()
         this.sender = items.username?JSON.parse(items.username):""
         this.addAction.get("receiver")?.setValue(uname)
+        if(deny=="1")
+          this.addAction.get("actionType")?.setValue("DENY")
+        
         console.log(uname)
       }
       if(deny!=null){

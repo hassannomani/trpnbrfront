@@ -1,6 +1,7 @@
 import { Component, OnInit,ChangeDetectorRef,ChangeDetectionStrategy,NgZone } from '@angular/core';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 import {Title} from "@angular/platform-browser";
 
 @Component({
@@ -11,6 +12,9 @@ import {Title} from "@angular/platform-browser";
 
 })
 export class ApproveRepresentativeComponent implements OnInit{
+  
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   representativesArr: any[] = []
   loaded: boolean = true;
   zeroData : boolean = false;
@@ -25,18 +29,23 @@ export class ApproveRepresentativeComponent implements OnInit{
   buttonLabel2: string = "Reject"
   buttonType2: string = "button"
   buttonColor2: string = "warn"
+  message: string = ""
   helperArr: any =[]
   constructor(
     private userService: UserService,
     private router: Router,
-    private changeDetector: ChangeDetectorRef,
-    private zone: NgZone,
-    private titleService:Title
+    private titleService:Title,
+    private _snackBar: MatSnackBar
+
   ){
     this.titleService.setTitle("Approve TRP");
 
   }
   ngOnInit(): void {
+    this.getAllPendingTRPs()
+  }
+
+  getAllPendingTRPs(){
     this
     .userService
     .getAllPendingUsers()
@@ -44,43 +53,35 @@ export class ApproveRepresentativeComponent implements OnInit{
       next: (data) => {
         if(data.length){
           this.representativesArr = data
-          this.helperArr = data
-          this.loaded  = true
           this.displayedColumns = [ 'username','firstName','lastName','addedBy','addedDate','action']
         } 
         else{
-          this.zeroData = true
+          this.representativesArr = []
+          this.message = "No Data found"
+          this.openSnackBar()
         }
       },
       error: (e) => {
-        this.loaded = false;
+        this.message = "Data retrieving error"
+        this.openSnackBar()
       }  
     })
   }
 
-  approve(uuid : string, index: string){   
- 
-    // let data = this.helperArr.splice(parseInt(index),1)
-    // let dtemp  = data
-    // data = this.representativesArr
-    // //this.representativesArr = this.helperArr
-    // this.zone.run(()=>{
-    //       // this.helperArr = this.representativesArr
-    //       // console.log(this.helperArr)
-          
-    //       this.representativesArr=this.helperArr
-    //       //this.changeDetector.detectChanges();
-    // }) 
+  approve(uuid : string, index: string){    
 
     this.userService.approvePendingUser(uuid).subscribe({
       next: (data) => {
         if(data.uuid){
-          alert("User Approved!")
-          this.ngOnInit()          
+          this.message = "User successfully approved"
+          this.openSnackBar()
+          this.getAllPendingTRPs() 
+        
         } 
       },
       error: (e) => {
-        this.approveFailed = true;
+        this.message = "User approval failed";
+        this.openSnackBar()
         console.log(e)
       } 
     })
@@ -110,5 +111,27 @@ export class ApproveRepresentativeComponent implements OnInit{
     //   } 
     // })
   }
+
+  openSnackBar() {
+    this._snackBar.open(this.message, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 5 * 1000,
+
+    });
+  }
+
+      // let data = this.helperArr.splice(parseInt(index),1)
+    // let dtemp  = data
+    // data = this.representativesArr
+    // //this.representativesArr = this.helperArr
+    // this.zone.run(()=>{
+    //       // this.helperArr = this.representativesArr
+    //       // console.log(this.helperArr)
+          
+    //       this.representativesArr=this.helperArr
+    //       //this.changeDetector.detectChanges();
+    // }) 
+
 
 }
