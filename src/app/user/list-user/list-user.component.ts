@@ -88,4 +88,10 @@ export class ListUserComponent implements OnInit{
       this.router.navigate(['user-action'],{ queryParams: {username: username}});
     }); 
   }
+
+  actionDetails(id: string, username: string){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['action-history'],{ queryParams: {username: username}});
+    }); 
+  }
 }

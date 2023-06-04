@@ -42,6 +42,7 @@ import { ActionListComponent } from './action/action-list/action-list.component'
 import { ActionSingleComponent } from './action/action-single/action-single.component';
 import { ActionListBlockedComponent } from './action/action-list-blocked/action-list-blocked.component';
 import { ActionListDeniedComponent } from './action/action-list-denied/action-list-denied.component';
+import { ActionHistoryComponent } from './action/action-history/action-history.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { ActionListDeniedComponent } from './action/action-list-denied/action-li
     ActionListComponent,
     ActionSingleComponent,
     ActionListBlockedComponent,
-    ActionListDeniedComponent
+    ActionListDeniedComponent,
+    ActionHistoryComponent
   ],
   imports: [
     BrowserModule,
