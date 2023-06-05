@@ -43,6 +43,8 @@ import { ActionSingleComponent } from './action/action-single/action-single.comp
 import { ActionListBlockedComponent } from './action/action-list-blocked/action-list-blocked.component';
 import { ActionListDeniedComponent } from './action/action-list-denied/action-list-denied.component';
 import { ActionHistoryComponent } from './action/action-history/action-history.component';
+import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
+import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { ActionHistoryComponent } from './action/action-history/action-history.c
     ActionSingleComponent,
     ActionListBlockedComponent,
     ActionListDeniedComponent,
-    ActionHistoryComponent
+    ActionHistoryComponent,
+    AddMetricsComponent,
+    ListMetricsComponent
   ],
   imports: [
     BrowserModule,

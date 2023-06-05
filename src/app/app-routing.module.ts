@@ -23,6 +23,8 @@ import { ActionSingleComponent } from './action/action-single/action-single.comp
 import { ActionListBlockedComponent } from './action/action-list-blocked/action-list-blocked.component';
 import { ActionListDeniedComponent } from './action/action-list-denied/action-list-denied.component';
 import { ActionHistoryComponent } from './action/action-history/action-history.component';
+import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
+import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -48,6 +50,8 @@ const routes: Routes = [
   {path: "blocked-users", component: ActionListBlockedComponent},
   {path: "denied-users", component: ActionListDeniedComponent},
   {path: "action-history", component: ActionHistoryComponent},
+  {path: "list-metrics", component: ListMetricsComponent},
+  {path: "add-metrics", component: AddMetricsComponent},
 
 ];
 
