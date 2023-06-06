@@ -6,6 +6,8 @@ import { ActionService } from 'src/app/services/action-service/action.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 import { isNgTemplate } from '@angular/compiler';
+import { ConfirmDialogModel, ConfirmModalComponent } from 'src/app/layouts/confirm-modal/confirm-modal.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-action-list-denied',
@@ -30,7 +32,8 @@ export class ActionListDeniedComponent implements OnInit{
     private titleService:Title,
     private localStore: LocalStorageService,
     private actionServc: ActionService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog
   ){
     this.titleService.setTitle("Denied Users List");
   }
@@ -72,7 +75,7 @@ getDeniedList(){
     });
   }
 
-  undeny(username: string, index: string){
+  undeny(username: string, index: number){
     this.actionServc.unDenyUser(username).subscribe({
       next: (data) => {
         if(data.uuid!=undefined){
@@ -91,6 +94,23 @@ getDeniedList(){
       } 
     })
   
+  }
+
+  confirmDialog(tin :string, index: number): void {
+    const message = `Are you sure you want to approve?`;
+
+    const dialogData = new ConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      let result = dialogResult;
+      if(result==true)
+        this.undeny(tin,index)
+    });
   }
 
 }

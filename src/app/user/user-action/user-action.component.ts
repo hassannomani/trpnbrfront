@@ -31,6 +31,8 @@ export class UserActionComponent implements OnInit{
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   message : string = ""
   selected: string =""
+  subject: string = "Subject"
+  reason : string = "Reason"
   public disabled = false;
   public showSpinners = true;
   public showSeconds = false;
@@ -41,6 +43,7 @@ export class UserActionComponent implements OnInit{
   public stepSecond = 1;
   public disableMinute = false;
   public hideTime = false;
+  flag: boolean = true
   addAction = new FormGroup({
     'sender' : new FormControl('',[Validators.required]),
     'receiver' : new FormControl('',[Validators.required]),
@@ -76,8 +79,12 @@ export class UserActionComponent implements OnInit{
         let items = this.localStore.getStorageItems()
         this.sender = items.username?JSON.parse(items.username):""
         this.addAction.get("receiver")?.setValue(uname)
-        if(deny=="1")
+        if(deny=="1"){
+          this.subject = "Subject of Deny"
+          this.reason = "Reason of Deny"
           this.addAction.get("actionType")?.setValue("DENY")
+          this.flag = false
+        }
         
         console.log(uname)
       }
@@ -141,5 +148,29 @@ export class UserActionComponent implements OnInit{
       duration: 5 * 1000,
 
     });
+  }
+
+  selectOption(value: any){
+    if(value=="DENY"){
+      this.subject = "Subject of Deny"
+      this.reason = "Reason of Deny"
+      this.flag = false
+
+    }else if(value=="BLOCK"){
+      this.subject = "Subject of Block"
+      this.reason = "Reason of Block"
+      this.flag = false
+
+    }else if(value=="SUSPEND"){
+      this.subject = "Subject of Suspend"
+      this.reason = "Reason of Suspend"
+      this.flag = true
+
+    }else{
+      this.subject = "Subject of Warning"
+      this.reason = "Reason of Warning"
+      this.flag = false
+
+    }
   }
 }

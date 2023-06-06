@@ -12,7 +12,7 @@
             <td>
                 <mat-form-field class="example-full-width">
                 <mat-label>Type of Action</mat-label>
-                <mat-select [value]="selected" formControlName="actionType">
+                <mat-select [value]="selected" formControlName="actionType" (selectionChange)="selectOption($event.value)">
                     <mat-option *ngFor="let type of type_of_message" [value]="type">
                       {{type}}
                     </mat-option>
@@ -23,17 +23,17 @@
         <tr>
             <td>
                 <mat-form-field class="example-full-width">
-                <mat-label>Subject</mat-label>
+                <mat-label>{{subject}} </mat-label>
                 <input matInput  formControlName="messageTitle" type="text"  placeholder="Subject">
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <mat-label>Enter your message</mat-label>
+                    <mat-label>{{reason}}</mat-label>
                     <textarea matInput placeholder="" formControlName="message"></textarea>
                 </mat-form-field>
             </td>
-        <tr>
+        <tr *ngIf="flag">
             <td>
                 <mat-form-field class="example-full-width">
                 <mat-label>Start of Action</mat-label>
@@ -49,7 +49,7 @@
             <td>
                 <mat-form-field class="example-full-width">
                 <mat-label>End of Action</mat-label>
-                <input matInput [ngxMatDatetimePicker]="picker2" formControlName="actionTo">
+                <input matInput [ngxMatDatetimePicker]="picker2" formControlName="actionTo" >
                 <mat-datepicker-toggle matSuffix [for]="$any(picker2)"></mat-datepicker-toggle>
                 <ngx-mat-datetime-picker #picker2 [showSpinners]="showSpinners" [showSeconds]="showSeconds"
                    [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"

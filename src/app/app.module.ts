@@ -45,6 +45,7 @@ import { ActionListDeniedComponent } from './action/action-list-denied/action-li
 import { ActionHistoryComponent } from './action/action-history/action-history.component';
 import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
 import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
+import { ConfirmModalComponent } from './layouts/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.compon
     ActionListDeniedComponent,
     ActionHistoryComponent,
     AddMetricsComponent,
-    ListMetricsComponent
+    ListMetricsComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
