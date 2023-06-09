@@ -46,6 +46,7 @@ import { ActionHistoryComponent } from './action/action-history/action-history.c
 import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
 import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
 import { ConfirmModalComponent } from './layouts/confirm-modal/confirm-modal.component';
+import { DataSavedModalComponent } from './layouts/data-saved-modal/data-saved-modal.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { ConfirmModalComponent } from './layouts/confirm-modal/confirm-modal.com
     ActionHistoryComponent,
     AddMetricsComponent,
     ListMetricsComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    DataSavedModalComponent
   ],
   imports: [
     BrowserModule,

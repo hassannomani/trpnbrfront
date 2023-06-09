@@ -10,6 +10,8 @@ import {Title} from "@angular/platform-browser";
 import { MatDialog } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { UsernameNotFoundRedirectComponent } from 'src/app/dialogs/username-not-found-redirect/username-not-found-redirect.component';
+import { ConfirmDialogModel } from 'src/app/layouts/confirm-modal/confirm-modal.component';
+import { DataSavedModalComponent } from 'src/app/layouts/data-saved-modal/data-saved-modal.component';
 @Component({
   selector: 'app-add-agent',
   templateUrl: './add-agent.component.html',
@@ -44,6 +46,11 @@ export class AddAgentComponent implements OnInit{
       'broad': new FormControl('',[Validators.required]),
       'bblock': new FormControl('',[Validators.required]),
       'bward': new FormControl('',[Validators.required]),
+      'bcitycorporation': new FormControl('',[Validators.required]),
+      'bvillageUnion': new FormControl('',[Validators.required]),
+      'bothers': new FormControl('',[Validators.required]),
+      'bflat': new FormControl('',[Validators.required]),
+      'bcheck': new FormControl('',[Validators.required]),
       'prdivision': new FormControl('',[Validators.required]),
       'prdistrict': new FormControl('',[Validators.required]),
       'prthana': new FormControl('',[Validators.required]),
@@ -51,6 +58,11 @@ export class AddAgentComponent implements OnInit{
       'prroad': new FormControl('',[Validators.required]),
       'prblock': new FormControl('',[Validators.required]),
       'prward': new FormControl('',[Validators.required]),
+      'prothers': new FormControl('',[Validators.required]),
+      'prcheck': new FormControl('',[Validators.required]),
+      'prflat': new FormControl('',[Validators.required]),
+      'prcitycorporation': new FormControl('',[Validators.required]),
+      'prvillageUnion': new FormControl('',[Validators.required]),
       'pmdivision': new FormControl('',[Validators.required]),
       'pmdistrict': new FormControl('',[Validators.required]),
       'pmthana': new FormControl('',[Validators.required]),
@@ -58,6 +70,11 @@ export class AddAgentComponent implements OnInit{
       'pmroad': new FormControl('',[Validators.required]),
       'pmblock': new FormControl('',[Validators.required]),
       'pmward': new FormControl('',[Validators.required]),
+      'pmothers': new FormControl('',[Validators.required]),
+      'pmcheck': new FormControl('',[Validators.required]),
+      'pmflat': new FormControl('',[Validators.required]),
+      'pmcitycorporation': new FormControl('',[Validators.required]),
+      'pmvillageUnion': new FormControl('',[Validators.required]),
       'checked': new FormControl('',[Validators.required]),
       'contactPhoto': new FormControl('',[Validators.required]),
       'address': new FormControl(<Object>[]),
@@ -84,6 +101,7 @@ export class AddAgentComponent implements OnInit{
     buttonTypePh: string = "button"
     division: any[] = []
     district: any[] = []
+    citycorporation : any[] = []
     thana: any[] = []
     bankInfo: any=[]
     index: any = 0
@@ -105,6 +123,11 @@ export class AddAgentComponent implements OnInit{
     enable3: boolean = false
     file!: File;
     file_list: Array<string> = [];
+    bcccheck: boolean = false
+    pmcccheck: boolean = false
+    prcccheck: boolean = false
+    modalTitle: string = ""
+    modalMessage: string= ""
     constructor(
       private agentService: AgentService,  
       private commonService: CommonService, 
@@ -156,7 +179,14 @@ export class AddAgentComponent implements OnInit{
       
 
       this.onTabChanged();
-      forkJoin([this.commonService.getDistrict(),this.commonService.getDivision(),this.commonService.getThana(),this.commonService.getBank(),this.commonService.getBankDist()])
+      forkJoin([
+        this.commonService.getDistrict(),
+        this.commonService.getDivision(),
+        this.commonService.getThana(),
+        this.commonService.getBank(),
+        this.commonService.getBankDist(),
+        this.commonService.getCityCorp(),
+      ])
       .subscribe({
         next: (data) => {
           //console.log(data)
@@ -165,6 +195,7 @@ export class AddAgentComponent implements OnInit{
           this.thana = data[2];
           this.banks = data[3];
           this.bankdist = data[4];
+          this.citycorporation = data[5]
         },
         error: (e) => {
          
@@ -186,13 +217,22 @@ export class AddAgentComponent implements OnInit{
           if(data?.id!=""){ //uuid
             this.success = true;
             this.addAgent.reset()
+            this.modalMessage = "Agent Successfully added!"
+            this.modalTitle = "Success!"
+            this.alertDialog()
           } 
           else{
             this.failed = true
+            this.modalMessage = "Agent adding failed!"
+            this.modalTitle = "Failed!"
+            this.alertDialog()
           }
         },
         error: (e) => {
           this.failed = true
+          this.modalMessage = "Error!"
+          this.modalTitle = "Error Ocurred! Please try again later"
+          this.alertDialog()
         }
         
       });
@@ -212,8 +252,12 @@ export class AddAgentComponent implements OnInit{
         thana: this.addAgent.value['prthana'],
         house: this.addAgent.value['prhouse'],
         road: this.addAgent.value['prroad'],
-        block: this.addAgent.value['prroad'],
-        ward: this.addAgent.value['prroad'],
+        block: this.addAgent.value['prblock'],
+        ward: this.addAgent.value['prward'],
+        flat: this.addAgent.value['prflat'],
+        villageUnion: this.addAgent.value['prvillageUnion'],
+        citycorporation: this.addAgent.value['prcitycorporation'],
+        others: this.addAgent.value['prothers'],
         addedBy: "ADMIN" 
       }
       let businessobj={
@@ -223,8 +267,12 @@ export class AddAgentComponent implements OnInit{
         thana: this.addAgent.value['bthana'],
         house: this.addAgent.value['bhouse'],
         road: this.addAgent.value['broad'],
-        block: this.addAgent.value['broad'],
-        ward: this.addAgent.value['broad'],
+        block: this.addAgent.value['bblock'],
+        ward: this.addAgent.value['bward'],
+        flat: this.addAgent.value['bflat'],
+        villageUnion: this.addAgent.value['bvillageUnion'],
+        citycorporation: this.addAgent.value['bcitycorporation'],
+        others: this.addAgent.value['bothers'],
         addedBy: "ADMIN" 
       }
       let permanentobj={
@@ -234,8 +282,12 @@ export class AddAgentComponent implements OnInit{
         thana: this.addAgent.value['pmthana'],
         house: this.addAgent.value['pmhouse'],
         road: this.addAgent.value['pmroad'],
-        block: this.addAgent.value['pmroad'],
-        ward: this.addAgent.value['pmroad'],
+        block: this.addAgent.value['pmblock'],
+        ward: this.addAgent.value['pmward'],
+        flat: this.addAgent.value['pmflat'],
+        villageUnion: this.addAgent.value['pmvillageUnion'],
+        citycorporation: this.addAgent.value['pmcitycorporation'],
+        others: this.addAgent.value['pmothers'],
         addedBy: "ADMIN" 
       }
     //this.agentService.addAddress
@@ -423,43 +475,85 @@ export class AddAgentComponent implements OnInit{
       });
     }
 
-    checkAddress($event:any){
+    checkAddress(completed: boolean){
+      if(completed){
+        let pmroad= this.addAgent.value['pmroad']
+        if(pmroad!=null)
+          this.addAgent.get('prroad')?.setValue(pmroad)
+  
+        let pmhouse= this.addAgent.value['pmhouse']
+        if(pmhouse!=null)
+          this.addAgent.get('prhouse')?.setValue(pmhouse)
+  
+        let pmblock= this.addAgent.value['pmblock']
+        if(pmblock!=null)
+          this.addAgent.get('prblock')?.setValue(pmblock)
+  
+        let pmward= this.addAgent.value['pmward']
+        if(pmward!=null)
+          this.addAgent.get('prward')?.setValue(pmward)
+        
+        let div = this.addAgent.value['pmdivision']
+        console.log(div)
+  
+        if(div!=null)
+          this.addAgent.get('prdivision')?.setValue(div)
+  
+        this.prdivisionChange(div)
+  
+        let dist = this.addAgent.value['pmdistrict']
+        console.log(dist)
+        console.log(this.prDistrict)
+        if(dist!=null)
+          this.addAgent.get('prdistrict')?.setValue(dist)
+        this.prdistrictChange(dist)
+        
+        let thana = this.addAgent.value['pmthana']
+        if(thana!=null)
+          this.addAgent.get('prthana')?.setValue(thana)
+
+        let others = this.addAgent.value['pmothers']
+        if(others!=null)
+            this.addAgent.get('prothers')?.setValue(others)
+        
+        let union = this.addAgent.value['pmvillageUnion']
+        if(union!=null)
+            this.addAgent.get('prvillageUnion')?.setValue(union)
+    
+        let check = this.addAgent.value['pmcheck']
+        if(check!=null)
+        this.addAgent.get('prcheck')?.setValue(check)
+    
+        if(this.pmcccheck){
+          this.prcccheck = true
+          let cc = this.addAgent.value['pmcitycorporation']
+          if(cc!=null)
+          this.addAgent.get('prcitycorporation')?.setValue(cc)
+    
+        }
+        let flat = this.addAgent.value['pmflat']
+        if(flat!=null){
+          this.addAgent.get('prflat')?.setValue(flat)
+        }
+    
+  
+      }else{
+        this.addAgent.controls['prward'].reset()
+        this.addAgent.controls['prdivision'].reset()
+        this.addAgent.controls['prdistrict'].reset()
+        this.addAgent.controls['prthana'].reset()
+        this.addAgent.controls['prvillageUnion'].reset()
+        this.addAgent.controls['prhouse'].reset()
+        this.addAgent.controls['prflat'].reset()
+        this.addAgent.controls['prroad'].reset()
+        this.addAgent.controls['prblock'].reset()
+        this.addAgent.controls['prothers'].reset()
+        this.addAgent.controls['prcitycorporation'].reset()
+        this.addAgent.controls['prcheck'].reset()
+        this.prcccheck = false
+      }
       //console.log(this.addAgent.value['checked'])
-      let pmroad= this.addAgent.value['pmroad']
-      if(pmroad!=null)
-        this.addAgent.get('prroad')?.setValue(pmroad)
-
-      let pmhouse= this.addAgent.value['pmhouse']
-      if(pmhouse!=null)
-        this.addAgent.get('prhouse')?.setValue(pmhouse)
-
-      let pmblock= this.addAgent.value['pmblock']
-      if(pmblock!=null)
-        this.addAgent.get('prblock')?.setValue(pmblock)
-
-      let pmward= this.addAgent.value['pmward']
-      if(pmward!=null)
-        this.addAgent.get('prward')?.setValue(pmward)
-      
-      let div = this.addAgent.value['pmdivision']
-      console.log(div)
-
-      if(div!=null)
-        this.addAgent.get('prdivision')?.setValue(div)
-
-      this.prdivisionChange(div)
-
-      let dist = this.addAgent.value['pmdistrict']
-      console.log(dist)
-      console.log(this.prDistrict)
-      if(dist!=null)
-        this.addAgent.get('prdistrict')?.setValue(dist)
-      this.prdistrictChange(dist)
-      
-      let thana = this.addAgent.value['pmthana']
-      if(thana!=null)
-        this.addAgent.get('prthana')?.setValue(thana)
-
+     
     }
 
 
@@ -480,6 +574,38 @@ export class AddAgentComponent implements OnInit{
         error: (e) => {
           console.log(e);
         }
+      });
+    }
+
+    setBCheck(completed: boolean){
+      if(completed)
+        this.bcccheck = true
+      else
+        this.bcccheck = false
+  
+    }
+    setPmCheck(completed: boolean){
+      if(completed)
+        this.pmcccheck = true
+      else
+        this.pmcccheck = false
+  
+    }
+    setPrCheck(completed: boolean){
+      if(completed)
+        this.prcccheck = true
+      else
+        this.prcccheck = false
+  
+    }
+  
+    alertDialog(): void {
+  
+      const dialogData = new ConfirmDialogModel(this.modalTitle, this.modalMessage);
+  
+      const dialogRef = this.dialog.open(DataSavedModalComponent, {
+        maxWidth: "600px",
+        data: dialogData
       });
     }
   

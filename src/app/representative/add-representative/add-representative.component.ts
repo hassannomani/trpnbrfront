@@ -10,6 +10,9 @@ import { AgentService } from 'src/app/services/agent-service/agent.service';
 import { Router } from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import { formatDate } from '@angular/common' 
+import { ConfirmDialogModel } from 'src/app/layouts/confirm-modal/confirm-modal.component';
+import { DataSavedModalComponent } from 'src/app/layouts/data-saved-modal/data-saved-modal.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-representative',
@@ -50,7 +53,12 @@ export class AddRepresentativeComponent implements OnInit{
     'bhouse': new FormControl('',[Validators.required]),
     'broad': new FormControl('',[Validators.required]),
     'bblock': new FormControl('',[Validators.required]),
+    'bcitycorporation': new FormControl('',[Validators.required]),
+    'bvillageUnion': new FormControl('',[Validators.required]),
     'bward': new FormControl('',[Validators.required]),
+    'bothers': new FormControl('',[Validators.required]),
+    'bflat': new FormControl('',[Validators.required]),
+    'bcheck': new FormControl('',[Validators.required]),
     'prdivision': new FormControl('',[Validators.required]),
     'prdistrict': new FormControl('',[Validators.required]),
     'prthana': new FormControl('',[Validators.required]),
@@ -58,6 +66,11 @@ export class AddRepresentativeComponent implements OnInit{
     'prroad': new FormControl('',[Validators.required]),
     'prblock': new FormControl('',[Validators.required]),
     'prward': new FormControl('',[Validators.required]),
+    'prothers': new FormControl('',[Validators.required]),
+    'prcheck': new FormControl('',[Validators.required]),
+    'prflat': new FormControl('',[Validators.required]),
+    'prcitycorporation': new FormControl('',[Validators.required]),
+    'prvillageUnion': new FormControl('',[Validators.required]),
     'pmdivision': new FormControl('',[Validators.required]),
     'pmdistrict': new FormControl('',[Validators.required]),
     'pmthana': new FormControl('',[Validators.required]),
@@ -65,6 +78,11 @@ export class AddRepresentativeComponent implements OnInit{
     'pmroad': new FormControl('',[Validators.required]),
     'pmblock': new FormControl('',[Validators.required]),
     'pmward': new FormControl('',[Validators.required]),
+    'pmothers': new FormControl('',[Validators.required]),
+    'pmcheck': new FormControl('',[Validators.required]),
+    'pmflat': new FormControl('',[Validators.required]),
+    'pmcitycorporation': new FormControl('',[Validators.required]),
+    'pmvillageUnion': new FormControl('',[Validators.required]),
     'checked': new FormControl('',[Validators.required]),
     'display': new FormControl('',[Validators.required]),
     'trpId': new FormControl('',[Validators.required]),
@@ -110,6 +128,7 @@ export class AddRepresentativeComponent implements OnInit{
   buttonType4: string = "button"
   division: any[] = []
   district: any[] = []
+  citycorporation : any[] = []
   thana: any[] = []
   bankInfo: any=[]
   index: any = 0
@@ -137,6 +156,11 @@ export class AddRepresentativeComponent implements OnInit{
   file!: File;
   photo!: File;
   file_list: Array<string> = [];
+  bcccheck: boolean = false
+  pmcccheck: boolean = false
+  prcccheck: boolean = false
+  modalTitle: string = ""
+  modalMessage: string= ""
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -144,7 +168,8 @@ export class AddRepresentativeComponent implements OnInit{
     private router: Router,
     private userService: UserService,
     private agentService: AgentService,
-    private titleService:Title
+    private titleService:Title,
+    public dialog: MatDialog,
  
   ){
     this.titleService.setTitle
@@ -165,7 +190,9 @@ export class AddRepresentativeComponent implements OnInit{
         this.userService.getRoles(),
         this.agentService.getAgentInfo(JSON.parse(this.localStore.username)),
         this.commonService.getBank(),
-        this.commonService.getBankDist()])
+        this.commonService.getBankDist(),
+        this.commonService.getCityCorp(),
+      ])
       .subscribe({
         next: (data) => {
           //console.log(data)
@@ -176,6 +203,7 @@ export class AddRepresentativeComponent implements OnInit{
           this.agentId = JSON.parse(this.localStore.username);
           this.banks = data[5];
           this.bankdist = data[6];
+          this.citycorporation = data[7];
         },
         error: (e) => {
          
@@ -248,16 +276,26 @@ export class AddRepresentativeComponent implements OnInit{
                 this.success = true;
                 this.saving = false
                 this.addRepresentative.reset()
+                this.modalMessage = "TRP Successfully Added"
+                this.modalTitle = "Success!"
+                this.alertDialog()
                 this.failed=false;
               } 
               else{
                 this.saving = false
                 this.failed = true
+                this.modalMessage = "TRP Adding Failed"
+                this.modalTitle = "Failed!"
+                this.alertDialog()
               }
             },
             error: (e) => {
+              console.log(e)
               this.failed = true
               this.saving = false
+              this.modalMessage = "Error occurred. Please try again later!"
+              this.modalTitle = "Error!"
+              this.alertDialog()
 
             }
 
@@ -295,8 +333,12 @@ export class AddRepresentativeComponent implements OnInit{
       thana: this.addRepresentative.value['prthana'],
       house: this.addRepresentative.value['prhouse'],
       road: this.addRepresentative.value['prroad'],
-      block: this.addRepresentative.value['prroad'],
-      ward: this.addRepresentative.value['prroad'],
+      block: this.addRepresentative.value['prblock'],
+      ward: this.addRepresentative.value['prward'],
+      flat: this.addRepresentative.value['prflat'],
+      villageUnion: this.addRepresentative.value['prvillageUnion'],
+      citycorporation: this.addRepresentative.value['prcitycorporation'],
+      others: this.addRepresentative.value['prothers'],
       addedBy: "AGENT" 
     }
     let businessobj={
@@ -306,8 +348,12 @@ export class AddRepresentativeComponent implements OnInit{
       thana: this.addRepresentative.value['bthana'],
       house: this.addRepresentative.value['bhouse'],
       road: this.addRepresentative.value['broad'],
-      block: this.addRepresentative.value['broad'],
-      ward: this.addRepresentative.value['broad'],
+      block: this.addRepresentative.value['bblock'],
+      ward: this.addRepresentative.value['bward'],
+      flat: this.addRepresentative.value['bflat'],
+      villageUnion: this.addRepresentative.value['bvillageUnion'],
+      citycorporation: this.addRepresentative.value['bcitycorporation'],
+      others: this.addRepresentative.value['bothers'],
       addedBy: "AGENT" 
     }
     let permanentobj={
@@ -317,8 +363,12 @@ export class AddRepresentativeComponent implements OnInit{
       thana: this.addRepresentative.value['pmthana'],
       house: this.addRepresentative.value['pmhouse'],
       road: this.addRepresentative.value['pmroad'],
-      block: this.addRepresentative.value['pmroad'],
-      ward: this.addRepresentative.value['pmroad'],
+      block: this.addRepresentative.value['pmblock'],
+      ward: this.addRepresentative.value['pmward'],
+      flat: this.addRepresentative.value['pmflat'],
+      villageUnion: this.addRepresentative.value['pmvillageUnion'],
+      citycorporation: this.addRepresentative.value['pmcitycorporation'],
+      others: this.addRepresentative.value['pmothers'],
       addedBy: "AGENT" 
     }
   //this.agentService.addAddress
@@ -527,41 +577,87 @@ export class AddRepresentativeComponent implements OnInit{
     }
   }
 
-  checkAddress($event:any){
-    let pmward= this.addRepresentative.value['pmward']
-    if(pmward!=null)
-      this.addRepresentative.get('prward')?.setValue(pmward)
-  
-    let pmroad= this.addRepresentative.value['pmroad']
-    if(pmroad!=null)
-      this.addRepresentative.get('prroad')?.setValue(pmroad)
+  checkAddress(completed:boolean){
+   
+    if(completed==true){
 
-    let pmhouse= this.addRepresentative.value['pmhouse']
-    if(pmhouse!=null)
-      this.addRepresentative.get('prhouse')?.setValue(pmhouse)
-
-    let pmblock= this.addRepresentative.value['pmblock']
-    if(pmblock!=null)
-      this.addRepresentative.get('prblock')?.setValue(pmblock)
-      
-    let div = this.addRepresentative.value['pmdivision']
-    console.log(div)
-
-    if(div!=null)
-      this.addRepresentative.get('prdivision')?.setValue(div)
-
-    this.prdivisionChange(div)
-
-    let dist = this.addRepresentative.value['pmdistrict']
-    console.log(dist)
-    console.log(this.prDistrict)
-    if(dist!=null)
-      this.addRepresentative.get('prdistrict')?.setValue(dist)
-    this.prdistrictChange(dist)
+      let pmward= this.addRepresentative.value['pmward']
+      if(pmward!=null)
+        this.addRepresentative.get('prward')?.setValue(pmward)
     
-    let thana = this.addRepresentative.value['pmthana']
-    if(thana!=null)
-      this.addRepresentative.get('prthana')?.setValue(thana)
+      let pmroad= this.addRepresentative.value['pmroad']
+      if(pmroad!=null)
+        this.addRepresentative.get('prroad')?.setValue(pmroad)
+
+      let pmhouse= this.addRepresentative.value['pmhouse']
+      if(pmhouse!=null)
+        this.addRepresentative.get('prhouse')?.setValue(pmhouse)
+
+      let pmblock= this.addRepresentative.value['pmblock']
+      if(pmblock!=null)
+        this.addRepresentative.get('prblock')?.setValue(pmblock)
+        
+      let div = this.addRepresentative.value['pmdivision']
+      console.log(div)
+
+      if(div!=null)
+        this.addRepresentative.get('prdivision')?.setValue(div)
+
+      this.prdivisionChange(div)
+
+      let dist = this.addRepresentative.value['pmdistrict']
+      console.log(dist)
+      console.log(this.prDistrict)
+      if(dist!=null)
+        this.addRepresentative.get('prdistrict')?.setValue(dist)
+      this.prdistrictChange(dist)
+      
+      let thana = this.addRepresentative.value['pmthana']
+      if(thana!=null)
+        this.addRepresentative.get('prthana')?.setValue(thana)
+
+        
+      let others = this.addRepresentative.value['pmothers']
+      if(others!=null)
+          this.addRepresentative.get('prothers')?.setValue(others)
+      
+      let union = this.addRepresentative.value['pmvillageUnion']
+      if(union!=null)
+          this.addRepresentative.get('prvillageUnion')?.setValue(union)
+
+      let check = this.addRepresentative.value['pmcheck']
+      if(check!=null)
+      this.addRepresentative.get('prcheck')?.setValue(check)
+
+      if(this.pmcccheck){
+        this.prcccheck = true
+        let cc = this.addRepresentative.value['pmcitycorporation']
+        if(cc!=null)
+        this.addRepresentative.get('prcitycorporation')?.setValue(cc)
+
+      }
+      let flat = this.addRepresentative.value['pmflat']
+      if(flat!=null){
+        this.addRepresentative.get('prflat')?.setValue(flat)
+      }
+
+    } else{
+      this.addRepresentative.controls['prward'].reset()
+      this.addRepresentative.controls['prdivision'].reset()
+      this.addRepresentative.controls['prdistrict'].reset()
+      this.addRepresentative.controls['prthana'].reset()
+      this.addRepresentative.controls['prvillageUnion'].reset()
+      this.addRepresentative.controls['prhouse'].reset()
+      this.addRepresentative.controls['prflat'].reset()
+      this.addRepresentative.controls['prroad'].reset()
+      this.addRepresentative.controls['prblock'].reset()
+      this.addRepresentative.controls['prothers'].reset()
+      this.addRepresentative.controls['prcitycorporation'].reset()
+      this.addRepresentative.controls['prcheck'].reset()
+      this.prcccheck = false
+    }
+    
+
   }
   verify(){
     let username = this.addUser.value["username"]?this.addUser.value["username"]:""
@@ -645,6 +741,38 @@ export class AddRepresentativeComponent implements OnInit{
       error: (e) => {
         console.log(e);
       }
+    });
+  }
+
+  setBCheck(completed: boolean){
+    if(completed)
+      this.bcccheck = true
+    else
+      this.bcccheck = false
+
+  }
+  setPmCheck(completed: boolean){
+    if(completed)
+      this.pmcccheck = true
+    else
+      this.pmcccheck = false
+
+  }
+  setPrCheck(completed: boolean){
+    if(completed)
+      this.prcccheck = true
+    else
+      this.prcccheck = false
+
+  }
+
+  alertDialog(): void {
+
+    const dialogData = new ConfirmDialogModel(this.modalTitle, this.modalMessage);
+
+    const dialogRef = this.dialog.open(DataSavedModalComponent, {
+      maxWidth: "400px",
+      data: dialogData
     });
   }
 }

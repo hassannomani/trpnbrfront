@@ -21,6 +21,7 @@ export class CommonService {
   private urladdbank : string ='http://localhost:8080/api/bank/add';
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
   private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
+  private urlcitycorp : string ='http://localhost:8080/api/common/citycorporation';
   private urlfile : string ='http://localhost:8080/api/common/file';
   private urlPhoto : string ='http://localhost:8080/api/common/photo';
   private urlfileget : string ='http://localhost:8080/api/common/file/';
@@ -206,6 +207,16 @@ export class CommonService {
     };
   
     return this.http.get<any[]>(this.urlbankbranches+name+"/"+district,httpOptions)
+    
+  }
+
+  getCityCorp(): Observable<any[]>{
+
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+  
+    return this.http.get<any[]>(this.urlcitycorp,httpOptions)
     
   }
 

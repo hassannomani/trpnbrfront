@@ -86,11 +86,14 @@
           <div *ngFor="let address of representative.re_address">
             <h3 style="text-align: center;">Address Type: {{address.type}}</h3>
             <p>District: {{address.district}}</p>
+            <p>City Corporation: {{address.citycorporation}}</p>
             <p>Thana: {{address.thana}}</p>
-            <p>House: {{address.house}}</p>
-            <p>Road: {{address.road}}</p>
-            <p>House: {{address.block}}</p>
+            <p>Union: {{address.villageUnion}}</p>
             <p>Ward: {{address.ward}}</p>
+            <p>Road: {{address.road}}</p>
+            <p>Block: {{address.block}}</p>
+            <p>House: {{address.house}}</p>
+            <p>Flat: {{address.flat}}</p>
             <p>Date Added: {{address.addedDate | date}}</p> 
           </div>
           <mat-action-row>

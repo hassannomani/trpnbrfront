@@ -137,6 +137,21 @@
                         </mat-form-field>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                            <mat-checkbox class="example-margin" formControlName="bcheck" (change)="setBCheck($event.checked)">Is Your Address inside City Corporation?</mat-checkbox>
+                
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill" matInput class="example-full-width" *ngIf="bcccheck">
+                            <mat-label>Select City Corporation</mat-label>
+                            <mat-select matNativeControl required formControlName="bcitycorporation" >
+                                <mat-option value="">--Select--</mat-option>
+                                <mat-option *ngFor="let cc of citycorporation" [value]="cc.name">{{cc.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
                 <tr>      
                     <td>
                         <mat-form-field appearance="fill" matInput class="example-full-width">
@@ -149,8 +164,8 @@
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Ward</mat-label>
-                        <input matInput  formControlName="bward" type="text"  placeholder="Business Address- Ward">
+                        <mat-label>Union/Area</mat-label>
+                        <input matInput  formControlName="bvillageUnion" type="text"  placeholder="Business Address- Union">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -158,8 +173,24 @@
                 <tr>
                     <td>
                         <mat-form-field class="example-full-width">
+                        <mat-label>Ward</mat-label>
+                        <input matInput  formControlName="bward" type="text"  placeholder="Business Address- Ward">
+                        </mat-form-field>
+                    </td>
+
+                    <td>
+                        <mat-form-field class="example-full-width">
                         <mat-label>House</mat-label>
                         <input matInput  formControlName="bhouse" type="text"  placeholder="Business Address- House">
+                        </mat-form-field>
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Flat</mat-label>
+                        <input matInput  formControlName="bflat" type="text"  placeholder="Business Address- Flat">
                         </mat-form-field>
                     </td>
                     <td>
@@ -168,12 +199,19 @@
                         <input matInput  formControlName="broad" type="text"  placeholder="Business Address- Road">
                         </mat-form-field>
                     </td>
+                   
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field class="example-full-width">
                         <mat-label>Block</mat-label>
                         <input matInput  formControlName="bblock" type="text"  placeholder="Business Address- Block">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Others</mat-label>
+                        <input matInput  formControlName="bothers" type="text"  placeholder="Business Address- Others">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -202,7 +240,23 @@
                             </mat-select>
                         </mat-form-field>
                     </td>
-                </tr>     
+                </tr> 
+                
+                <tr>
+                    <td>
+                            <mat-checkbox class="example-margin" formControlName="pmcheck" (change)="setPmCheck($event.checked)">Is Your Address inside City Corporation?</mat-checkbox>
+                
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill" matInput class="example-full-width" *ngIf="pmcccheck">
+                            <mat-label>Select City Corporation</mat-label>
+                            <mat-select matNativeControl required formControlName="pmcitycorporation" >
+                                <mat-option value="">--Select--</mat-option>
+                                <mat-option *ngFor="let cc of citycorporation" [value]="cc.name">{{cc.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <mat-form-field appearance="fill" matInput class="example-full-width">
@@ -215,8 +269,8 @@
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Ward</mat-label>
-                        <input matInput  formControlName="pmward" type="text"  placeholder="Permanent Address- Ward">
+                        <mat-label>Union/Area</mat-label>
+                        <input matInput  formControlName="pmvillageUnion" type="text"  placeholder="Permanent Address- Union">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -224,8 +278,23 @@
                 <tr>
                     <td>
                         <mat-form-field class="example-full-width">
+                        <mat-label>Ward</mat-label>
+                        <input matInput  formControlName="pmward" type="text"  placeholder="Permanent Address- Ward">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
                         <mat-label>House</mat-label>
                         <input matInput  formControlName="pmhouse" type="text"  placeholder="Permanent Address- House">
+                        </mat-form-field>
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Flat</mat-label>
+                        <input matInput  formControlName="pmflat" type="text"  placeholder="Permanent Address- Flat">
                         </mat-form-field>
                     </td>
                     <td>
@@ -242,6 +311,12 @@
                         <input matInput  formControlName="pmblock" type="text"  placeholder="Permanent Address- Block">
                         </mat-form-field>
                     </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Others</mat-label>
+                        <input matInput  formControlName="pmothers" type="text"  placeholder="Permanent Address- Others">
+                        </mat-form-field>
+                    </td>
                 </tr>
 
 
@@ -249,7 +324,7 @@
                     <h4 class="address">Present Address</h4>
                 </tr>
                 <section class="example-section">
-                    <mat-checkbox class="example-margin" formControlName="checked" (click)="checkAddress($event)">Same as Permanent Address</mat-checkbox>
+                    <mat-checkbox class="example-margin" formControlName="checked" (change)="checkAddress($event.checked)">Same as Permanent Address</mat-checkbox>
                 </section>
                 <tr>
 
@@ -272,6 +347,21 @@
                         </mat-form-field>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                            <mat-checkbox class="example-margin" formControlName="prcheck" (change)="setPrCheck($event.checked)">Is Your Address inside City Corporation?</mat-checkbox>
+                
+                    </td>
+                    <td>
+                        <mat-form-field appearance="fill" matInput class="example-full-width" *ngIf="prcccheck">
+                            <mat-label>Select City Corporation</mat-label>
+                            <mat-select matNativeControl required formControlName="prcitycorporation" >
+                                <mat-option value="">--Select--</mat-option>
+                                <mat-option *ngFor="let cc of citycorporation" [value]="cc.name">{{cc.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
                 <tr>            
                     <td>
                         <mat-form-field appearance="fill" matInput class="example-full-width">
@@ -284,8 +374,8 @@
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
-                        <mat-label>Ward</mat-label>
-                        <input matInput  formControlName="prward" type="text"  placeholder="Present Address- Ward">
+                        <mat-label>Union/Area</mat-label>
+                        <input matInput  formControlName="prvillageUnion" type="text"  placeholder="Present Address- Union">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -293,8 +383,23 @@
                 <tr>
                     <td>
                         <mat-form-field class="example-full-width">
+                        <mat-label>Ward</mat-label>
+                        <input matInput  formControlName="prward" type="text"  placeholder="Present Address- Ward">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
                         <mat-label>House</mat-label>
                         <input matInput  formControlName="prhouse" type="text"  placeholder="Present Address- House">
+                        </mat-form-field>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Flat</mat-label>
+                        <input matInput  formControlName="prflat" type="text"  placeholder="Present Address- Flat">
                         </mat-form-field>
                     </td>
                     <td>
@@ -303,6 +408,7 @@
                         <input matInput  formControlName="prroad" type="text"  placeholder="Present Address- Road">
                         </mat-form-field>
                     </td>
+                   
                 </tr>
                 <tr>
                     <td>
@@ -311,8 +417,13 @@
                         <input matInput  formControlName="prblock" type="text"  placeholder="Present Address- Block">
                         </mat-form-field>
                     </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                        <mat-label>Others</mat-label>
+                        <input matInput  formControlName="prothers" type="text"  placeholder="Present Address- Others">
+                        </mat-form-field>
+                    </td>
                 </tr>
-
 
 
 
