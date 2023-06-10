@@ -42,7 +42,8 @@ export class AddMetricsComponent {
 
     this.metricService.saveMetrics(this.addMetrics.value).subscribe({
       next: (data) => {
-        if(data.mid!=undefined){
+        console.log(data)
+        if(data.response=="ok"){
           this.message = "Metrics Added Successfully"
           this.addMetrics.reset();
           this.openSnackBar()
@@ -54,6 +55,7 @@ export class AddMetricsComponent {
         }
       },
       error: (e) => {
+        console.log(e)
         this.message = "Error! Try again later"
         this.openSnackBar()
 
