@@ -25,6 +25,7 @@ import { ActionListDeniedComponent } from './action/action-list-denied/action-li
 import { ActionHistoryComponent } from './action/action-history/action-history.component';
 import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
 import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
+import { CommissionComponent } from './commission/commission/commission.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: "action-history", component: ActionHistoryComponent},
   {path: "list-metrics", component: ListMetricsComponent},
   {path: "add-metrics", component: AddMetricsComponent},
+  {path: "commission", component: CommissionComponent},
 
 ];
 

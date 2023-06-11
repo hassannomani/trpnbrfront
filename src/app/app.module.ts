@@ -47,6 +47,7 @@ import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component
 import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
 import { ConfirmModalComponent } from './layouts/confirm-modal/confirm-modal.component';
 import { DataSavedModalComponent } from './layouts/data-saved-modal/data-saved-modal.component';
+import { CommissionComponent } from './commission/commission/commission.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { DataSavedModalComponent } from './layouts/data-saved-modal/data-saved-m
     AddMetricsComponent,
     ListMetricsComponent,
     ConfirmModalComponent,
-    DataSavedModalComponent
+    DataSavedModalComponent,
+    CommissionComponent
   ],
   imports: [
     BrowserModule,
