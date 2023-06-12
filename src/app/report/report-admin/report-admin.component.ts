@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import {Title} from "@angular/platform-browser";
 import { AdminService } from 'src/app/services/admin-service/admin.service';
 import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
+import { CommissionService } from 'src/app/services/commission-service/commission.service';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 @Component({
@@ -45,7 +46,7 @@ export class ReportAdminComponent implements OnInit{
     private ledgerService: LedgerService,
     private titleService:Title,
     private adminService: AdminService,
-   
+    private commissionServ: CommissionService,
   ){
     this.titleService.setTitle("Report");
   }
@@ -71,11 +72,20 @@ export class ReportAdminComponent implements OnInit{
         {"id":"5","value":"Agent Ledger with Date Range"},
         {"id":"6","value":"TRP Ledger with Date Range"}
       ]
+    else if(value==4)
+      this.dataSecondary = [
+        {"id":"1","value":"All"},
+        {"id":"2", "value": "Agent"},
+        {"id":"3", "value":"TRP"},
+        {"id":"4","value":"Date Range"},
+        {"id":"5","value":"Agent Commission with Date Range"},
+        {"id":"6","value":"TRP Commission with Date Range"}
+      ]
 
   }
   reportSubType(value: any){
     this.secondOption  = value
-    if((value=="2" && this.firstOption=="1")||(this.firstOption=="3"&&value=="2")){
+    if((value=="2" && this.firstOption=="1")||(this.firstOption=="3"&&value=="2")||(this.firstOption=="4"&&value=="2")){
       this.showThirdA = true
       this.showThirdR = false
       this.showThirdD1=false
@@ -86,12 +96,12 @@ export class ReportAdminComponent implements OnInit{
       this.showThirdD1=true
       this.showThirdD2=true
     }
-    else if(value=="3" && this.firstOption=="3"){
+    else if((value=="3" && this.firstOption=="3")||(value=="3" && this.firstOption=="4")){
       this.showThirdR =  true
       this.showThirdA = false
       this.showThirdD1=false
       this.showThirdD2=false
-    }else if((value=="4"||value=="5"||value=="6")&&this.firstOption=="3"){
+    }else if((value=="4"||value=="5"||value=="6")&&(this.firstOption=="3"||this.firstOption=="4")){
       
       this.showThirdD1=true
       this.showThirdD2=true
@@ -165,6 +175,17 @@ export class ReportAdminComponent implements OnInit{
       }
        
     }
+    else if(this.firstOption=="4"){
+      if(this.secondOption=="1"){
+        this.getAllCommissions()
+      }else if(this.secondOption=="2"){
+        let thirVal = this.reportSubmission.value["agusername"]
+        this.getUserCommission(thirVal);
+      }else if(this.secondOption=="3"){
+        let thirdVal = this.reportSubmission.value["repusername"]
+        this.getUserCommission(thirdVal);
+      }
+    }
   }
 
   getAllAgents(){
@@ -224,35 +245,15 @@ export class ReportAdminComponent implements OnInit{
   }
 
   getAllLedgerAgent(agent: any){
-    this.agentService.getAgentInfo(agent)
-    .subscribe({
-      next: (data) => {
-        if(data.id){
-          let agentId = data.id
-          this.getAllLedgerAgentSecStep(agentId)
 
-        } else
-            this.loaded = false
-          
-      },
-      error: (e) => {
-        this.loaded = false
-      }
-    })  
+    this.getAllLedgerAgentSecStep(agent)
+       
   }
 
   getAllLedgerRepresentative(representative: any){
-    this.representativeService.getARepresentative(representative).subscribe({
-      next: (data) => {
-        if(data.userid){
-          this.getAllLedgerRepresentativeSecStep(data.userid)
-        } else
-            this.loaded = false
-      },
-      error: (e) => {
-        this.loaded = false
-      }
-    })  
+   
+    this.getAllLedgerRepresentativeSecStep(representative)
+       
   }
 
   getAllLedgerRange(startDate: any, endDate: any){
@@ -305,7 +306,7 @@ export class ReportAdminComponent implements OnInit{
   getAllLedgerAgentSecStep(agentId: any){
     this.ledgerService.getAgentLedger(agentId).subscribe({
       next: (data) => {
-        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeTin']
         this.positiveResponse(data, col)
       },
       error: (e) => {
@@ -316,13 +317,37 @@ export class ReportAdminComponent implements OnInit{
   getAllLedgerRepresentativeSecStep(repId:any){
     this.ledgerService.getRepresentativeLedger(repId).subscribe({
       next: (data) => {
-        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeId']
+        let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeTin']
         this.positiveResponse(data,col)
       },
       error: (e) => {
         this.loaded = false
       }
     
+    })
+  }
+
+  getAllCommissions(){
+    this.commissionServ.getCommissionAll().subscribe({
+      next: (data) => {
+        let col = ['creationDate','creditCode','amount','billNo','paymentNo','invoiceNo']
+        this.positiveResponse(data,col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
+  }
+
+  getUserCommission(agent: any){
+    this.commissionServ.getCommissionUser(agent).subscribe({
+      next: (data) => {
+        let col = ['creationDate','amount','billNo','paymentNo','invoiceNo']
+        this.positiveResponse(data,col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
     })
   }
 

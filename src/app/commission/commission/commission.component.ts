@@ -39,7 +39,7 @@ export class CommissionComponent implements OnInit{
           this.comList = data
           //this.metricsList.sort((a,b) => a.slotNo.rendered - b.slotNo.rendered);
 
-          this.displayedColumns = [ 'assessmentYear','taxAmount','agentRate','representativeRate','yearNo']
+          this.displayedColumns = [ 'creationDate','amount','billNo','action']
         } 
         else{
           this.message = "No Data found"
@@ -61,5 +61,12 @@ export class CommissionComponent implements OnInit{
       duration: 5 * 1000,
 
     });
+  }
+
+  view(lid: string,amount: string){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['commission-single'],{ queryParams: {id: lid,earned:amount}});
+    }); 
+    console.log(lid)
   }
 }

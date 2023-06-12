@@ -26,6 +26,7 @@ import { ActionHistoryComponent } from './action/action-history/action-history.c
 import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.component';
 import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
 import { CommissionComponent } from './commission/commission/commission.component';
+import { CommissionDetailsComponent } from './commission/commission-details/commission-details.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -54,6 +55,7 @@ const routes: Routes = [
   {path: "list-metrics", component: ListMetricsComponent},
   {path: "add-metrics", component: AddMetricsComponent},
   {path: "commission", component: CommissionComponent},
+  {path: "commission-single", component: CommissionDetailsComponent},
 
 ];
 

@@ -15,9 +15,9 @@ export class LedgerService {
   private urlallrangeledger: string ='http://localhost:8080/api/ledgers/range';
   private urlallreprangeledger: string ='http://localhost:8080/api/ledgers/range-representative/';
   private urlallagrangeledger: string ='http://localhost:8080/api/ledgers/range-agent/';
-  private representativeGet: string = 'http://localhost:8080/api/representative/'
+  private representativeGet: string = 'http://localhost:8080/api/respresentative/'
   private urlagentGet: string ='http://localhost:8080/api/agent/';
-
+  private urlsingleledger: string ='http://localhost:8080/api/ledgers/';
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
@@ -80,5 +80,12 @@ export class LedgerService {
         switchMap(agent=>this.http.get(this.urlallagrangeledger+agent.id+"/"+start+"/"+end, httpOptions))
       )
     
+  }
+
+  getLedgerById(id: string){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any>(this.urlsingleledger+id, httpOptions)
   }
 }

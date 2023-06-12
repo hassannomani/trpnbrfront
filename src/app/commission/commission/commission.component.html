@@ -1,1 +1,43 @@
-<p>commission works!</p>
+<div class="headerdiv">
+    <h2>List of Commissions Earned</h2>
+  </div>
+  <!-- <div *ngIf="!loaded" style="text-align: center; margin-top: 50px;">
+      <p style="color:red;">Data Couldn't be loaded</p>
+  </div> -->
+  <table mat-table [dataSource]="comList" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef>Creation Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.creationDate | date:('short')}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Commission Received</th>
+        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="billNo">
+        <th mat-header-cell *matHeaderCellDef>Bill No</th>
+        <td mat-cell *matCellDef="let element"> {{element.billNo}} </td>
+      </ng-container>
+    
+    
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Details </th>
+        <td mat-cell *matCellDef="let element"> 
+            <app-button
+            [label]="buttonLabel"
+            [color]="buttonColor" 
+            [type]="buttonType"
+            (click)="view(element.ledgerId, element.amount)"
+            >
+        </app-button>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+    
