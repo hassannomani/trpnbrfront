@@ -6,6 +6,8 @@ import { FormControl, FormGroup, NgForm, Validators, AbstractControl } from '@an
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { ActionService } from 'src/app/services/action-service/action.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
+import { Location } from '@angular/common'
+
 @Component({
   selector: 'app-user-action',
   templateUrl: './user-action.component.html',
@@ -16,6 +18,9 @@ export class UserActionComponent implements OnInit{
   sender: any = ""
   receiver: any = ""
   sent: boolean = false
+  buttonLabelBack: string = "Go Back"
+  buttonColorBack: string = "primary"
+  buttonTypeBack: string = "button"
   buttonLabel: string = "Send"
   buttonColor: string = "primary"
   buttonType: string = "button"
@@ -46,7 +51,7 @@ export class UserActionComponent implements OnInit{
   flag: boolean = true
   addAction = new FormGroup({
     'sender' : new FormControl('',[Validators.required]),
-    'receiver' : new FormControl('',[Validators.required]),
+    'receiver' : new FormControl({value:"", disabled: true},[Validators.required]),
     'message' : new FormControl('',[Validators.required]),
     'messageTitle' : new FormControl('',[Validators.required]),
     'actionType' : new FormControl('',[Validators.required]),
@@ -62,7 +67,8 @@ export class UserActionComponent implements OnInit{
     private commonService: CommonService,
     private localStore: LocalStorageService,
     private actionService: ActionService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private location: Location
   ){
     this.titleService.setTitle("User List");
   }
@@ -172,5 +178,9 @@ export class UserActionComponent implements OnInit{
       this.flag = false
 
     }
+  }
+
+  back(){
+    this.location.back()
   }
 }

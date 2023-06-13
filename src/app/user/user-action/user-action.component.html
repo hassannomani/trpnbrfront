@@ -1,5 +1,11 @@
 <h2 class="title">Action</h2>
-
+<app-button style="float: left;"
+[label]="buttonLabelBack"
+[color]="buttonColorBack" 
+[type]="buttonTypeBack"
+(click)="back()"
+>
+</app-button>
 <form class="example-form" [formGroup]="addAction" #formDir="ngForm" (ngSubmit)="actionSubmit()">
     <table class="example-full-width" cellspacing="0">
         <tr>

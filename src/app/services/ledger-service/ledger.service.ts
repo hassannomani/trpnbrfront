@@ -18,6 +18,7 @@ export class LedgerService {
   private representativeGet: string = 'http://localhost:8080/api/respresentative/'
   private urlagentGet: string ='http://localhost:8080/api/agent/';
   private urlsingleledger: string ='http://localhost:8080/api/ledgers/';
+  private urldashboardgraph: string ='http://localhost:8080/api/ledgers/graph/trp';
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
@@ -87,5 +88,12 @@ export class LedgerService {
       headers: this.commonServ.httpReturner()
     }
     return this.http.get<any>(this.urlsingleledger+id, httpOptions)
+  }
+
+  getGraphDashboard(){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any>(this.urldashboardgraph, httpOptions)
   }
 }

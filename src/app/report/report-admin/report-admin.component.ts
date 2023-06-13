@@ -203,21 +203,10 @@ export class ReportAdminComponent implements OnInit{
   }
 
   getAllRepresentativeOfAnAgent(val: any){
-    this.agentService.getAgentInfo(val)
-    .subscribe({
-      next: (data) => {
-        if(data.id){
-          let agentId = data.id
-          this.getAllRepresentativeOfAnAgentSecStep(agentId)
+   
+    this.getAllRepresentativeOfAnAgentSecStep(val)
 
-        } else
-            this.loaded = false
-          
-      },
-      error: (e) => {
-        this.loaded = false
-      }
-    })  
+      
   }
 
   getAllRepresentatives(){
