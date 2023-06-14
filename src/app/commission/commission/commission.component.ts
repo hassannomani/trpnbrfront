@@ -4,6 +4,7 @@ import {Title} from "@angular/platform-browser";
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 import { CommissionService } from 'src/app/services/commission-service/commission.service';
+import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
 @Component({
   selector: 'app-commission',
   templateUrl: './commission.component.html',
@@ -14,18 +15,21 @@ export class CommissionComponent implements OnInit{
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   username: any = ""
+  role: any = ""
   comList: any[] = []
   displayedColumns: any = []
   message : string = ""
   buttonLabel: string = "View"
   buttonColor: string = "primary"
   buttonType: string = "button"
+  trp: boolean= false
   constructor(
     private router: Router,
     private titleService:Title,
     private localStore: LocalStorageService,
     private commissionServ: CommissionService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private ledgerServ: LedgerService,
   ){
     this.titleService.setTitle("Commission List");
   }
@@ -33,25 +37,57 @@ export class CommissionComponent implements OnInit{
   ngOnInit(): void {
     let temp = this.localStore.getStorageItems()
     this.username = temp.username!=null?JSON.parse(temp.username):""
-    this.commissionServ.getCommissionUser(this.username).subscribe({
-      next: (data) => {
-        if(data.length){
-          this.comList = data
-          //this.metricsList.sort((a,b) => a.slotNo.rendered - b.slotNo.rendered);
-
-          this.displayedColumns = [ 'creationDate','amount','billNo','action']
-        } 
-        else{
-          this.message = "No Data found"
+    this.role = temp.role!=null?JSON.parse(temp.role):""
+    if(this.role=="ROLE_REPRESENTATIVE"){
+      this.ledgerServ.getRepresentativeLedger(this.username).subscribe({
+        next: (data) => {
+          if(data.length){
+            this.comList = data
+            this.trp = true
+            //this.metricsList.sort((a,b) => a.slotNo.rendered - b.slotNo.rendered);
+  
+            this.displayedColumns = [ 'taxpayerId','taxpayerName','paidAmount','agentCommission','representativeCommission','created_at','action']
+          } 
+          else{
+            this.message = "No Data found"
+            this.openSnackBar()
+          }
+        },
+        error: (e) => {
+          console.log(e)
+          this.message = "Error Retrieving Data. Please try again"
           this.openSnackBar()
-        }
-      },
-      error: (e) => {
-        console.log(e)
-        this.message = "Error Retrieving Data. Please try again"
-        this.openSnackBar()
-      } 
-    })
+        } 
+      })
+    }else if(this.role=="ROLE_AGENT"){
+
+      this.ledgerServ.getAgentCommissionView(this.username).subscribe({
+        next: (data) => {
+          if(data.length){
+            let temp = data
+            this.trp = false
+            for(let i=0;i<temp.length;i++){
+              let obj = {'amount': temp[i][0],'trpcom':temp[i][1],'agentcom':temp[i][2],'trptin':temp[i][3] }
+              this.comList.push(obj)
+            }
+            //this.metricsList.sort((a,b) => a.slotNo.rendered - b.slotNo.rendered);
+  
+            this.displayedColumns = [ 'amount','agentcom','trpcom','trptin','action']
+          } 
+          else{
+            this.message = "No Data found"
+            this.openSnackBar()
+          }
+        },
+        error: (e) => {
+          console.log(e)
+          this.message = "Error Retrieving Data. Please try again"
+          this.openSnackBar()
+        } 
+      })
+
+    }
+    
   }
 
   openSnackBar() {
@@ -68,5 +104,9 @@ export class CommissionComponent implements OnInit{
       this.router.navigate(['commission-single'],{ queryParams: {id: lid,earned:amount}});
     }); 
     console.log(lid)
+  }
+
+  viewtrp(tin: string){
+
   }
 }

@@ -101,6 +101,7 @@ export class AddRepresentativeComponent implements OnInit{
   addedSuccess3: boolean = false
   failedCreation: boolean = false
   duplicateEntry: boolean = false
+  disabledtrue: boolean = false
   localStore: any = {}
   failed: boolean = false
   errorMsg: string = ""
@@ -280,6 +281,7 @@ export class AddRepresentativeComponent implements OnInit{
                 this.modalTitle = "Success!"
                 this.alertDialog()
                 this.failed=false;
+                this.disabledtrue = true
               } 
               else{
                 this.saving = false

@@ -29,7 +29,7 @@ export class AddAgentComponent implements OnInit{
       'contactNumber' : new FormControl('',[Validators.required]),
       'contactEmail': new FormControl( '',[Validators.required]),
       'bankAccountName': new FormControl('',[Validators.required]),
-      'bankAccountNo': new FormControl('',[Validators.required]),
+      'bankAccountNo': new FormControl('',[Validators.required, Validators.pattern('[0-9]{13}$')]),
       'bankName': new FormControl('',[Validators.required]),
       'bankDistName': new FormControl('',[Validators.required]),
       'bankBranch': new FormControl('',[Validators.required]),
@@ -325,6 +325,12 @@ export class AddAgentComponent implements OnInit{
         bankBranch: this.addAgent.value['bankBranch'],
         routingNo: this.addAgent.value['routingNo']
       }
+      if(bankObj.bankAccountNo?.length!=13){
+        this.modalMessage = "Bank Account must be 13 digits long"
+        this.modalTitle = "Error!"
+        this.alertDialog()
+        return
+      }
 
       this.commonService
       .addBank(bankObj)
@@ -607,6 +613,11 @@ export class AddAgentComponent implements OnInit{
         maxWidth: "600px",
         data: dialogData
       });
+    }
+
+    onKeydown(event:any){
+       
+        this.addAgent.value['bankAccountNo'] = event.replace(/[^0-9]+/g, '');
     }
   
 }

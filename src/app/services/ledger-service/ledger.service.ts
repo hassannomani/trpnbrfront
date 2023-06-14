@@ -19,6 +19,7 @@ export class LedgerService {
   private urlagentGet: string ='http://localhost:8080/api/agent/';
   private urlsingleledger: string ='http://localhost:8080/api/ledgers/';
   private urldashboardgraph: string ='http://localhost:8080/api/ledgers/graph/trp';
+  private urlagentcommisionview: string ='http://localhost:8080/api/ledgers/agent/commission/';
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
@@ -30,6 +31,14 @@ export class LedgerService {
       headers: this.commonServ.httpReturner()
     }
     return this.http.get<any[]>(this.urlagentledger+agentId,httpOptions)
+
+  }
+
+  getAgentCommissionView(agentId: string): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.urlagentcommisionview+agentId,httpOptions)
 
   }
 
