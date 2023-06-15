@@ -143,17 +143,22 @@
         <td mat-cell *matCellDef="let element"> {{element.nid}} </td>
       </ng-container>
      
-      <ng-container matColumnDef="taxpayerId" *ngIf="firstOption=='3'">
+      <ng-container matColumnDef="taxpayerId" *ngIf="firstOption=='3'||firstOption=='4'">
         <th mat-header-cell *matHeaderCellDef> Tax Payer Identification </th>
         <td mat-cell *matCellDef="let element"> {{element.taxpayerId}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="created_at" *ngIf="firstOption=='3'">
-        <th mat-header-cell *matHeaderCellDef> Time of Payment </th>
-        <td mat-cell *matCellDef="let element"> {{element.created_at | date}} </td>
+      <ng-container matColumnDef="taxpayerName" *ngIf="firstOption=='4'&&(secondOption!='1')">
+        <th mat-header-cell *matHeaderCellDef> Tax Payer Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.taxpayerName}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="paidAmount" *ngIf="firstOption=='3'">
+      <ng-container matColumnDef="created_at" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption!='1')">
+        <th mat-header-cell *matHeaderCellDef> Time of Payment </th>
+        <td mat-cell *matCellDef="let element"> {{element.created_at | date:('short')}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paidAmount" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption!='1')">
         <th mat-header-cell *matHeaderCellDef> Paid Amount </th>
         <td mat-cell *matCellDef="let element"> {{element.paidAmount}} </td>
       </ng-container>
@@ -163,50 +168,80 @@
         <td mat-cell *matCellDef="let element"> {{element.paymentMethod}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="assessmentYear" *ngIf="firstOption=='3'">
+      <ng-container matColumnDef="assessmentYear" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption!='1')">
         <th mat-header-cell *matHeaderCellDef> Assessment Year </th>
         <td mat-cell *matCellDef="let element"> {{element.assessmentYear}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="agentTin" *ngIf="firstOption=='3'">
+      <ng-container matColumnDef="agentTin" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption=='2'||secondOption=='4')">
         <th mat-header-cell *matHeaderCellDef> Agent TIN </th>
         <td mat-cell *matCellDef="let element"> {{element.agentTin}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="representativeTin" *ngIf="firstOption=='3'">
+      <ng-container matColumnDef="agentCommission" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption=='2'||secondOption=='4')">
+        <th mat-header-cell *matHeaderCellDef> Agent Commission </th>
+        <td mat-cell *matCellDef="let element"> {{element.agentCommission}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="representativeTin" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption=='3'||secondOption=='4')">
         <th mat-header-cell *matHeaderCellDef> Representative Id</th>
         <td mat-cell *matCellDef="let element"> {{element.representativeTin}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="creditCode" *ngIf="firstOption=='4'&&secondOption=='1'">
-        <th mat-header-cell *matHeaderCellDef> Credit Code</th>
-        <td mat-cell *matCellDef="let element"> {{element.creditCode}} </td>
+      <ng-container matColumnDef="representativeCommission" *ngIf="firstOption=='3'||(firstOption=='4'&&secondOption=='3'||secondOption=='4')">
+        <th mat-header-cell *matHeaderCellDef> TRP Commission </th>
+        <td mat-cell *matCellDef="let element"> {{element.representativeCommission}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="amount" *ngIf="firstOption=='4'">
-        <th mat-header-cell *matHeaderCellDef> Amount</th>
-        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+
+      <!--All Commissions containing trp and agent name-->
+      <ng-container matColumnDef="taxpayer_name" *ngIf="firstOption=='4'&&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef> Taxpayer Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.taxpayer_name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="creationDate" *ngIf="firstOption=='4'">
-        <th mat-header-cell *matHeaderCellDef> Time of Transaction</th>
-        <td mat-cell *matCellDef="let element"> {{element.creationDate}} </td>
+      <ng-container matColumnDef="taxpayer_id" *ngIf="firstOption=='4'&&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef> Taxpayer Id</th>
+        <td mat-cell *matCellDef="let element"> {{element.taxpayer_id}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="billNo" *ngIf="firstOption=='4'">
-        <th mat-header-cell *matHeaderCellDef> Bill No</th>
-        <td mat-cell *matCellDef="let element"> {{element.billNo}} </td>
+      <ng-container matColumnDef="agent_tin" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>Agent Tin</th>
+        <td mat-cell *matCellDef="let element"> {{element.agent_tin}} </td>
+      </ng-container>
+      <ng-container matColumnDef="name" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>Agent Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="agent_commission" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>Agent Commission</th>
+        <td mat-cell *matCellDef="let element"> {{element.agent_commission}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="paymentNo" *ngIf="firstOption=='4'">
-        <th mat-header-cell *matHeaderCellDef> Payment No</th>
-        <td mat-cell *matCellDef="let element"> {{element.paymentNo}} </td>
+      <ng-container matColumnDef="representative_tin" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>TRP Tin</th>
+        <td mat-cell *matCellDef="let element"> {{element.representative_tin}} </td>
+      </ng-container>
+      <ng-container matColumnDef="re_name" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>TRP Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.re_name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="representative_commission" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>TRP Commission</th>
+        <td mat-cell *matCellDef="let element"> {{element.representative_commission}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="invoiceNo" *ngIf="firstOption=='4'">
-        <th mat-header-cell *matHeaderCellDef> Invoice No</th>
-        <td mat-cell *matCellDef="let element"> {{element.invoiceNo}} </td>
+      <ng-container matColumnDef="assessment_year" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>Assmnt Year</th>
+        <td mat-cell *matCellDef="let element"> {{element.assessment_year}} </td>
       </ng-container>
+
+      <ng-container matColumnDef="year_no" *ngIf="firstOption=='4' &&secondOption=='1'">
+        <th mat-header-cell *matHeaderCellDef>Times</th>
+        <td mat-cell *matCellDef="let element"> {{element.year_no}} </td>
+      </ng-container>
+
+     
 
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

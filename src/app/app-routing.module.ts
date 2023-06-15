@@ -27,6 +27,7 @@ import { ListMetricsComponent } from './metrics/list-metrics/list-metrics.compon
 import { AddMetricsComponent } from './metrics/add-metrics/add-metrics.component';
 import { CommissionComponent } from './commission/commission/commission.component';
 import { CommissionDetailsComponent } from './commission/commission-details/commission-details.component';
+import { CommissionTrpComponent } from './commission/commission-trp/commission-trp.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -56,6 +57,7 @@ const routes: Routes = [
   {path: "add-metrics", component: AddMetricsComponent},
   {path: "commission", component: CommissionComponent},
   {path: "commission-single", component: CommissionDetailsComponent},
+  {path: "commission-trp", component: CommissionTrpComponent},
 
 ];
 

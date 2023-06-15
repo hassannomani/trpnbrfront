@@ -15,16 +15,26 @@ export class CommissionService {
     private commonService: CommonService
   ) { }
 
-  private url_get_all : string ='http://localhost:8080/api/commission/all';
-  private url_user : string ='http://localhost:8080/api/commission/';
+  private url_get_all : string ='http://localhost:8080/api/ledgers';
+  private url_agent : string ='http://localhost:8080/api/ledgers/agent/';
+  private url_representative : string ='http://localhost:8080/api/ledgers/representative/';
+  private urlallrangecommission: string ='http://localhost:8080/api/ledgers/range';
 
 
   
-  getCommissionUser(username: string): Observable<any>{
+  getCommissionAgent(username: string): Observable<any>{
     const httpOptions = {
       headers: this.commonService.httpReturner()
     }
-    return this.http.get<any[]>(this.url_user+username,httpOptions)
+    return this.http.get<any[]>(this.url_agent+username,httpOptions)
+  }
+
+   
+  getCommissionRepresentative(username: string): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_representative+username,httpOptions)
   }
 
   getCommissionAll(): Observable<any>{
@@ -32,5 +42,13 @@ export class CommissionService {
       headers: this.commonService.httpReturner()
     }
     return this.http.get<any>(this.url_get_all,httpOptions)
+  }
+
+  getAllRangeCommission(start: string,  end: string){
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+  
+    return this.http.get<any[]>(this.urlallrangecommission+"/"+start+"/"+end, httpOptions)
   }
 }

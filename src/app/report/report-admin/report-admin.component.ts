@@ -180,10 +180,15 @@ export class ReportAdminComponent implements OnInit{
         this.getAllCommissions()
       }else if(this.secondOption=="2"){
         let thirVal = this.reportSubmission.value["agusername"]
-        this.getUserCommission(thirVal);
+        this.getAgentCommission(thirVal);
       }else if(this.secondOption=="3"){
         let thirdVal = this.reportSubmission.value["repusername"]
-        this.getUserCommission(thirdVal);
+        this.getTRPCommission(thirdVal);
+      }
+      else if(this.secondOption=="4"){
+        let thirdVal= this.reportSubmission.value["startDate"]
+        let fourthVal= this.reportSubmission.value["endDate"]
+        this.getRangeCommission(thirdVal, fourthVal);
       }
     }
   }
@@ -231,12 +236,6 @@ export class ReportAdminComponent implements OnInit{
         this.loaded = false
       }
     })
-  }
-
-  getAllLedgerAgent(agent: any){
-
-    this.getAllLedgerAgentSecStep(agent)
-       
   }
 
   getAllLedgerRepresentative(representative: any){
@@ -292,7 +291,7 @@ export class ReportAdminComponent implements OnInit{
       }  
     })
   }
-  getAllLedgerAgentSecStep(agentId: any){
+  getAllLedgerAgent(agentId: any){
     this.ledgerService.getAgentLedger(agentId).subscribe({
       next: (data) => {
         let col = ['taxpayerId','created_at','paidAmount','paymentMethod','assessmentYear','agentTin','representativeTin']
@@ -319,7 +318,7 @@ export class ReportAdminComponent implements OnInit{
   getAllCommissions(){
     this.commissionServ.getCommissionAll().subscribe({
       next: (data) => {
-        let col = ['creationDate','creditCode','amount','billNo','paymentNo','invoiceNo']
+        let col = ['taxpayer_name','taxpayer_id','agent_tin','name','agent_commission','representative_tin','re_name','representative_commission','assessment_year','year_no']
         this.positiveResponse(data,col)
       },
       error: (e) => {
@@ -328,15 +327,40 @@ export class ReportAdminComponent implements OnInit{
     })
   }
 
-  getUserCommission(agent: any){
-    this.commissionServ.getCommissionUser(agent).subscribe({
+  getAgentCommission(agent: any){
+    this.commissionServ.getCommissionAgent(agent).subscribe({
       next: (data) => {
-        let col = ['creationDate','amount','billNo','paymentNo','invoiceNo']
+        let col = ['taxpayerId','taxpayerName', 'created_at','paidAmount','assessmentYear','agentTin','agentCommission']
         this.positiveResponse(data,col)
       },
       error: (e) => {
         this.loaded = false
       }
+    })
+  }
+
+  getTRPCommission(trp: any){
+    this.commissionServ.getCommissionRepresentative(trp).subscribe({
+      next: (data) => {
+        let col = ['taxpayerId','taxpayerName', 'created_at','paidAmount','assessmentYear','representativeTin','representativeCommission']
+        this.positiveResponse(data,col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
+  }
+
+  
+  getRangeCommission(startDate: any, endDate: any){
+    this.commissionServ.getAllRangeCommission(startDate,endDate).subscribe({
+      next: (data) => {
+        let col = ['taxpayerId','taxpayerName','paidAmount','created_at','assessmentYear','agentTin','agentCommission','representativeTin','representativeCommission']
+        this.positiveResponse(data, col)
+      },
+      error: (e) => {
+        this.loaded = false;
+      }  
     })
   }
 
@@ -357,7 +381,11 @@ export class ReportAdminComponent implements OnInit{
       let fileWidth = 208;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
       const FILEURI = canvas.toDataURL('image/png');
-      let PDF = new jsPDF('p', 'mm', 'a4');
+      // if(this.firstOption=="4"&&this.secondOption=="1")
+      // var PDF = new jsPDF('l', 'mm', 'a4');
+      // else
+      var PDF = new jsPDF('p', 'mm', 'a4');
+
       let position = 0;
 
 

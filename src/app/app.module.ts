@@ -49,6 +49,7 @@ import { ConfirmModalComponent } from './layouts/confirm-modal/confirm-modal.com
 import { DataSavedModalComponent } from './layouts/data-saved-modal/data-saved-modal.component';
 import { CommissionComponent } from './commission/commission/commission.component';
 import { CommissionDetailsComponent } from './commission/commission-details/commission-details.component';
+import { CommissionTrpComponent } from './commission/commission-trp/commission-trp.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { CommissionDetailsComponent } from './commission/commission-details/comm
     ConfirmModalComponent,
     DataSavedModalComponent,
     CommissionComponent,
-    CommissionDetailsComponent
+    CommissionDetailsComponent,
+    CommissionTrpComponent
   ],
   imports: [
     BrowserModule,

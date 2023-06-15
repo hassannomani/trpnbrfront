@@ -107,6 +107,8 @@ export class CommissionComponent implements OnInit{
   }
 
   viewtrp(tin: string){
-
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['commission-trp'],{ queryParams: {trp: tin}});
+    }); 
   }
 }
