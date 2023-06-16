@@ -79,6 +79,7 @@ export class UserActionComponent implements OnInit{
     .subscribe(paramsg=>{
       let uname = paramsg['username']
       let deny = paramsg['deny']
+      this.receiver = uname
       console.log(deny)
       if(uname!=null){
         this.type_of_message = ['WARNING','DENY','SUSPEND','BLOCK']
@@ -125,6 +126,8 @@ export class UserActionComponent implements OnInit{
   actionSubmit(){
     //this.openSnackBar()
     this.addAction.get("sender")?.setValue(this.sender)
+    this.addAction.value["receiver"]=this.receiver
+    console.log(this.addAction.value)
     this.actionService.saveAction(this.addAction.value).subscribe({
       next: (data) => {
         if(data.actionId!=undefined){

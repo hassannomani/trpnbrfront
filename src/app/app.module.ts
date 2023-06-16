@@ -50,6 +50,7 @@ import { DataSavedModalComponent } from './layouts/data-saved-modal/data-saved-m
 import { CommissionComponent } from './commission/commission/commission.component';
 import { CommissionDetailsComponent } from './commission/commission-details/commission-details.component';
 import { CommissionTrpComponent } from './commission/commission-trp/commission-trp.component';
+import { ReportAgentComponent } from './report/report-agent/report-agent.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { CommissionTrpComponent } from './commission/commission-trp/commission-t
     DataSavedModalComponent,
     CommissionComponent,
     CommissionDetailsComponent,
-    CommissionTrpComponent
+    CommissionTrpComponent,
+    ReportAgentComponent
   ],
   imports: [
     BrowserModule,

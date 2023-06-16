@@ -18,8 +18,8 @@
         <p class="text">
             {{messageReceived.message}}
         </p>
-        <p class="text">Suspension time: From {{messageReceived.actionFrom | date: 'short'}} To {{messageReceived.actionTo | date: 'short'}}</p>
-        <app-button
+        <p class="text" *ngIf="messageReceived.actionType=='SUSPEND'">Suspension time: From {{messageReceived.actionFrom | date: 'short'}} To {{messageReceived.actionTo | date: 'short'}}</p>
+        <app-button *ngIf="messageReceived.attachment!=null&&messageReceived.attachment!=''"
         [label]="buttonLabel"
         [color]="buttonColor" 
         [type]="buttonType"

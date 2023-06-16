@@ -19,6 +19,7 @@ export class LedgerService {
   private urlagentGet: string ='http://localhost:8080/api/agent/';
   private urlsingleledger: string ='http://localhost:8080/api/ledgers/';
   private urldashboardgraph: string ='http://localhost:8080/api/ledgers/graph/trp';
+  private urlagdashboardgraph: string ='http://localhost:8080/api/ledgers/graph/agent/';
   private urlagentcommisionview: string ='http://localhost:8080/api/ledgers/agent/commission/';
   constructor(
     private http: HttpClient,
@@ -104,5 +105,12 @@ export class LedgerService {
       headers: this.commonServ.httpReturner()
     }
     return this.http.get<any>(this.urldashboardgraph, httpOptions)
+  }
+
+  getGraphDashboardAgent(tin : string){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any>(this.urlagdashboardgraph+tin, httpOptions)
   }
 }

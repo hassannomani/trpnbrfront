@@ -18,7 +18,9 @@ export class CommissionService {
   private url_get_all : string ='http://localhost:8080/api/ledgers';
   private url_agent : string ='http://localhost:8080/api/ledgers/agent/';
   private url_representative : string ='http://localhost:8080/api/ledgers/representative/';
+  private url_agent_trp : string ='http://localhost:8080/api/ledgers/agenttrp/';
   private urlallrangecommission: string ='http://localhost:8080/api/ledgers/range';
+  private urltrprangecommission: string ='http://localhost:8080/api/ledgers/rangetrp';
 
 
   
@@ -50,5 +52,19 @@ export class CommissionService {
     }
   
     return this.http.get<any[]>(this.urlallrangecommission+"/"+start+"/"+end, httpOptions)
+  }
+
+  getCommissionOfTRPofAgent(agent: string, trp: string): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_agent_trp+agent+"/"+trp,httpOptions)
+  }
+
+  getRepresentativeRangeCommission(agent: string, trp: string, start: string, end: string): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any[]>(this.urltrprangecommission+"/"+agent+"/"+trp+"/"+start+"/"+end, httpOptions)
   }
 }

@@ -12,6 +12,7 @@ import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
 export class DashboardComponent implements OnInit{
   public chart: any;
   public isAdmin: boolean = false
+  public isAgent: boolean = false
   constructor(
     private titleService:Title,
     private localStore: LocalStorageService,
@@ -22,16 +23,33 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit(): void{
     let user = this.localStore.getStorageItems()
+    let username = user.username!=null?JSON.parse(user.username):""
     let role = user.role!=null?JSON.parse(user.role):""
     if(role=="ROLE_ADMIN"){
       console.log("hi")
       this.isAdmin = true
       this.loadGraphData()
     }
+    else if(role=="ROLE_AGENT"){
+      this.isAgent = true
+      this.loadGraphDataAgent(username)
+    }
   }
 
   loadGraphData(){
     this.ledgerServ.getGraphDashboard().subscribe({
+      next: (data) => {
+        console.log(data)
+        this.createChart(data)
+      },
+      error: (e) => {
+        console.log(e)
+      }  
+    })
+  }
+
+  loadGraphDataAgent(agTin: string){
+    this.ledgerServ.getGraphDashboardAgent(agTin).subscribe({
       next: (data) => {
         console.log(data)
         this.createChart(data)
@@ -65,7 +83,7 @@ export class DashboardComponent implements OnInit{
         plugins: {
             title: {
                 display: true,
-                text: 'TRP Tax Collection Chart'
+                text: 'Top 10 TRP Tax Collection'
             }
         }
       },
