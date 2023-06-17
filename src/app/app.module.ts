@@ -51,6 +51,7 @@ import { CommissionComponent } from './commission/commission/commission.componen
 import { CommissionDetailsComponent } from './commission/commission-details/commission-details.component';
 import { CommissionTrpComponent } from './commission/commission-trp/commission-trp.component';
 import { ReportAgentComponent } from './report/report-agent/report-agent.component';
+import { ReportTrpComponent } from './report/report-trp/report-trp.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { ReportAgentComponent } from './report/report-agent/report-agent.compone
     CommissionComponent,
     CommissionDetailsComponent,
     CommissionTrpComponent,
-    ReportAgentComponent
+    ReportAgentComponent,
+    ReportTrpComponent
   ],
   imports: [
     BrowserModule,

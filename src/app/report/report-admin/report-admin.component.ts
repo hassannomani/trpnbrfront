@@ -60,9 +60,9 @@ export class ReportAdminComponent implements OnInit{
     console.log(value)
     this.firstOption = value
     if(value==1)
-      this.dataSecondary = [{"id":1,"value":"All Agents"},{"id":2, "value": "All TRP of an Agent"}, {"id":1,"value":"Search By Creation Date"}]
+      this.dataSecondary = [{"id":1,"value":"All Agents"},{"id":2, "value": "All TRP of an Agent"}/*,{"id":3,"value":"Search By Creation Date"}*/]
     else if(value==2)
-      this.dataSecondary = [{"id":1,"value":"All TRPs"},{"id":2,"value":"Search By Creation Date"}]
+      this.dataSecondary = [{"id":1,"value":"All TRPs"}/*,{"id":2,"value":"Search By Creation Date"}*/]
     else if (value==3)
       this.dataSecondary = [
         {"id":"1","value":"All"},
@@ -77,9 +77,9 @@ export class ReportAdminComponent implements OnInit{
         {"id":"1","value":"All"},
         {"id":"2", "value": "Agent"},
         {"id":"3", "value":"TRP"},
-        {"id":"4","value":"Date Range"},
+        {"id":"4","value":"Date Range"}/*,
         {"id":"5","value":"Agent Commission with Date Range"},
-        {"id":"6","value":"TRP Commission with Date Range"}
+        {"id":"6","value":"TRP Commission with Date Range"}*/
       ]
 
   }

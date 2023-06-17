@@ -21,6 +21,7 @@ export class CommissionService {
   private url_agent_trp : string ='http://localhost:8080/api/ledgers/agenttrp/';
   private urlallrangecommission: string ='http://localhost:8080/api/ledgers/range';
   private urltrprangecommission: string ='http://localhost:8080/api/ledgers/rangetrp';
+  private url_taxpayer_trp : string ='http://localhost:8080/api/ledgers/taxpayertrp/';
 
 
   
@@ -66,5 +67,12 @@ export class CommissionService {
       headers: this.commonService.httpReturner()
     }
     return this.http.get<any[]>(this.urltrprangecommission+"/"+agent+"/"+trp+"/"+start+"/"+end, httpOptions)
+  }
+
+  getInformationOfTaxpayerOfTrp(trp: string, tin: string): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_taxpayer_trp+trp+"/"+tin,httpOptions)
   }
 }
