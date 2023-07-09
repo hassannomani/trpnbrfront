@@ -30,6 +30,8 @@ import { CommissionDetailsComponent } from './commission/commission-details/comm
 import { CommissionTrpComponent } from './commission/commission-trp/commission-trp.component';
 import { ReportAgentComponent } from './report/report-agent/report-agent.component';
 import { ReportTrpComponent } from './report/report-trp/report-trp.component';
+import { UploadCertificaateComponent } from './certificate/upload-certificaate/upload-certificaate.component';
+import { ListCertificateComponent } from './certificate/list-certificate/list-certificate.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -62,6 +64,8 @@ const routes: Routes = [
   {path: "commission-trp", component: CommissionTrpComponent},
   {path: "report-agent", component: ReportAgentComponent},
   {path: "report-trp", component: ReportTrpComponent},
+  {path: "upload-certificate", component: UploadCertificaateComponent},
+  {path: "list-certificate", component: ListCertificateComponent},
 
 ];
 

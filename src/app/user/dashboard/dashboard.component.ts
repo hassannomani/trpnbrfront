@@ -74,7 +74,8 @@ export class DashboardComponent implements OnInit{
           {
             label: "Tax",
             data: dataset,
-            backgroundColor: 'limegreen'
+            backgroundColor: 'limegreen',
+            borderWidth: 4
           }
         ]
       },
