@@ -14,6 +14,7 @@ export class RepresentativeService {
   private urlgetrep : string ='http://localhost:8080/api/representative/';
   private urlgetrepsbyagentid : string ='http://localhost:8080/api/representative/agent/';
   private urlgetAllRep : string ='http://localhost:8080/api/representative/all';
+  private urltrpfile : string ='http://localhost:8080/api/trpereturn';
 
   constructor(
     private http: HttpClient,
@@ -81,6 +82,27 @@ export class RepresentativeService {
       headers: headerObj
     };
     return this.http.get<any[]>(this.urlgetAllRep,httpOptions);
+
+  }
+
+  fileTaxOfATaxPayer(formData: any): Observable<any>{
+    const body=JSON.stringify(formData);
+    const headerObj = this.commonService.httpReturner()
+    const httpOptions = {
+      headers: headerObj
+    };
+    return this.http.post<any>(this.urltrpfile,body,httpOptions);
+
+  }
+
+  
+  verifyOtpOfATaxPayer(formData: any): Observable<any>{
+    const body=JSON.stringify(formData);
+    const headerObj = this.commonService.httpReturner()
+    const httpOptions = {
+      headers: headerObj
+    };
+    return this.http.post<any>(this.urltrpfile+"/otp",body,httpOptions);
 
   }
 }

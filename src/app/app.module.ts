@@ -54,6 +54,8 @@ import { ReportAgentComponent } from './report/report-agent/report-agent.compone
 import { ReportTrpComponent } from './report/report-trp/report-trp.component';
 import { UploadCertificaateComponent } from './certificate/upload-certificaate/upload-certificaate.component';
 import { ListCertificateComponent } from './certificate/list-certificate/list-certificate.component';
+import { FileTaxComponent } from './representative/file-tax/file-tax.component';
+import { RegisterComponent } from './user/register/register.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +106,9 @@ import { ListCertificateComponent } from './certificate/list-certificate/list-ce
     ReportAgentComponent,
     ReportTrpComponent,
     UploadCertificaateComponent,
-    ListCertificateComponent
+    ListCertificateComponent,
+    FileTaxComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
