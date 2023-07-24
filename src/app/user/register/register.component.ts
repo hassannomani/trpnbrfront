@@ -74,7 +74,6 @@ export class RegisterComponent {
     else{
       this.threeStepsProcessing()
     }
-      this.otpShow = true
   }
   isNumCheck(val: any){
     return /^\d+$/.test(val);
@@ -90,7 +89,24 @@ export class RegisterComponent {
     });
   }
   otpSubmit(){
+    this
+    .registerServ
+    .submitOTP(this.registerForm.value['phoneNo'], this.registerForm.value['otp']).subscribe({
+      next: (data) => {
+        if(data==true||data=="true"){ //second chaining
+          alert("verified")
+        }else{
+          this.message = "OTP doesn't match"
+          this.openSnackBar()
+        }
 
+      }
+      ,
+      error: (e) => {
+        this.message = "Error occurred! Try again later1!"
+        this.openSnackBar()
+      }
+    })
   }
 
   threeStepsProcessing(){
@@ -108,7 +124,7 @@ export class RegisterComponent {
       }
       ,
       error: (e) => {
-        this.message = "Error occurred! Try again later!"
+        this.message = "Error occurred! Try again later1!"
         this.openSnackBar()
       }
     })
@@ -125,13 +141,34 @@ export class RegisterComponent {
       }
       ,
       error: (e) => {
-        this.message = "Error occurred! Try again later!"
+        this.message = "Error occurred! Try again later2!"
         this.openSnackBar()
       }      
     })
   }
 
   getMobileValidated(mobile: any){
+    //send req to ntmc
+    this.otpSend(this.registerForm.value['phoneNo'])
+    this.otpShow = true
 
+  }
+
+  otpSend(mobile: any){
+    this.registerServ.sendOTP(mobile).subscribe({
+      next: (data) => {
+        if(data.is_success==1||data.is_success=="1"){
+          this.otpShow = true
+        }else{
+          this.message = "OTP couldn't be sent. Please try again later"
+        }
+      }
+      ,
+      error: (e) => {
+        console.log(e)
+        this.message = "Error occurred! Try again later3!"
+        this.openSnackBar()
+      }      
+    })
   }
 }
