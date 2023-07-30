@@ -70,6 +70,7 @@ const routes: Routes = [
   {path: "list-certificate", component: ListCertificateComponent},
   {path: "file-tax", component: FileTaxComponent},
   {path: "register", component: RegisterComponent},
+  {path: "register-fillup", component: AddRepresentativeComponent},
 
 ];
 

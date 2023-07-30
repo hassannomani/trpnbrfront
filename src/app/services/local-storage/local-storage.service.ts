@@ -7,6 +7,14 @@ export interface storedUser {
   roles: String,
   email: String
 }
+
+export interface UnregisteredUser {
+  un_tin: string,
+  un_nid: string,
+  un_mobile: string,
+  un_tinData: {}
+}
+
 export interface storedAgntReptv{
   agent: {},
   representative: {}
@@ -39,6 +47,7 @@ export class LocalStorageService {
     return obj;
   }
   deletetorageItems(){
+    console.log("called from unknown")
     localStorage.clear();
     return {
       "id": "",
@@ -69,5 +78,35 @@ export class LocalStorageService {
   deleteRepresentative(){
     localStorage.removeItem("representative")
   }
+
+  saveUnregisteredUser(obj: any){
+
+    localStorage.setItem('un_nid', JSON.stringify(obj.un_nid));
+    localStorage.setItem('un_tin', JSON.stringify(obj.un_tin));
+    localStorage.setItem('un_mobile', JSON.stringify(obj.un_mobile));
+    localStorage.setItem('un_tinData', JSON.stringify(obj.un_tinData));
+    console.log(this.getUnregisteredUser())
+  }
+  getUnregisteredUser(){
+    console.log("Getting call")
+    let obj={
+      "un_nid": localStorage.getItem('un_nid'),
+      "un_tin": localStorage.getItem('un_tin'),
+      "un_mobile": localStorage.getItem('un_mobile'),
+      "un_tinData" : localStorage.getItem('un_tinData')
+    }
+    console.log("returning ")
+    console.log(obj)
+
+    return obj;
+  }
+  deleteUnregisteredUser(){
+    console.log("delete is called")
+    localStorage.removeItem("un_nid")
+    localStorage.removeItem("un_tin")
+    localStorage.removeItem("un_mobile")
+    localStorage.removeItem("un_tinData")
+  }
+
 }
 

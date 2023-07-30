@@ -15,3 +15,9 @@ table.example-full-width{
 .inp{
     width: 100%;
 }
+.resend{
+    color: #3f51b5;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 10px;
+}

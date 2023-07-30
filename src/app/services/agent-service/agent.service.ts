@@ -13,6 +13,8 @@ export class AgentService {
   private urlall : string ='http://localhost:8080/api/agent/all';
   private urlanagent : string ='http://localhost:8080/api/users/user/';
   private urlagent: string ='http://localhost:8080/api/agent/';
+  private urlallfront : string ='http://localhost:8080/api/agent/allfront';
+
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
@@ -92,6 +94,13 @@ export class AgentService {
     }else{
       return this.http.get<any>(this.urlagent+uname)
     }
+  }
+
+  getAllAgentForFront(){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+      return this.http.get<any>(this.urlallfront,httpOptions)
   }
 
 

@@ -30,6 +30,7 @@ export class ToolbarComponent implements OnInit{
   ){}
   ngOnInit(): void {
     this.signInService.loginStatusChange().subscribe(loggedIn => {
+      //console.log("changing")
       let local = this.localStorage.getStorageItems();
       console.log(local)
       if(local.token==""||local.token==null){

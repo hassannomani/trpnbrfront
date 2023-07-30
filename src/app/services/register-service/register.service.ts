@@ -28,6 +28,7 @@ export class RegisterService {
       headers: this.commonService.httpReturner()
     }
       return this.http.get<any>(this.otp_base_url+"/"+mobile,httpOptions)
+    
   }
 
   submitOTP(mobile: any, otp: any){

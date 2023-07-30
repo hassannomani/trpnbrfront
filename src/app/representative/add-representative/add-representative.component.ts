@@ -143,6 +143,7 @@ export class AddRepresentativeComponent implements OnInit{
   prDistrict: any = []
   prThana: any = []
   agentId: any = ""
+  agents: any = []
   banks: any = []
   bankdist: any = []
   bankBranches: any = []
@@ -179,9 +180,39 @@ export class AddRepresentativeComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    this.localStore = this.localStorage.getStorageItems();
-    if(this.localStore.token==""){
-      this.router.navigate(['/logout']);
+    this.localStore = this.localStorage.getUnregisteredUser();
+    //let temp = JSON.parse(this.localStore)
+    console.log(this.localStore)
+    if(this.localStore.un_nid!=""){
+      let temp = JSON.parse(this.localStore.un_tinData)
+      console.log(temp)
+      this.addUser.get('username')?.setValue(JSON.parse(this.localStore.un_tin))
+      let name = temp.name
+      if(name!=null && name!=''){
+        let split = name.split(" ")
+        let lastpart=""
+        this.addUser.get("firstName")?.setValue(split[0])
+        for (let i=1;i<split.length;i++)
+          lastpart+=split[i]+" "
+        this.addUser.get("lastName")?.setValue(lastpart)
+      }
+
+      if(temp.dob!=""){
+        let dob= temp.dob
+        let dt= new Date(dob)
+        this.setDate(dt)
+      }
+
+      if(temp.email!=""&&temp.email!=null){
+        let email= temp.email
+        this.addUser.get('email')?.setValue(email)
+
+      }
+    
+      
+      this.addRepresentative.get('reMobileNo')?.setValue(JSON.parse(this.localStore.un_mobile))
+    
+      this.addRepresentative.get('nid')?.setValue(JSON.parse(this.localStore.un_nid))
     }
     this.onTabChanged();
       forkJoin(
@@ -189,7 +220,7 @@ export class AddRepresentativeComponent implements OnInit{
         this.commonService.getDivision(),
         this.commonService.getThana(),
         this.userService.getRoles(),
-        this.agentService.getAgentInfo(JSON.parse(this.localStore.username)),
+        this.agentService.getAllAgentForFront(),
         this.commonService.getBank(),
         this.commonService.getBankDist(),
         this.commonService.getCityCorp(),
@@ -201,7 +232,7 @@ export class AddRepresentativeComponent implements OnInit{
           this.division = data[1];
           this.thana = data[2];
           this.roles = data[3];
-          this.agentId = JSON.parse(this.localStore.username);
+          this.agents = data[4];
           this.banks = data[5];
           this.bankdist = data[6];
           this.citycorporation = data[7];

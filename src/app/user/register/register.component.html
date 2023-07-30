@@ -40,6 +40,13 @@
                     </mat-form-field>
                 </td>
                
+               
+            </tr>
+            <tr *ngIf="otpShow">
+                <p><b> An OTP has been sent to your mobile No. Time remaining. {{display}} </b></p>
+            </tr>
+            <tr *ngIf="requestNew">
+                <span class="resend" (click)="resend()"><b>Resend</b></span>
             </tr>
           
           

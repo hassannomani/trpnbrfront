@@ -14,7 +14,8 @@ import { CommonService } from 'src/app/services/common-service/common.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-
+  display: any;
+  public timerInterval: any;
   buttonLabel: string = "Check"
   buttonColor: string = "primary"
   buttonType: string = "button"
@@ -26,6 +27,8 @@ export class RegisterComponent {
   username : string = ""
   agentId: string = ""
   otpShow: Boolean = false
+  tinInfo: any ={}
+  requestNew : boolean = false
   registerForm = new FormGroup({
     'tinNo' : new FormControl('',[Validators.required]),
     'nid' : new FormControl('',[Validators.required]),
@@ -89,24 +92,52 @@ export class RegisterComponent {
     });
   }
   otpSubmit(){
-    this
-    .registerServ
-    .submitOTP(this.registerForm.value['phoneNo'], this.registerForm.value['otp']).subscribe({
-      next: (data) => {
-        if(data==true||data=="true"){ //second chaining
-          alert("verified")
-        }else{
-          this.message = "OTP doesn't match"
-          this.openSnackBar()
-        }
+    // this
+    // .registerServ
+    // .submitOTP(this.registerForm.value['phoneNo'], this.registerForm.value['otp']).subscribe({
+    //   next: (data) => {
+    //     if(data==true||data=="true"){ //second chaining
+    //      // this.
+    //      this.otpShow = false
+    //      this.requestNew = false
+    //      let obj = {
+    //       un_tin: this.registerForm.value['tinNo'],
+    //       un_nid: this.registerForm.value['nid'],
+    //       un_mobile: this.registerForm.value['phoneNo'],
+    //       un_tinData: this.tinInfo
+    //      }
+    //      this.localStore.saveUnregisteredUser(obj)
+         
+    //      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //       this.router.navigate(['register-fillup']);
+    //     }); 
+          
+    //     }else{
+    //       this.message = "OTP doesn't match"
+    //       this.openSnackBar()
+    //     }
 
-      }
-      ,
-      error: (e) => {
-        this.message = "Error occurred! Try again later1!"
-        this.openSnackBar()
-      }
-    })
+    //   }
+    //   ,
+    //   error: (e) => {
+    //     this.message = "Error occurred! Try again later1!"
+    //     this.openSnackBar()
+    //   }
+    // })
+    this.otpShow = false
+    this.requestNew = false
+    let obj = {
+     un_tin: this.registerForm.value['tinNo'],
+     un_nid: this.registerForm.value['nid'],
+     un_mobile: this.registerForm.value['phoneNo'],
+     un_tinData: this.tinInfo
+    }
+    console.log(obj)
+    this.localStore.saveUnregisteredUser(obj)
+    
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+     this.router.navigate(['register-fillup']);
+   }); 
   }
 
   threeStepsProcessing(){
@@ -136,6 +167,7 @@ export class RegisterComponent {
         if(data.isError==1){
           this.message = "TIN not found"
         }else{
+          this.tinInfo = data
           this.getMobileValidated(this.registerForm.value['phoneNo'])
         }
       }
@@ -154,21 +186,56 @@ export class RegisterComponent {
 
   }
 
+  resend(){
+    this.otpSend(this.registerForm.value['phoneNo'])
+  }
+
   otpSend(mobile: any){
-    this.registerServ.sendOTP(mobile).subscribe({
-      next: (data) => {
-        if(data.is_success==1||data.is_success=="1"){
-          this.otpShow = true
-        }else{
-          this.message = "OTP couldn't be sent. Please try again later"
-        }
+    this.requestNew = false
+    // this.registerServ.sendOTP(mobile).subscribe({
+    //   next: (data) => {
+    //     if(data.is_success==1||data.is_success=="1"){
+    //       this.otpShow = true
+    //       this.timer(5)
+    //     }else{
+    //       this.message = "OTP couldn't be sent. Please try again later"
+    //     }
+    //   }
+    //   ,
+    //   error: (e) => {
+    //     console.log(e)
+    //     this.message = "Error occurred! Try again later3!"
+    //     this.openSnackBar()
+    //   }      
+    // })
+    this.otpShow = true
+    this.timer(5)
+  }
+
+  timer(minute: any) {
+    // let minute = 1;
+    let seconds: number = minute * 60;
+    let textSec: any = '0';
+    let statSec: number = 60;
+
+    const prefix = minute < 10 ? '0' : '';
+
+    this.timerInterval = setInterval(() => {
+      seconds--;
+      if (statSec != 0) statSec--;
+      else statSec = 59;
+
+      if (statSec < 10) {
+        textSec = '0' + statSec;
+      } else textSec = statSec;
+
+      this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+      if (seconds == 0) {
+        console.log('finished');
+        this.requestNew = true
+        clearInterval(this.timerInterval);
       }
-      ,
-      error: (e) => {
-        console.log(e)
-        this.message = "Error occurred! Try again later3!"
-        this.openSnackBar()
-      }      
-    })
+    }, 1000);
   }
 }

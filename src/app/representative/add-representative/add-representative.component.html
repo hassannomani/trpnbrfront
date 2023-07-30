@@ -154,6 +154,15 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Agent</mat-label>
+                        <mat-select matNativeControl required formControlName="agentId">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let age of agents" [value]="age[1]">{{age[2]}}</mat-option>   
+                        </mat-select>
+                    </mat-form-field>
+                </td>
 
                 <td style="width: 50%;">
                     <div class="example-full-width">
@@ -171,7 +180,9 @@
                     <p class="success" *ngIf="fileUploaded">File Uploaded Successfully</p>
                 </div>
                 </td>
-
+               
+            </tr>
+            <tr>
                 <td style="width: 50%;">
                     <div class="example-full-width">
                     <label>Attach Recent Color Photo (Passport Size)</label>
@@ -609,4 +620,4 @@
    
   
     
-</mat-tab-group>
+    </mat-tab-group>
