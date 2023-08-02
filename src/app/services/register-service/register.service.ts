@@ -38,4 +38,11 @@ export class RegisterService {
       return this.http.get<any>(this.otp_base_url+"/validate/"+mobile+"/"+otp,httpOptions)
   }
 
+  getCertificate(tin: any, nid: any){
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+      return this.http.get<any>(this.cert_base_url+"/get/"+tin+"/"+nid,httpOptions)
+  }
+
 }

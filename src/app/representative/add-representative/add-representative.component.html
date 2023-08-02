@@ -112,10 +112,20 @@
                     <input matInput  formControlName="nid" type="number"  placeholder="NID">
                     </mat-form-field>
                 </td>
-                <td>
+                <!-- <td>
                     <mat-form-field class="example-full-width">
                     <mat-label>TRP Id</mat-label>
                     <input matInput  formControlName="trpId" type="text"  placeholder="TRP Id">
+                    </mat-form-field>
+                </td> -->
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Agent</mat-label>
+                        <mat-select matNativeControl required formControlName="agentId">
+                            <mat-option value="">--Select--</mat-option>
+                            <mat-option *ngFor="let age of agents" [value]="age[1]">{{age[2]}}</mat-option>  
+                            <mat-option value="0">None</mat-option> 
+                        </mat-select>
                     </mat-form-field>
                 </td>
             </tr>
@@ -154,16 +164,6 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Agent</mat-label>
-                        <mat-select matNativeControl required formControlName="agentId">
-                            <mat-option value="">--Select--</mat-option>
-                            <mat-option *ngFor="let age of agents" [value]="age[1]">{{age[2]}}</mat-option>   
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-
                 <td style="width: 50%;">
                     <div class="example-full-width">
                     <label>Registration Certificate</label>
@@ -180,9 +180,7 @@
                     <p class="success" *ngIf="fileUploaded">File Uploaded Successfully</p>
                 </div>
                 </td>
-               
-            </tr>
-            <tr>
+
                 <td style="width: 50%;">
                     <div class="example-full-width">
                     <label>Attach Recent Color Photo (Passport Size)</label>
@@ -199,8 +197,8 @@
                     <p class="success" *ngIf="photoUploaded">Photo Uploaded Successfully</p>
                 </div>
                 </td>
+               
             </tr>
-
             <tr><app-button
                 [label]="buttonLabel2"
                 [color]="buttonColor2" 

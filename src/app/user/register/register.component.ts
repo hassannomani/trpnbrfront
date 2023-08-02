@@ -29,6 +29,7 @@ export class RegisterComponent {
   otpShow: Boolean = false
   tinInfo: any ={}
   requestNew : boolean = false
+  submitted : boolean = false
   registerForm = new FormGroup({
     'tinNo' : new FormControl('',[Validators.required]),
     'nid' : new FormControl('',[Validators.required]),
@@ -50,6 +51,7 @@ export class RegisterComponent {
   }
 
   taxpayerSubmit(){
+    this.submitted = true
     this.message=""
     let tin = this.registerForm.value['tinNo']
     let tin12 = tin==null?false:tin.length==12?true:false
@@ -72,8 +74,10 @@ export class RegisterComponent {
     let mobileValid = mobileStart && mobileLength && mobileNum
     if(!mobileValid)
       this.message = this.message + "Mobile No is not valid. "
-    if(!tinValid||!nidValid||!mobileValid)
+    if(!tinValid||!nidValid||!mobileValid){
       this.openSnackBar()
+      this.submitted = false
+    }
     else{
       this.threeStepsProcessing()
     }
@@ -149,6 +153,7 @@ export class RegisterComponent {
           this.getTinValidation(this.registerForm.value['tinNo'])
         }else{
           this.message = "No certificate found with this NID and TIN"
+          this.submitted  =false
           this.openSnackBar()
         }
 
@@ -173,6 +178,7 @@ export class RegisterComponent {
       }
       ,
       error: (e) => {
+        this.submitted = false
         this.message = "Error occurred! Try again later2!"
         this.openSnackBar()
       }      
@@ -183,6 +189,7 @@ export class RegisterComponent {
     //send req to ntmc
     this.otpSend(this.registerForm.value['phoneNo'])
     this.otpShow = true
+    this.submitted = false
 
   }
 
@@ -191,7 +198,7 @@ export class RegisterComponent {
   }
 
   otpSend(mobile: any){
-    this.requestNew = false
+    // this.requestNew = false
     // this.registerServ.sendOTP(mobile).subscribe({
     //   next: (data) => {
     //     if(data.is_success==1||data.is_success=="1"){
@@ -208,6 +215,7 @@ export class RegisterComponent {
     //     this.openSnackBar()
     //   }      
     // })
+    this.requestNew = false
     this.otpShow = true
     this.timer(5)
   }

@@ -13,6 +13,7 @@ export interface Roles {
 export class UserService {
   private url : string ='http://localhost:8080/api/users/roles';
   private urladd : string ='http://localhost:8080/api/users/add';
+  private urlRegister : string ='http://localhost:8080/api/users/register';
   private url_list : string ='http://localhost:8080/api/users/all';
   private url_single : string ='http://localhost:8080/api/users/user/';
   private url_pending_all : string ='http://localhost:8080/api/users/pending-all';
@@ -143,4 +144,12 @@ export class UserService {
       return this.http.get<any>(this.url_reject_representative+tin,httpOptions)
   }
 
+  registerUser(formData: any): Observable<any>{
+
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    const body=JSON.stringify(formData);
+    return this.http.post(this.urlRegister, body,httpOptions)
+  }
 }

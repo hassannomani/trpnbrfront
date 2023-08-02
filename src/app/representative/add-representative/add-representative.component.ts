@@ -7,6 +7,7 @@ import { CommonService } from 'src/app/services/common-service/common.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
+import { RegisterService } from 'src/app/services/register-service/register.service';
 import { Router } from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import { formatDate } from '@angular/common' 
@@ -147,6 +148,7 @@ export class AddRepresentativeComponent implements OnInit{
   banks: any = []
   bankdist: any = []
   bankBranches: any = []
+  certificate: any = {}
   bankName: string = ""
   noDataFound: boolean = false
   routeNo: string = ""
@@ -172,6 +174,7 @@ export class AddRepresentativeComponent implements OnInit{
     private agentService: AgentService,
     private titleService:Title,
     public dialog: MatDialog,
+    private registrationServ: RegisterService
  
   ){
     this.titleService.setTitle
@@ -182,12 +185,19 @@ export class AddRepresentativeComponent implements OnInit{
   ngOnInit(): void {
     this.localStore = this.localStorage.getUnregisteredUser();
     //let temp = JSON.parse(this.localStore)
+    var tin = JSON.parse(this.localStore.un_tin)
+    var nid = JSON.parse(this.localStore.un_nid)
     console.log(this.localStore)
     if(this.localStore.un_nid!=""){
       let temp = JSON.parse(this.localStore.un_tinData)
       console.log(temp)
       this.addUser.get('username')?.setValue(JSON.parse(this.localStore.un_tin))
       let name = temp.name
+      this.addRepresentative.get('reName')?.setValue(name)
+
+      let tempTin = JSON.parse(this.localStore.un_tin)
+      this.addRepresentative.get('tinNo')?.setValue(tempTin)
+
       if(name!=null && name!=''){
         let split = name.split(" ")
         let lastpart=""
@@ -224,6 +234,7 @@ export class AddRepresentativeComponent implements OnInit{
         this.commonService.getBank(),
         this.commonService.getBankDist(),
         this.commonService.getCityCorp(),
+        this.registrationServ.getCertificate(tin,nid)
       ])
       .subscribe({
         next: (data) => {
@@ -236,6 +247,8 @@ export class AddRepresentativeComponent implements OnInit{
           this.banks = data[5];
           this.bankdist = data[6];
           this.citycorporation = data[7];
+          this.certificate = data[8]
+          this.processCert()
         },
         error: (e) => {
          
@@ -244,6 +257,11 @@ export class AddRepresentativeComponent implements OnInit{
       });
   }
   
+  processCert(){
+    this.addRepresentative.get("certNo")?.setValue(this.certificate.examineeCertno)
+    this.addRepresentative.get("certSerial")?.setValue(this.certificate.examineeCertserial)
+
+  }
   representativeSubmit(){
     this.saving = true
     let bankObj={
@@ -463,7 +481,7 @@ export class AddRepresentativeComponent implements OnInit{
 
   registerUser(){
    
-    this.addUser.value['addedBy']=JSON.parse(this.localStore.username)
+    this.addUser.value['addedBy']="0"
     this.addUser.value['status']="0"
     this.addUser.value['photo']=""
     let index = -1;
@@ -474,7 +492,7 @@ export class AddRepresentativeComponent implements OnInit{
       }
     }
     this.addUser.value['roles'] = this.roleRep;
-    this.userService.addUsers(this.addUser.value).subscribe({
+    this.userService.registerUser(this.addUser.value).subscribe({
      
       next: (data) => {
         if(data.uuid){
