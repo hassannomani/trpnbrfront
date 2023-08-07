@@ -40,6 +40,7 @@ export class AddRepresentativeComponent implements OnInit{
     'tinNo' : new FormControl('',[Validators.required]),
     'nid' : new FormControl('',[Validators.required]),
     'reMobileNo' : new FormControl('',[Validators.required]),
+    'agId':  new FormControl('',[Validators.required]),
     'agentId' : new FormControl('',[Validators.required]),
     'bankAccountName': new FormControl('',[Validators.required]),
     'bankAccountNo': new FormControl('',[Validators.required]),
@@ -326,16 +327,17 @@ export class AddRepresentativeComponent implements OnInit{
                 this.success = true;
                 this.saving = false
                 this.addRepresentative.reset()
-                this.modalMessage = "TRP Successfully Added"
+                this.modalMessage = "You have successfully submitted the application. Please wait for the approval"
                 this.modalTitle = "Success!"
                 this.alertDialog()
                 this.failed=false;
                 this.disabledtrue = true
+                this.freeLocal()
               } 
               else{
                 this.saving = false
                 this.failed = true
-                this.modalMessage = "TRP Adding Failed"
+                this.modalMessage = "Application couldn't be submitted"
                 this.modalTitle = "Failed!"
                 this.alertDialog()
               }
@@ -390,7 +392,7 @@ export class AddRepresentativeComponent implements OnInit{
       villageUnion: this.addRepresentative.value['prvillageUnion'],
       citycorporation: this.addRepresentative.value['prcitycorporation'],
       others: this.addRepresentative.value['prothers'],
-      addedBy: "AGENT" 
+      addedBy: "SELF" 
     }
     let businessobj={
       type: "BUSINESS",
@@ -405,7 +407,7 @@ export class AddRepresentativeComponent implements OnInit{
       villageUnion: this.addRepresentative.value['bvillageUnion'],
       citycorporation: this.addRepresentative.value['bcitycorporation'],
       others: this.addRepresentative.value['bothers'],
-      addedBy: "AGENT" 
+      addedBy: "SELF" 
     }
     let permanentobj={
       type: "PERMANENT",
@@ -420,7 +422,7 @@ export class AddRepresentativeComponent implements OnInit{
       villageUnion: this.addRepresentative.value['pmvillageUnion'],
       citycorporation: this.addRepresentative.value['pmcitycorporation'],
       others: this.addRepresentative.value['pmothers'],
-      addedBy: "AGENT" 
+      addedBy: "SELF" 
     }
   //this.agentService.addAddress
     forkJoin([
@@ -751,6 +753,11 @@ export class AddRepresentativeComponent implements OnInit{
     this.addRepresentative.get('reDob')?.setValue(formatDate(value,'yyyy-MM-dd','en'))
 
   }
+
+  setAgent(value:any){
+    console.log(value)
+    this.agentId=value
+  }
   selectFile(event: any){
     this.file = event.target.files.item(0);
   }
@@ -825,6 +832,10 @@ export class AddRepresentativeComponent implements OnInit{
       maxWidth: "400px",
       data: dialogData
     });
+  }
+
+  freeLocal(){
+    this.localStorage.deleteUnregisteredUser()
   }
 }
 

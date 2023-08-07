@@ -23,27 +23,21 @@
     </ng-container>
   
     <!-- Name Column -->
-    <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef>First Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-    </ng-container>
-  
-    <!-- Weight Column -->
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef> Last Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    <ng-container matColumnDef="re_name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.re_name}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
-    <ng-container matColumnDef="addedBy">
+    <ng-container matColumnDef="agent_id">
       <th mat-header-cell *matHeaderCellDef> Agent </th>
-      <td mat-cell *matCellDef="let element"> {{element.addedBy}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.agent_id=="0"?"Not Selected":element.agent_id}} </td>
     </ng-container>
 
    
-    <ng-container matColumnDef="addedDate">
+    <ng-container matColumnDef="added_date">
     <th mat-header-cell *matHeaderCellDef> Date of Join  </th>
-    <td mat-cell *matCellDef="let element"> {{element.addedDate | date}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.added_date | date}} </td>
     </ng-container>
 
       <ng-container matColumnDef="action">
@@ -59,7 +53,7 @@
             [label]="buttonLabel1"
             [color]="buttonColor1" 
             [type]="buttonType1"
-            (click)="approve(element.uuid,i)">
+            (click)="approve(element.uuid,i,element.agent_id, element.username)">
         </app-button>
         <app-button
             [label]="buttonLabel2"

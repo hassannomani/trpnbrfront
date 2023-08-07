@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 import {Title} from "@angular/platform-browser";
+import { AgentService } from 'src/app/services/agent-service/agent.service';
 
 @Component({
   selector: 'app-approve-representative',
@@ -20,6 +21,7 @@ export class ApproveRepresentativeComponent implements OnInit{
   zeroData : boolean = false;
   approveFailed : boolean = false;
   displayedColumns: any = []
+  agents: any = []
   buttonLabel: string = "See Details"
   buttonColor: string = "Basic"
   buttonType: string = "button"
@@ -35,7 +37,8 @@ export class ApproveRepresentativeComponent implements OnInit{
     private userService: UserService,
     private router: Router,
     private titleService:Title,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private agentServ: AgentService
 
   ){
     this.titleService.setTitle("Approve TRP");
@@ -43,6 +46,7 @@ export class ApproveRepresentativeComponent implements OnInit{
   }
   ngOnInit(): void {
     this.getAllPendingTRPs()
+    this.getAllAgents()
   }
 
   getAllPendingTRPs(){
@@ -53,7 +57,7 @@ export class ApproveRepresentativeComponent implements OnInit{
       next: (data) => {
         if(data.length){
           this.representativesArr = data
-          this.displayedColumns = [ 'username','firstName','lastName','addedBy','addedDate','action']
+          this.displayedColumns = [ 'username','re_name','agent_id','added_date','action']
         } 
         else{
           this.representativesArr = []
@@ -68,23 +72,33 @@ export class ApproveRepresentativeComponent implements OnInit{
     })
   }
 
-  approve(uuid : string, index: string){    
 
-    this.userService.approvePendingUser(uuid).subscribe({
-      next: (data) => {
-        if(data.uuid){
-          this.message = "User successfully approved"
+  approve(uuid : string, index: string, addedBy: string, tin: string){    
+    if(addedBy=="0"){
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['approve-representative-details'],{ queryParams: {username:tin}});
+      });
+      
+    }else{
+      //alert("hello")
+      this.userService.approvePendingUser(uuid).subscribe({
+        next: (data) => {
+          if(data.uuid){
+            this.message = "User successfully approved"
+            this.openSnackBar()
+            this.getAllPendingTRPs() 
+          
+          } 
+        },
+        error: (e) => {
+          this.message = "User approval failed";
           this.openSnackBar()
-          this.getAllPendingTRPs() 
-        
+          console.log(e)
         } 
-      },
-      error: (e) => {
-        this.message = "User approval failed";
-        this.openSnackBar()
-        console.log(e)
-      } 
-    })
+      })
+    }
+    return
+    
   }
 
   details(tin : string, index: string){
@@ -133,5 +147,19 @@ export class ApproveRepresentativeComponent implements OnInit{
     //       //this.changeDetector.detectChanges();
     // }) 
 
+  getAllAgents(){
+    this.agentServ.getAllAgentForFront().subscribe({
+      next: (data) => {
+        if(data.length){
+          this.agents = data
+        } 
+      },
+      error: (e) => {
+        this.message = "Agent Data not loaded";
+        console.log(e)
+      } 
+    })
+
+  }
 
 }

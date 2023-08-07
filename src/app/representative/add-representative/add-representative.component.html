@@ -121,7 +121,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Agent</mat-label>
-                        <mat-select matNativeControl required formControlName="agentId">
+                        <mat-select matNativeControl required formControlName="agId" (selectionChange)="setAgent($event.value)">
                             <mat-option value="">--Select--</mat-option>
                             <mat-option *ngFor="let age of agents" [value]="age[1]">{{age[2]}}</mat-option>  
                             <mat-option value="0">None</mat-option> 

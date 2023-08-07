@@ -89,44 +89,21 @@ export class CommonService {
 
   addAddress(formData: any): Observable<any>{
 
-    let obj = this.localStorageServc.getStorageItems()
-    const body=JSON.stringify(formData);
-
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-      })
-  
-      const httpOptions = {
-        headers: headers_object
-      };
-        
-      return this.http.post<any>(this.urladdaddress,body,httpOptions)
-    }else{
-      return this.http.post<any[]>(this.urladdaddress,body)
-    }
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+    const body=JSON.stringify(formData);  
+    return this.http.post<any>(this.urladdaddress,body,httpOptions)
+   
 
   }
 
   addBank(formData: any): Observable<any>{
-    let obj = this.localStorageServc.getStorageItems()
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
     const body=JSON.stringify(formData);
-
-    if(obj.token!=""&&obj.token!=null){
-      var headers_object = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer "+ JSON.parse(obj.token) 
-      })
-  
-      const httpOptions = {
-        headers: headers_object
-      };
-        
-      return this.http.post<any>(this.urladdbank,body,httpOptions)
-    }else{
-      return this.http.post<any[]>(this.urladdbank,body)
-    }
+    return this.http.post<any>(this.urladdbank,body,httpOptions)
   }
 
   httpReturner(): any{

@@ -5,8 +5,10 @@ import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 import {Title} from "@angular/platform-browser";
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-approve-representative-single',
@@ -14,10 +16,14 @@ import { AgentService } from 'src/app/services/agent-service/agent.service';
   styleUrls: ['./approve-representative-single.component.css']
 })
 export class ApproveRepresentativeSingleComponent implements OnInit {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   loaded: boolean = true;
   zeroData : boolean = false;
   approveFailed : boolean = false;
+  agentLoaded: boolean = false;
   displayedColumns: any = []
+  agentAll: any = []
   buttonLabel: string = "See Details"
   buttonColor: string = "Basic"
   buttonType: string = "button"
@@ -29,6 +35,10 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
   agent: any ={}
   step: number = 0
   image: any 
+  message: string = ""
+  assignAgent = new FormGroup({
+    'agentId' : new FormControl('',[Validators.required, Validators.minLength(12)]),
+  })
   constructor(
     private representativeServ: RepresentativeService,
     private router: Router,
@@ -37,7 +47,9 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
     private titleService:Title,
     private commonService: CommonService,
     private sanitizer: DomSanitizer,
-    private agentService: AgentService
+    private agentService: AgentService,
+    private _snackBar: MatSnackBar,
+
   ){
     this.titleService.setTitle("Approve TRP");
 
@@ -55,7 +67,13 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
                 this.representative = data
                 this.loaded = true
                 this.loadPhoto(data.rePhoto)
-                this.loadAgent(data.agentId)
+                if(data.agentId!="0"){
+                  this.loadAgent(data.agentId)
+                  this.agentLoaded = true
+                }else{
+                  this.agentLoaded = false
+                }
+                  
               }
             },
             error: (e) => {
@@ -66,7 +84,18 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
         }
 
       })
-
+    this.agentService.getAllAgentForFront().subscribe({
+      next: (data) => {
+        if(data.length){
+          this.agentAll = data
+        }
+      },
+      error: (e) => {
+        console.log(e)
+        this.message = "Data retrieving error"
+        this.openSnackBar()
+      }
+    })
   }
 
   setStep(index: number) {
@@ -82,18 +111,50 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
   }
 
   approve(username : string,){   
+    if(this.agentLoaded){
 
+      this.approveUserMain(username)
+
+    }else{
+      let agent = this.assignAgent.value['agentId']
+      if(agent==""){
+        this.message = "Please select an agent!"
+        this.openSnackBar()
+      }else{
+        this.representativeServ.assignAgent(username, agent).subscribe({
+
+          next: (data) => {
+            if(data.userid){
+              this.approveUserMain(username)
+            } 
+          },
+          error: (e) => {
+            this.message = "Failed to assign agent!"
+            this.openSnackBar()
+            console.log(e)
+          } 
+
+        })
+      }
+
+    }
+    
+  }
+
+  approveUserMain(username: any){
     this.userService.approvePendingUserByTin(username).subscribe({
       next: (data) => {
         if(data.uuid){
-          alert("User Approved!")
+          this.message = "Successfully approved"
+          this.openSnackBar()
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['approve-representatives']);
           });        
         } 
       },
       error: (e) => {
-        alert("Approval Failed!")
+        this.message = "Approval failed"
+        this.openSnackBar()
         console.log(e)
       } 
     })
@@ -192,6 +253,15 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
          console.log(e)
        }       
     })
+  }
+
+  openSnackBar() {
+    this._snackBar.open(this.message, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 5 * 1000,
+
+    });
   }
 
 }
