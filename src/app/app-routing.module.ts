@@ -34,6 +34,7 @@ import { UploadCertificaateComponent } from './certificate/upload-certificaate/u
 import { ListCertificateComponent } from './certificate/list-certificate/list-certificate.component';
 import { FileTaxComponent } from './representative/file-tax/file-tax.component';
 import { RegisterComponent } from './user/register/register.component';
+import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -71,6 +72,7 @@ const routes: Routes = [
   {path: "file-tax", component: FileTaxComponent},
   {path: "register", component: RegisterComponent},
   {path: "register-fillup", component: AddRepresentativeComponent},
+  {path: "bill-submit", component: BillSubmitComponent},
 
 ];
 

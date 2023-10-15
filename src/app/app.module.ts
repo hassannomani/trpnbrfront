@@ -57,6 +57,7 @@ import { ListCertificateComponent } from './certificate/list-certificate/list-ce
 import { FileTaxComponent } from './representative/file-tax/file-tax.component';
 import { RegisterComponent } from './user/register/register.component';
 import { RegisterFillupComponent } from './user/register-fillup/register-fillup.component';
+import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { RegisterFillupComponent } from './user/register-fillup/register-fillup.
     ListCertificateComponent,
     FileTaxComponent,
     RegisterComponent,
-    RegisterFillupComponent
+    RegisterFillupComponent,
+    BillSubmitComponent
   ],
   imports: [
     BrowserModule,
