@@ -29,4 +29,12 @@ export class BillingService {
     }
     return this.http.get<any[]>(this.url_base_ledger+'billable-trp/'+trpId,httpOptions)
   }
+
+  submitBill(billids: any): Observable<any>{
+    const body=JSON.stringify(billids);
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.post<any>(this.url_base_ledger+'billSubmit',body,httpOptions)
+  }
 }

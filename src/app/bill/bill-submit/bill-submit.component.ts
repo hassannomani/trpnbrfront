@@ -43,49 +43,55 @@ export class BillSubmitComponent implements OnInit{
     this.username = temp.username!=null?JSON.parse(temp.username):""
     this.role = temp.role!=null?JSON.parse(temp.role):""
     if(this.role=="ROLE_REPRESENTATIVE"){
-      this.billingServ.getTRPBillable(this.username).subscribe({
-        next: (data) => {
-          if(data.length){
-            this.trp = true
-            this.comList = data
-            this.dataReceived = true
-            this.displayedColumns = [ 'Serial','taxpayerId','taxpayerName','paidAmount','representativeCommission','action']
-          } 
-          else{
-            this.message = "No Data found"
-            this.openSnackBar()
-          }
-        },
-        error: (e) => {
-          console.log(e)
-          this.message = "Error Retrieving Data. Please try again"
-          this.openSnackBar()
-        } 
-      })
+      this.trpCommission()
     }else if(this.role=="ROLE_AGENT"){
-
-      this.billingServ.getAgentBillable(this.username).subscribe({
-        next: (data) => {
-          if(data.length){
-            this.trp = false
-            this.comList = data
-            this.dataReceived = true
-            this.displayedColumns = ['Serial', 'taxpayerId','taxpayerName','paidAmount','agentCommission','action']
-          } 
-          else{
-            this.message = "No Data found"
-            this.openSnackBar()
-          }
-        },
-        error: (e) => {
-          console.log(e)
-          this.message = "Error Retrieving Data. Please try again"
-          this.openSnackBar()
-        } 
-      })
-
+      this.agentCommission()
     }
     
+  }
+
+  agentCommission(){
+    this.billingServ.getAgentBillable(this.username).subscribe({
+      next: (data) => {
+        if(data.length){
+          this.trp = false
+          this.comList = data
+          this.dataReceived = true
+          this.displayedColumns = ['Serial', 'taxpayerId','taxpayerName','paidAmount','agentCommission','action']
+        } 
+        else{
+          this.message = "No Data found"
+          this.openSnackBar()
+        }
+      },
+      error: (e) => {
+        console.log(e)
+        this.message = "Error Retrieving Data. Please try again"
+        this.openSnackBar()
+      } 
+    })
+  }
+
+  trpCommission(){
+    this.billingServ.getTRPBillable(this.username).subscribe({
+      next: (data) => {
+        if(data.length){
+          this.trp = true
+          this.comList = data
+          this.dataReceived = true
+          this.displayedColumns = [ 'Serial','taxpayerId','taxpayerName','paidAmount','representativeCommission','action']
+        } 
+        else{
+          this.message = "No Data found"
+          this.openSnackBar()
+        }
+      },
+      error: (e) => {
+        console.log(e)
+        this.message = "Error Retrieving Data. Please try again"
+        this.openSnackBar()
+      } 
+    })
   }
 
   openSnackBar() {
@@ -110,6 +116,31 @@ export class BillSubmitComponent implements OnInit{
   }
 
   submit(){
-    
+    let obj ={
+      "role": this.role,
+      "id": this.idList
+    }
+    this.billingServ.submitBill(obj).subscribe({
+      next: (data) => {
+       if(data?.success=="true"){
+        this.message = "Successfully submitted"
+        this.openSnackBar()
+
+        if(this.role=="ROLE_REPRESENTATIVE"){
+          this.trpCommission()
+        }else if(this.role=="ROLE_AGENT"){
+          this.agentCommission()
+        }
+      }else{
+        this.message = "Submission failed"
+        this.openSnackBar()
+      }
+      },
+      error: (e) => {
+        console.log(e)
+        this.message = "Error Submission. Please try again"
+        this.openSnackBar()
+      } 
+    })
   }
 }
