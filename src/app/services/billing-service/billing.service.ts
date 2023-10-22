@@ -9,6 +9,7 @@ import { CommonService } from '../common-service/common.service';
 })
 export class BillingService {
   private url_base_ledger: string ='http://localhost:8080/api/bill/'
+  private url_base_commission: string ='http://localhost:8080/api/commission/'
   
   constructor(
     private http: HttpClient,
@@ -37,4 +38,28 @@ export class BillingService {
     }
     return this.http.post<any>(this.url_base_ledger+'billSubmit',body,httpOptions)
   }
+
+  adminpendingBills(): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base_commission+'admin_pending_bill',httpOptions)
+  }
+
+  validatePendingBills(billids: any): Observable<any[]>{
+    const body=JSON.stringify(billids);
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.post<any[]>(this.url_base_commission+'validate',body,httpOptions)
+  }
+
+  approvePendingBills(billids: any): Observable<any>{
+    const body=JSON.stringify(billids);
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.post<any>(this.url_base_commission+'approve',body,httpOptions)
+  }
+
 }

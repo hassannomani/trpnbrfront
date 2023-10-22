@@ -35,6 +35,9 @@ import { ListCertificateComponent } from './certificate/list-certificate/list-ce
 import { FileTaxComponent } from './representative/file-tax/file-tax.component';
 import { RegisterComponent } from './user/register/register.component';
 import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
+import { BillPendingComponent } from './bill/bill-pending/bill-pending.component';
+import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.component';
+import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -73,6 +76,9 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent},
   {path: "register-fillup", component: AddRepresentativeComponent},
   {path: "bill-submit", component: BillSubmitComponent},
+  {path: "bill-pending", component: BillPendingComponent},
+  {path: "bill-rejected", component: BillRejectedComponent},
+  {path: "bill-approved", component: BillApprovedComponent},
 
 ];
 

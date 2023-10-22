@@ -58,6 +58,9 @@ import { FileTaxComponent } from './representative/file-tax/file-tax.component';
 import { RegisterComponent } from './user/register/register.component';
 import { RegisterFillupComponent } from './user/register-fillup/register-fillup.component';
 import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
+import { BillPendingComponent } from './bill/bill-pending/bill-pending.component';
+import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.component';
+import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +115,10 @@ import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
     FileTaxComponent,
     RegisterComponent,
     RegisterFillupComponent,
-    BillSubmitComponent
+    BillSubmitComponent,
+    BillPendingComponent,
+    BillRejectedComponent,
+    BillApprovedComponent
   ],
   imports: [
     BrowserModule,
