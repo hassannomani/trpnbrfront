@@ -113,6 +113,7 @@ export class BillPendingComponent implements OnInit{
 
   submit(){
     this.checkAll().then(res=>{
+      
       if(this.tobeApproved.length){
         this.billingServ.approvePendingBills(this.tobeApproved).subscribe({
           next: (data) => {
@@ -132,9 +133,10 @@ export class BillPendingComponent implements OnInit{
   checkAll(){
     return new Promise((resolve, reject) => {
       let redFlags = []
-      for(let i=0;i<this.checkedBills.length;i++){
-        if(this.checkedBills[i][1]!="0")
-          redFlags.push(this.checkedBills[i][0])
+      for(let i in this.checkedBills){
+        if(this.checkedBills[i]!="0")
+          redFlags.push(i)
+        //console.log(i+" value "+this.checkedBills[i])
       }
       
       for(let i=0;i<redFlags.length;i++){
