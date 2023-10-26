@@ -43,7 +43,7 @@ export class BillingService {
     const httpOptions = {
       headers: this.commonServ.httpReturner()
     }
-    return this.http.get<any[]>(this.url_base_commission+'admin_pending_bill',httpOptions)
+    return this.http.get<any[]>(this.url_base_commission+'pending_bill',httpOptions)
   }
 
   validatePendingBills(billids: any): Observable<any[]>{
@@ -60,6 +60,28 @@ export class BillingService {
       headers: this.commonServ.httpReturner()
     }
     return this.http.post<any>(this.url_base_commission+'approve',body,httpOptions)
+  }
+
+  rejectPendingBills(billids: any): Observable<any>{
+    const body=JSON.stringify(billids);
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.post<any>(this.url_base_commission+'reject',body,httpOptions)
+  }
+
+  adminrejectedBills(): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base_commission+'rejected_bill',httpOptions)
+  }
+
+  approvedBills(): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base_commission+'approved_bill',httpOptions)
   }
 
 }

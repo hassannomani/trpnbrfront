@@ -20,7 +20,9 @@ export class BillPendingComponent implements OnInit{
   message : string = ""
   buttonLabel: string = "Check"
   buttonLabel2: string = "Submit"
+  buttonLabel3: string = "Reject"
   buttonColor: string = "primary"
+  buttonColor2: string = "warn"
   buttonType: string = "button"
   dataReceived: boolean = false
   dataList: any = []
@@ -117,10 +119,17 @@ export class BillPendingComponent implements OnInit{
       if(this.tobeApproved.length){
         this.billingServ.approvePendingBills(this.tobeApproved).subscribe({
           next: (data) => {
-            console.log(data)
+            if(data==true){
+              this.message = "Bill approved successfully"
+              this.openSnackBar()
+              this.loadPendingBills()
+              this.reset()
+            }
+            
           },
           error: (e) => {
             console.log(e)
+            this.reset()
             this.message = "Error Retrieving Data. Please try again"
             this.openSnackBar()
           } 
@@ -151,6 +160,31 @@ export class BillPendingComponent implements OnInit{
       }
       resolve(this.tobeApproved)
     })
+  }
+
+  rejectBill(){
+    this.billingServ.rejectPendingBills(this.tobeApproved).subscribe({
+      next: (data) => {
+        if(data==true){
+          this.message = "Bill Rejected successfully"
+          this.openSnackBar()
+          this.loadPendingBills()
+          this.reset()
+  
+        }       
+      },
+      error: (e) => {
+        console.log(e)
+        this.message = "Error Rejecting Data. Please try again"
+        this.reset()
+        this.openSnackBar()
+      } 
+    })
+  }
+
+  reset(){
+    this.tobeApproved.length=0
+    this.validated = false
   }
 
 

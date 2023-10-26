@@ -20,6 +20,15 @@
           >
       </app-button>
 
+         
+      <app-button *ngIf="tobeApproved.length" class="btn"
+          [label]="buttonLabel3"
+          [color]="buttonColor2" 
+          [type]="buttonType"
+          (click)="rejectBill()"
+          >
+      </app-button>
+
       <table mat-table [dataSource]="dataList" class="mat-elevation-z8" *ngIf="dataList">
       
           <ng-container matColumnDef="Serial">

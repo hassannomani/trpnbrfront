@@ -2,5 +2,16 @@
 <a mat-list-item routerLink="/file-tax">File Tax</a>
 <a mat-list-item routerLink="/ledger-representative">Ledger</a>
 <a mat-list-item routerLink="/commission">Commission</a>
-<a mat-list-item routerLink="/bill-submit">Bill Submit</a>
+<mat-expansion-panel>
+
+    <mat-expansion-panel-header>
+    Bill
+    </mat-expansion-panel-header>
+    <mat-nav-list>
+        <a mat-list-item routerLink="/bill-submit">Bill Submit</a>
+        <a mat-list-item routerLink="/bill-pending">Pending Bills</a>
+        <a mat-list-item routerLink="/bill-rejected">Rejected Bills</a>
+        <a mat-list-item routerLink="/bill-approved">Approved Bills</a>
+    </mat-nav-list>
+</mat-expansion-panel>
 <a mat-list-item routerLink="/report-trp">Report</a>
