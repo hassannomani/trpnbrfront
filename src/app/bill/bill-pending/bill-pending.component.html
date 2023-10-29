@@ -2,6 +2,42 @@
     <div class="headerdiv">
       <h2>Pending Bills</h2>
     </div>
+    <div class="container">
+      <form class="example-form" [formGroup]="searchbox" #formDir="ngForm">
+      <div class="row" style="margin-left: 25px;">
+        <div class="col">
+            <mat-form-field appearance="fill" matInput class="example-full-width">
+              <mat-label>Select Applicant</mat-label>
+              <mat-select matNativeControl formControlName="name" (selectionChange)="searchchange($event.value)"> 
+                  <mat-option value="">-- Select --</mat-option>
+                  <mat-option *ngFor="let el of applicants" [value]="el.id">{{el.name}}</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </div>
+        <div class="col">
+          <app-button class="btn"
+              [label]="buttonLabel4"
+              [color]="buttonColor" 
+              [type]="buttonType"
+              (click)="search()"
+              >
+          </app-button>
+        </div>
+
+        <div class="col">
+          <app-button class="btn"
+              [label]="buttonLabel5"
+              [color]="buttonColor" 
+              [type]="buttonType"
+              (click)="clearAll()"
+              >
+          </app-button>
+        </div>
+
+      </div>
+      </form>
+    </div>
   
    
       <app-button *ngIf="tobeApproved.length" class="btn"

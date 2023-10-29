@@ -84,4 +84,11 @@ export class BillingService {
     return this.http.get<any[]>(this.url_base_commission+'approved_bill',httpOptions)
   }
 
+  getApplicants(): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base_commission+'get_applicants',httpOptions)
+  }
+
 }

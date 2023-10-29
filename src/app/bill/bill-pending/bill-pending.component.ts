@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnack
 import { CommissionService } from 'src/app/services/commission-service/commission.service';
 import { LedgerService } from 'src/app/services/ledger-service/ledger.service';
 import { BillingService } from 'src/app/services/billing-service/billing.service';
+import { FormControl, FormGroup, NgForm, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-bill-pending',
@@ -13,6 +14,10 @@ import { BillingService } from 'src/app/services/billing-service/billing.service
   styleUrls: ['./bill-pending.component.css']
 })
 export class BillPendingComponent implements OnInit{
+  searchbox = new FormGroup({
+    'name' : new FormControl(''),
+    'id' : new FormControl(''),
+  })
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -21,14 +26,19 @@ export class BillPendingComponent implements OnInit{
   buttonLabel: string = "Check"
   buttonLabel2: string = "Submit"
   buttonLabel3: string = "Reject"
+  buttonLabel4: string = "Search"
+  buttonLabel5: string = "Clear All"
   buttonColor: string = "primary"
   buttonColor2: string = "warn"
   buttonType: string = "button"
   dataReceived: boolean = false
   dataList: any = []
+  tempDataList: any = []
   tobeApproved: any = []
   validated: boolean = false
   checkedBills: any = []
+  applicants: any = []
+  searchVal: any = ""
   constructor(
     private router: Router,
     private titleService:Title,
@@ -41,6 +51,7 @@ export class BillPendingComponent implements OnInit{
     this.titleService.setTitle("Approve Bill");
   }
   ngOnInit(): void {
+    this.loadRequestor()
     this.loadPendingBills()
   }
 
@@ -56,6 +67,28 @@ export class BillPendingComponent implements OnInit{
           this.message = "No Data found"
           this.openSnackBar()
         }
+      },
+      error: (e) => {
+        console.log(e)
+        this.message = "Error Retrieving Data. Please try again"
+        this.openSnackBar()
+      } 
+    })
+  }
+
+  loadRequestor(){
+    this.billingServ.getApplicants().subscribe({
+      next: (data) => {
+        for(let i=0;i<data.length;i++){
+          let obj = {
+            'name': "",
+            'id': ""
+          }
+          obj.name = data[i][0]+ " "+data[i][1]
+          obj.id = data[i][2]
+          this.applicants.push(obj)
+        }
+        
       },
       error: (e) => {
         console.log(e)
@@ -185,6 +218,27 @@ export class BillPendingComponent implements OnInit{
   reset(){
     this.tobeApproved.length=0
     this.validated = false
+  }
+
+  search(){
+    if(this.tempDataList.length==0)
+      this.tempDataList = this.dataList
+    else
+      this.dataList = this.tempDataList
+    let data = []
+    for(let i=0;i<this.dataList.length;i++){
+      if(this.dataList[i].payee==this.searchVal)
+        data.push(this.dataList[i])
+    }
+    this.dataList = data
+  }
+
+  searchchange(val: any){
+    this.searchVal = val
+  }
+
+  clearAll(){
+    this.dataList= this.tempDataList
   }
 
 
