@@ -66,16 +66,27 @@ export class FileTaxComponent {
     this.checkTaxPayer.get('agentId')?.setValue(this.username);
     this.representativeServ.fileTaxOfATaxPayer(this.checkTaxPayer.value).subscribe({
       next: (data) => {
-        if(data?.success==true){
+        if(data?.success==true||data?.message){
           this.message = "OTP has been sent to your phone"
           this.otpShow = true
           this.openSnackBar()
+        }else{
+          let errMessage = data.errorMessage
+          let json = JSON.parse(errMessage)
+          console.log(json)
+          if(json?.errorCode=="48921"){
+            this.message = "OTP already sent to the mobile"
+            this.openSnackBar()
+          }else if(json.errorCode==undefined&&json.errorMessage){
+            this.message = json.errorMessage
+            this.openSnackBar()
+          }
         }
         
       }
       ,
       error: (e) => {
-      
+          console.log(e)
           this.message = "Error occurred! Please try again!"
           this.openSnackBar()
       }
@@ -90,7 +101,7 @@ export class FileTaxComponent {
         if(data?.success!=undefined&&data?.success==true){
           this.message = "OTP verified!"
           this.openSnackBar()
-          window.location = data?.replyMessage?.redirectURL
+          window.location.href = data?.replyMessage?.redirectURL+"/"+data?.replyMessage?.id_token
         }
       }
       ,
