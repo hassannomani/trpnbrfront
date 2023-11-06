@@ -3,6 +3,8 @@ import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { CommonService } from '../common-service/common.service';
+import { environment } from 'src/environments/environment';
+import { environmentProd } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +16,18 @@ export class AgentService {
   private urlanagent : string ='http://localhost:8080/api/users/user/';
   private urlagent: string ='http://localhost:8080/api/agent/';
   private urlallfront : string ='http://localhost:8080/api/agent/allfront';
-
+  
+  private url_base_agent : string = ''
+  private url_base_user : string = ''
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
     private commonServ: CommonService
-  ) {}
+  ) {
+    let url = environment.production? environmentProd.apiUrl: environment.apiUrl
+    this.url_base_agent = url + 'api/agent/'
+    this.url_base_user = url + 'api/users/'
+  }
 
   
   addAgent(formData: any): Observable<any>{
@@ -36,9 +44,9 @@ export class AgentService {
         headers: headers_object
       };
       
-      return this.http.post(this.urladd, body,httpOptions)
+      return this.http.post(this.url_base_agent+'add', body,httpOptions)
     }else{
-      return this.http.post(this.urladd, body)
+      return this.http.post(this.url_base_agent+'add', body)
     }
   }
 
@@ -54,9 +62,9 @@ export class AgentService {
         headers: headers_object
       };
       
-      return this.http.get<any[]>(this.urlall,httpOptions)
+      return this.http.get<any[]>(this.url_base_agent+'all',httpOptions)
     }else{
-      return this.http.get<any[]>(this.urlall)
+      return this.http.get<any[]>(this.url_base_agent+'all')
     }
   }
 
@@ -72,9 +80,9 @@ export class AgentService {
         headers: headers_object
       };
       
-      return this.http.get<any[]>(this.urlanagent+uname,httpOptions)
+      return this.http.get<any[]>(this.url_base_user+'user/'+uname,httpOptions)
     }else{
-      return this.http.get<any[]>(this.urlanagent+uname)
+      return this.http.get<any[]>(this.url_base_user+'user/'+uname)
     }
   }
 
@@ -90,9 +98,9 @@ export class AgentService {
         headers: headers_object
       };
       
-      return this.http.get<any>(this.urlagent+uname,httpOptions)
+      return this.http.get<any>(this.url_base_agent+uname,httpOptions)
     }else{
-      return this.http.get<any>(this.urlagent+uname)
+      return this.http.get<any>(this.url_base_agent+uname)
     }
   }
 
@@ -100,7 +108,7 @@ export class AgentService {
     const httpOptions = {
       headers: this.commonServ.httpReturner()
     }
-      return this.http.get<any>(this.urlallfront,httpOptions)
+      return this.http.get<any>(this.url_base_agent+'allfront',httpOptions)
   }
 
 

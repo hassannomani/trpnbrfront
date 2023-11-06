@@ -3,7 +3,8 @@ import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { CommonService } from '../common-service/common.service';
-
+import { environment } from 'src/environments/environment';
+import { environmentProd } from 'src/environments/environment.prod';
 
 export interface Certificate {
   examineeTin : string,
@@ -23,9 +24,12 @@ export class CertificateService {
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
     private commonService: CommonService
-  ) { }
+  ) { 
+    let url = environment.production? environmentProd.apiUrl: environment.apiUrl
+    this.url_base = url + 'api/certificate'
+  }
 
-  private url_base : string ='http://localhost:8080/api/certificate';
+  private url_base : string ='';
 
   saveCertificates(Certs: Certificate[]): Observable<any>{
     const body=JSON.stringify(Certs);

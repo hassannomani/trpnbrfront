@@ -32,8 +32,9 @@ export class ToolbarComponent implements OnInit{
     this.signInService.loginStatusChange().subscribe(loggedIn => {
       //console.log("changing")
       let local = this.localStorage.getStorageItems();
+      console.log('local')
       console.log(local)
-      if(local.token==""||local.token==null){
+      if(local.token==""||local.token==null||local.token==undefined){
         this.isLoggedIn = false;
         this.role=""
         this.username=""

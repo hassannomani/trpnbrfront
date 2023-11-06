@@ -60,12 +60,14 @@
             </td>
        
         </tr>
-        <tr>
-        <!-- <span style="color: red;" *ngIf="notSame && addUser.controls['password'].dirty&&addUser.controls['repassword'].dirty">Password  mismatch </span> -->
-        <span style="color: red;" *ngIf="failedCreation">User Creation failed </span>
-        <span style="color: red;" *ngIf="failed">{{errorMsg}}</span>
-        <span style="color: green;" *ngIf="addedSuccess">User Added Successfully</span>
-        <span style="color: red;" *ngIf="tinnotFound">TIN not found</span>
+        <tr style="clear: both; width: 100%;overflow: hidden;">
+            <td style="width: 50%;">
+                <span style="color: red;" *ngIf="failedCreation">User Creation failed </span>
+                <span style="color: red;" *ngIf="failed">{{errorMsg}}</span>
+                <span style="color: green;" *ngIf="addedSuccess">User Added Successfully</span>
+                <span style="color: red;" *ngIf="tinnotFound">TIN not found</span>
+            </td>
+            <td></td>
         </tr>
         <tr class="clear:both;">
             

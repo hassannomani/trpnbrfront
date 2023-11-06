@@ -3,18 +3,25 @@ import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { CommonService } from '../common-service/common.service';
+import { environment } from 'src/environments/environment';
+import { environmentProd } from 'src/environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
-  private base_url : string ='http://localhost:8080/api/'
-  private cert_base_url : string =this.base_url+"certificate"
-  private otp_base_url : string =this.base_url+"otp"
+  private base_url : string ='' 
+  private cert_base_url : string =""
+  private otp_base_url : string =""
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
     private commonService: CommonService
-  ) {}
+  ) {
+    let url = environment.production? environmentProd.apiUrl: environment.apiUrl
+    this.base_url = url+"api/"
+    this.cert_base_url = this.base_url+"certificate"
+    this.otp_base_url = this.base_url+"otp"
+  }
 
   checkCertificate(tin: any, nid: any){
     const httpOptions = {

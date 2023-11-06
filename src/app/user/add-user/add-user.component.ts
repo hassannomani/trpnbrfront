@@ -148,7 +148,7 @@ export class AddUserComponent implements OnInit{
       error: (e) => {
         this.failed = true
         if(e.status==400){
-          this.errorMsg = "A User already exists with this Username. Please try another"
+          this.errorMsg = "A User already exists with this Username or Required fields missing"
         }else{
           this.errorMsg = e.error.message
         }

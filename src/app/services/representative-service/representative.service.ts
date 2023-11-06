@@ -3,7 +3,8 @@ import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
-
+import { environment } from 'src/environments/environment';
+import { environmentProd } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,18 @@ export class RepresentativeService {
   private urlgetAllRep : string ='http://localhost:8080/api/representative/all';
   private urltrpfile : string ='http://localhost:8080/api/trpereturn';
 
+  private url_trp : string = ""
+  private url_ereturn: string = ""
+
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
     private commonService: CommonService,
-  ) {}
+  ) {
+    let url = environment.production? environmentProd.apiUrl: environment.apiUrl
+    this.url_trp = url + "api/representative/"
+    this.url_ereturn = url + "api/trpereturn"
+  }
 
 
   addRepresentative(formData: any): Observable<any>{
@@ -29,7 +37,7 @@ export class RepresentativeService {
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.post(this.urladd, body,httpOptions)
+    return this.http.post(this.url_trp+"add", body,httpOptions)
   }
 
   getARepresentative(username: string): Observable<any>{
@@ -44,11 +52,11 @@ export class RepresentativeService {
         headers: headers_object
       };
       
-      return this.http.get(this.urlgetrep+username,httpOptions)
+      return this.http.get(this.url_trp+username,httpOptions)
 
     }else{
       
-      return this.http.get(this.urlgetrep+username)
+      return this.http.get(this.url_trp+username)
     }
   }
 
@@ -58,7 +66,7 @@ export class RepresentativeService {
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.get<any[]>(this.urlgetrepsbyagentid+tin,httpOptions);
+    return this.http.get<any[]>(this.url_trp+"agent/"+tin,httpOptions);
 
   }
 
@@ -68,7 +76,7 @@ export class RepresentativeService {
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.get<any[]>(this.urlgetAllRep,httpOptions);
+    return this.http.get<any[]>(this.url_trp+"all",httpOptions);
 
   }
 
@@ -78,7 +86,7 @@ export class RepresentativeService {
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.post<any>(this.urltrpfile,body,httpOptions);
+    return this.http.post<any>(this.url_ereturn,body,httpOptions);
 
   }
 
@@ -89,7 +97,7 @@ export class RepresentativeService {
     const httpOptions = {
       headers: headerObj
     };
-    return this.http.post<any>(this.urltrpfile+"/otp",body,httpOptions);
+    return this.http.post<any>(this.url_ereturn+"/otp",body,httpOptions);
 
   }
 
@@ -97,6 +105,6 @@ export class RepresentativeService {
     const httpOptions = {
       headers: this.commonService.httpReturner()
     }
-    return this.http.get<any>(this.urlgetrep+'assign/'+tin+"/"+agent,httpOptions)
+    return this.http.get<any>(this.url_trp+'assign/'+tin+"/"+agent,httpOptions)
   }
 }

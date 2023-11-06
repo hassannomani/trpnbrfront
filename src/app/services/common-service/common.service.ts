@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subject, tap } from 'rxjs';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { environment } from 'src/environments/environment';
+import { environmentProd } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +13,18 @@ export class CommonService {
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService
-  ) { }
+  ) { 
+    let url = environment.production? environmentProd.apiUrl: environment.apiUrl
+    this.url_common = url + 'api/common/'
+    this.url_bank = url + 'api/bank/'
+    this.url_address = url + 'api/address/'
+    this.url_etin = url + 'api/etin/'
+  }
 
   private urldistrict : string ='http://localhost:8080/api/common/district';
   private urldiv : string ='http://localhost:8080/api/common/division';
   private urlthana : string ='http://localhost:8080/api/common/thana';
   private urlbank : string ='http://localhost:8080/api/common/bank';
-  private urladdaddress : string ='http://localhost:8080/api/address/add';
-  private urladdbank : string ='http://localhost:8080/api/bank/add';
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
   private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
   private urlcitycorp : string ='http://localhost:8080/api/common/citycorporation';
@@ -26,8 +32,14 @@ export class CommonService {
   private urlPhoto : string ='http://localhost:8080/api/common/photo';
   private urlfileget : string ='http://localhost:8080/api/common/file/';
   private urlPhotoget : string ='http://localhost:8080/api/common/photo/';
+  private urladdaddress : string ='http://localhost:8080/api/address/add';
+  private urladdbank : string ='http://localhost:8080/api/bank/add';
   private urletin : string ='http://localhost:8080/api/etin/tin/';
 
+  private url_common : any = ""
+  private url_bank : any = ""
+  private url_address : any = ""
+  private url_etin : any = ""
 
   getDistrict(): Observable<any[]>{
     let obj = this.localStorageServc.getStorageItems()
@@ -41,9 +53,9 @@ export class CommonService {
           headers: headers_object
         };
         
-      return this.http.get<any[]>(this.urldistrict,httpOptions)
+      return this.http.get<any[]>(this.url_common+'district',httpOptions)
     }else{
-      return this.http.get<any[]>(this.urldistrict)
+      return this.http.get<any[]>(this.url_common+'district')
     }
 
   }
@@ -61,9 +73,9 @@ export class CommonService {
           headers: headers_object
         };
         
-      return this.http.get<any[]>(this.urldiv,httpOptions)
+      return this.http.get<any[]>(this.url_common+'division',httpOptions)
     }else{
-      return this.http.get<any[]>(this.urldiv)
+      return this.http.get<any[]>(this.url_common+'division')
     }
 
   }
@@ -80,9 +92,9 @@ export class CommonService {
           headers: headers_object
         };
         
-      return this.http.get<any[]>(this.urlthana,httpOptions)
+      return this.http.get<any[]>(this.url_common+'thana',httpOptions)
     }else{
-      return this.http.get<any[]>(this.urlthana)
+      return this.http.get<any[]>(this.url_common+'thana')
     }
 
   }
@@ -93,7 +105,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
     const body=JSON.stringify(formData);  
-    return this.http.post<any>(this.urladdaddress,body,httpOptions)
+    return this.http.post<any>(this.url_address+'add',body,httpOptions)
    
 
   }
@@ -103,7 +115,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
     const body=JSON.stringify(formData);
-    return this.http.post<any>(this.urladdbank,body,httpOptions)
+    return this.http.post<any>(this.url_bank+'add',body,httpOptions)
   }
 
   httpReturner(): any{
@@ -163,7 +175,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any[]>(this.urlbank,httpOptions)
+    return this.http.get<any[]>(this.url_common+"bank",httpOptions)
     
   }
 
@@ -173,7 +185,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any[]>(this.urlbankdist,httpOptions)
+    return this.http.get<any[]>(this.url_common+"bankdist",httpOptions)
     
   }
 
@@ -183,7 +195,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any[]>(this.urlbankbranches+name+"/"+district,httpOptions)
+    return this.http.get<any[]>(this.url_common+"/bankbranches/"+name+"/"+district,httpOptions)
     
   }
 
@@ -193,7 +205,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any[]>(this.urlcitycorp,httpOptions)
+    return this.http.get<any[]>(this.url_common+"citycorporation",httpOptions)
     
   }
 
@@ -203,7 +215,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any>(this.urletin+tin,httpOptions)
+    return this.http.get<any>(this.url_etin+"/tin/"+tin,httpOptions)
     
   }
 
@@ -215,7 +227,7 @@ export class CommonService {
     const formData: FormData = new FormData();
     formData.append('file', file);
   
-    return this.http.post<any>(this.urlfile,formData, httpOptions)
+    return this.http.post<any>(this.url_common+"file",formData, httpOptions)
     
   }
 
@@ -230,7 +242,7 @@ export class CommonService {
       headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
     }
   
-    return this.http.get(this.urlfileget+filename, {headers, responseType: 'blob'})
+    return this.http.get(this.url_common+"/file/"+filename, {headers, responseType: 'blob'})
 
   }
 
@@ -242,7 +254,7 @@ export class CommonService {
     const formData: FormData = new FormData();
     formData.append('file', file);
   
-    return this.http.post<any>(this.urlPhoto,formData, httpOptions)
+    return this.http.post<any>(this.url_common+"photo",formData, httpOptions)
     
   }
 
@@ -257,7 +269,7 @@ export class CommonService {
       headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
     }
   
-    return this.http.get(this.urlPhotoget+filename, {headers, responseType: 'blob'})
+    return this.http.get(this.url_common+"/photo/"+filename, {headers, responseType: 'blob'})
 
   }
 }
