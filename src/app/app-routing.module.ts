@@ -79,6 +79,7 @@ const routes: Routes = [
   {path: "bill-pending", component: BillPendingComponent},
   {path: "bill-rejected", component: BillRejectedComponent},
   {path: "bill-approved", component: BillApprovedComponent},
+  { path: '**', pathMatch: 'full', redirectTo: ''}
 
 ];
 

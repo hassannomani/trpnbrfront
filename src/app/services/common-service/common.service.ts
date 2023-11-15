@@ -215,7 +215,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any>(this.url_etin+"/tin/"+tin,httpOptions)
+    return this.http.get<any>(this.url_etin+"tin/"+tin,httpOptions)
     
   }
 
