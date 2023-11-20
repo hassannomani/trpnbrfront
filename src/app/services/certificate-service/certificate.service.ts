@@ -47,6 +47,13 @@ export class CertificateService {
     }
     return this.http.post<any[]>(this.url_base+"/duplicacy",body, httpOptions)
   }
+
+  allCertificates(): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base+"/all", httpOptions)
+  }
  
 
 
