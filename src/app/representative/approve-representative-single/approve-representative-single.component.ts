@@ -67,7 +67,7 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
                 this.representative = data
                 this.loaded = true
                 this.loadPhoto(data.rePhoto)
-                if(data.agentId!="0"){
+                if(data.agentId!="0"&&data.agentId!=""){
                   this.loadAgent(data.agentId)
                   this.agentLoaded = true
                 }else{
@@ -249,7 +249,7 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
         console.log(this.agent)
        },
        error: (e) => {
-         alert("File loading Failed!")
+         alert("Agent loading Failed!")
          console.log(e)
        }       
     })

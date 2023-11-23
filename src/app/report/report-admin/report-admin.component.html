@@ -79,15 +79,16 @@
     </table>
   
 </form>
+<h3 class="caption" *ngIf="firstOption=='1' && secondOption=='1'">All Agents</h3>
+<h3 class="caption" *ngIf="firstOption=='1'&& secondOption=='2'">List of TRP of Agent</h3>
+<h3 class="caption" *ngIf="firstOption=='2'&& secondOption=='1'">List of TRPs</h3>
+<h3 class="caption" *ngIf="firstOption=='3'&& secondOption=='1'">List of Ledgers</h3>
+<h3 class="caption" *ngIf="firstOption=='3'&& secondOption=='2'">List of Ledgers of Agent</h3>
+<h3 class="caption" *ngIf="firstOption=='3'&& secondOption=='3'">List of Ledgers of TRP</h3>
+<h3 class="caption" *ngIf="firstOption=='3'&& secondOption=='4'">List of Ledgers</h3>
+<h3 class="caption" *ngIf="firstOption=='4'&& secondOption=='1'">List of All Commissions</h3>
 <table mat-table class="example-full-width datatable" cellspacing="0"  [dataSource]="dataArr" class="mat-elevation-z8" *ngIf="loaded" id="dataTable"> 
-    <caption *ngIf="firstOption=='1' && secondOption=='1'">All Agents</caption>
-    <caption *ngIf="firstOption=='1'&& secondOption=='2'">List of TRP of Agent</caption>
-    <caption *ngIf="firstOption=='2'&& secondOption=='1'">List of TRPs</caption>
-    <caption *ngIf="firstOption=='3'&& secondOption=='1'">List of Ledgers</caption>
-    <caption *ngIf="firstOption=='3'&& secondOption=='2'">List of Ledgers of Agent</caption>
-    <caption *ngIf="firstOption=='3'&& secondOption=='3'">List of Ledgers of TRP</caption>
-    <caption *ngIf="firstOption=='3'&& secondOption=='4'">List of Ledgers</caption>
-    <caption *ngIf="firstOption=='4'&& secondOption=='1'">List of All Commissions</caption>
+
    
     <ng-container matColumnDef="name" *ngIf="firstOption=='1'&& secondOption=='1'">
         <th mat-header-cell *matHeaderCellDef>  Name </th>

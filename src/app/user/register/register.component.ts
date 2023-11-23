@@ -198,26 +198,26 @@ export class RegisterComponent {
   }
 
   otpSend(mobile: any){
-    // this.requestNew = false
-    // this.registerServ.sendOTP(mobile).subscribe({
-    //   next: (data) => {
-    //     if(data.is_success==1||data.is_success=="1"){
-    //       this.otpShow = true
-    //       this.timer(5)
-    //     }else{
-    //       this.message = "OTP couldn't be sent. Please try again later"
-    //     }
-    //   }
-    //   ,
-    //   error: (e) => {
-    //     console.log(e)
-    //     this.message = "Error occurred! Try again later3!"
-    //     this.openSnackBar()
-    //   }      
-    // })
     this.requestNew = false
-    this.otpShow = true
-    this.timer(5)
+    this.registerServ.sendOTP(mobile).subscribe({
+      next: (data) => {
+        if(data.is_success==1||data.is_success=="1"){
+          this.otpShow = true
+          this.timer(5)
+        }else{
+          this.message = "OTP couldn't be sent. Please try again later"
+        }
+      }
+      ,
+      error: (e) => {
+        console.log(e)
+        this.message = "Error occurred! Try again later3!"
+        this.openSnackBar()
+      }      
+    })
+    // this.requestNew = false
+    // this.otpShow = true
+    // this.timer(5)
   }
 
   timer(minute: any) {

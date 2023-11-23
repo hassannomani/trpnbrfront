@@ -26,7 +26,7 @@ export class CommonService {
   private urlthana : string ='http://localhost:8080/api/common/thana';
   private urlbank : string ='http://localhost:8080/api/common/bank';
   private urlbankdist : string ='http://localhost:8080/api/common/bankdist';
-  private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches/';
+  private urlbankbranches : string ='http://localhost:8080/api/common/bankbranches';
   private urlcitycorp : string ='http://localhost:8080/api/common/citycorporation';
   private urlfile : string ='http://localhost:8080/api/common/file';
   private urlPhoto : string ='http://localhost:8080/api/common/photo';
@@ -195,7 +195,7 @@ export class CommonService {
       headers: this.httpReturner()
     };
   
-    return this.http.get<any[]>(this.url_common+"/bankbranches/"+name+"/"+district,httpOptions)
+    return this.http.get<any[]>(this.url_common+"bankbranches/"+name+"/"+district,httpOptions)
     
   }
 
@@ -242,7 +242,7 @@ export class CommonService {
       headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
     }
   
-    return this.http.get(this.url_common+"/file/"+filename, {headers, responseType: 'blob'})
+    return this.http.get(this.url_common+"file/"+filename, {headers, responseType: 'blob'})
 
   }
 
@@ -269,7 +269,7 @@ export class CommonService {
       headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
     }
   
-    return this.http.get(this.url_common+"/photo/"+filename, {headers, responseType: 'blob'})
+    return this.http.get(this.url_common+"photo/"+filename, {headers, responseType: 'blob'})
 
   }
 }
