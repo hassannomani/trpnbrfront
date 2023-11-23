@@ -96,52 +96,52 @@ export class RegisterComponent {
     });
   }
   otpSubmit(){
-    // this
-    // .registerServ
-    // .submitOTP(this.registerForm.value['phoneNo'], this.registerForm.value['otp']).subscribe({
-    //   next: (data) => {
-    //     if(data==true||data=="true"){ //second chaining
-    //      // this.
-    //      this.otpShow = false
-    //      this.requestNew = false
-    //      let obj = {
-    //       un_tin: this.registerForm.value['tinNo'],
-    //       un_nid: this.registerForm.value['nid'],
-    //       un_mobile: this.registerForm.value['phoneNo'],
-    //       un_tinData: this.tinInfo
-    //      }
-    //      this.localStore.saveUnregisteredUser(obj)
+    this
+    .registerServ
+    .submitOTP(this.registerForm.value['phoneNo'], this.registerForm.value['otp']).subscribe({
+      next: (data) => {
+        if(data==true||data=="true"){ //second chaining
+         // this.
+         this.otpShow = false
+         this.requestNew = false
+         let obj = {
+          un_tin: this.registerForm.value['tinNo'],
+          un_nid: this.registerForm.value['nid'],
+          un_mobile: this.registerForm.value['phoneNo'],
+          un_tinData: this.tinInfo
+         }
+         this.localStore.saveUnregisteredUser(obj)
          
-    //      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    //       this.router.navigate(['register-fillup']);
-    //     }); 
+         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['register-fillup']);
+        }); 
           
-    //     }else{
-    //       this.message = "OTP doesn't match"
-    //       this.openSnackBar()
-    //     }
+        }else{
+          this.message = "OTP doesn't match"
+          this.openSnackBar()
+        }
 
-    //   }
-    //   ,
-    //   error: (e) => {
-    //     this.message = "Error occurred! Try again later1!"
-    //     this.openSnackBar()
-    //   }
-    // })
-    this.otpShow = false
-    this.requestNew = false
-    let obj = {
-     un_tin: this.registerForm.value['tinNo'],
-     un_nid: this.registerForm.value['nid'],
-     un_mobile: this.registerForm.value['phoneNo'],
-     un_tinData: this.tinInfo
-    }
-    console.log(obj)
-    this.localStore.saveUnregisteredUser(obj)
+      }
+      ,
+      error: (e) => {
+        this.message = "Error occurred! Try again later1!"
+        this.openSnackBar()
+      }
+    })
+  //   this.otpShow = false
+  //   this.requestNew = false
+  //   let obj = {
+  //    un_tin: this.registerForm.value['tinNo'],
+  //    un_nid: this.registerForm.value['nid'],
+  //    un_mobile: this.registerForm.value['phoneNo'],
+  //    un_tinData: this.tinInfo
+  //   }
+  //   console.log(obj)
+  //   this.localStore.saveUnregisteredUser(obj)
     
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-     this.router.navigate(['register-fillup']);
-   }); 
+  //   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //    this.router.navigate(['register-fillup']);
+  //  }); 
   }
 
   threeStepsProcessing(){

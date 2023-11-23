@@ -120,7 +120,7 @@ export class CommonService {
 
   httpReturner(): any{
     let obj = this.localStorageServc.getStorageItems()
-    if(obj.token!=""&&obj.token!=null){
+    if(obj.token!=""&&obj.token!=null&&obj.token!="undefined"&&obj.token!=undefined){
       var headers_object = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': "Bearer "+ JSON.parse(obj.token) 
