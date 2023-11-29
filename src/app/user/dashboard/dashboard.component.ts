@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit{
   public chart: any;
   public isAdmin: boolean = false
   public isAgent: boolean = false
+  public isTrp: boolean = false
   constructor(
     private titleService:Title,
     private localStore: LocalStorageService,
@@ -33,6 +34,9 @@ export class DashboardComponent implements OnInit{
     else if(role=="ROLE_AGENT"){
       this.isAgent = true
       this.loadGraphDataAgent(username)
+    } else if(role=="ROLE_REPRESENTATIVE"){
+      this.isTrp = true
+      this.loadGraphDataTrp(username)
     }
   }
 
@@ -59,13 +63,27 @@ export class DashboardComponent implements OnInit{
       }  
     })
   }
+
+  loadGraphDataTrp(trpTin: string){
+    this.ledgerServ.getGraphDashboardTrp(trpTin).subscribe({
+      next: (data) => {
+        console.log(data)
+        this.createChartBar(data)
+      },
+      error: (e) => {
+        console.log(e)
+      }  
+    })
+  }
   createChart(data: any){
-    var labels = <number[]> Array()
+    var labels = <string[]> Array()
     var dataset = <number[]> Array()
     for(var i=0;i<data.length;i++){
-      dataset[i] = data[i][0]
-      labels[i] = data[i][1]
+      dataset[i] = data[i][0] 
+      labels[i] = data[i][1] + "\n("+ data[i][2] + ")"
     }
+    console.log(labels)
+    console.log(dataset)
     this.chart = new Chart("MyChart", {
       type: 'line', //this denotes tha type of chart
       data: {// values on X-Axis
@@ -88,7 +106,57 @@ export class DashboardComponent implements OnInit{
             }
         }
       },
+      plugins:[{
+        id: 'customPlugin',
+        beforeInit: function(chart) {
+          if(chart.data.labels)
+          chart.data.labels.forEach(function(e:any, i, a) {
+             if (/\n/.test(e)) {
+                a[i] = e.split(/\n/);
+             }
+          });
+       }
+      }]
     
+    });
+  }
+
+  createChartBar(data: any){
+    var labels = <string[]> Array()
+    var dataset = <number[]> Array()
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    for(var i=0;i<data.length;i++){
+      dataset[i] = data[i][0] 
+      //let temp1 =  data[i][1]
+      let temp2= data[i][2]
+      labels[i] = months[temp2] + " - "+ data[i][1]
+    }
+    console.log(labels)
+    console.log(dataset)
+    this.chart = new Chart("MyBarChart", {
+      type: 'bar', //this denotes tha type of chart
+
+      data: {// values on X-Axis
+        labels: labels, 
+	       datasets: [
+         
+          {
+            label: "Income",
+            data:dataset,
+            backgroundColor: '#ff6384'
+          }  
+        ]
+      },
+      options: {
+        aspectRatio:2.5,
+        plugins: {
+          title: {
+              display: true,
+              text: 'Monthwise Income'
+          }
+        }
+      }
+      
     });
   }
   

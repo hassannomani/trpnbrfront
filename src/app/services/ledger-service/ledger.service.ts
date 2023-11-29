@@ -124,4 +124,11 @@ export class LedgerService {
     }
     return this.http.get<any>(this.url_ledgers_common+"graph/agent/"+tin, httpOptions)
   }
+
+  getGraphDashboardTrp(tin : string){
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any>(this.url_ledgers_common+"graph/trp/"+tin, httpOptions)
+  }
 }
