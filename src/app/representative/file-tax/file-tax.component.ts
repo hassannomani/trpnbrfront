@@ -17,6 +17,7 @@ export class FileTaxComponent {
   buttonColor: string = "primary"
   buttonType: string = "button"
   buttonLabel1: string = "Validate"
+  buttonLabel2: string = "Reset"
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   message : string = ""
@@ -24,6 +25,7 @@ export class FileTaxComponent {
   username : string = ""
   agentId: string = ""
   otpShow: Boolean = false
+  resetShow: Boolean = false
   checkTaxPayer = new FormGroup({
     'tinNo' : new FormControl('',[Validators.required]),
     'phoneNo' : new FormControl('',[Validators.required]),
@@ -69,6 +71,7 @@ export class FileTaxComponent {
         if(data?.success==true||data?.message){
           this.message = "OTP has been sent to your phone"
           this.otpShow = true
+          this.resetShow = true
           this.openSnackBar()
         }else{
           let errMessage = data.errorMessage
@@ -77,7 +80,7 @@ export class FileTaxComponent {
           if(json?.errorCode=="48921"){
             this.message = "OTP already sent to the mobile"
             this.openSnackBar()
-          }else if(json.errorCode==undefined&&json.errorMessage){
+          }else if(/*json.errorCode==undefined&&*/json.errorMessage){
             this.message = json.errorMessage
             this.openSnackBar()
           }
@@ -121,5 +124,10 @@ export class FileTaxComponent {
       duration: 5 * 1000,
 
     });
+  }
+
+  reset(){
+    this.checkTaxPayer.reset()
+    this.otpShow = false
   }
 }
