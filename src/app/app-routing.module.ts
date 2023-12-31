@@ -38,6 +38,7 @@ import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
 import { BillPendingComponent } from './bill/bill-pending/bill-pending.component';
 import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.component';
 import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
+import { ChangePasswordComponent } from './user/change-password/change-password.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -79,6 +80,7 @@ const routes: Routes = [
   {path: "bill-pending", component: BillPendingComponent},
   {path: "bill-rejected", component: BillRejectedComponent},
   {path: "bill-approved", component: BillApprovedComponent},
+  {path: "profile", component: ChangePasswordComponent},
   { path: '**', pathMatch: 'full', redirectTo: ''}
 
 ];

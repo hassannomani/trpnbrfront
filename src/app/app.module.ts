@@ -61,6 +61,7 @@ import { BillSubmitComponent } from './bill/bill-submit/bill-submit.component';
 import { BillPendingComponent } from './bill/bill-pending/bill-pending.component';
 import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.component';
 import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
+import { ChangePasswordComponent } from './user/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { BillApprovedComponent } from './bill/bill-approved/bill-approved.compon
     BillSubmitComponent,
     BillPendingComponent,
     BillRejectedComponent,
-    BillApprovedComponent
+    BillApprovedComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

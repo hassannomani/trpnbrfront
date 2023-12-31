@@ -31,7 +31,7 @@ export class UserService {
     private commonService: CommonService
   ) {
     let temp = environment.production? environmentProd.apiUrl: environment.apiUrl
-    this.url = temp+"api/users/"
+    this.url = temp+"api/v1/users/"
   }
   
 
@@ -157,5 +157,14 @@ export class UserService {
     }
     const body=JSON.stringify(formData);
     return this.http.post(this.url+"register/", body,httpOptions)
+  }
+
+  changePassword(formData: any): Observable<any>{
+
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    const body=JSON.stringify(formData);
+    return this.http.post(this.url+"changePassword", body,httpOptions)
   }
 }

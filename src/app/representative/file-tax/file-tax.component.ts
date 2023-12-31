@@ -68,8 +68,8 @@ export class FileTaxComponent {
     this.checkTaxPayer.get('agentId')?.setValue(this.username);
     this.representativeServ.fileTaxOfATaxPayer(this.checkTaxPayer.value).subscribe({
       next: (data) => {
-        if(data?.success==true||data?.message){
-          this.message = "OTP has been sent to your phone"
+        if(data?.success==true||data?.message||data?.replyMessage){
+          this.message = "OTP has been shared with the requested phone number!"
           this.otpShow = true
           this.resetShow = true
           this.openSnackBar()
@@ -79,6 +79,7 @@ export class FileTaxComponent {
           console.log(json)
           if(json?.errorCode=="48921"){
             this.message = "OTP already sent to the mobile"
+            this.otpShow = true
             this.openSnackBar()
           }else if(/*json.errorCode==undefined&&*/json.errorMessage){
             this.message = json.errorMessage
