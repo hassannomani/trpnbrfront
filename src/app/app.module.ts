@@ -62,6 +62,8 @@ import { BillPendingComponent } from './bill/bill-pending/bill-pending.component
 import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.component';
 import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
+import { TrpComponent } from './trp-agent-transfer/trp/trp.component';
+import { AgentComponent } from './trp-agent-transfer/agent/agent.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +122,9 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
     BillPendingComponent,
     BillRejectedComponent,
     BillApprovedComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    TrpComponent,
+    AgentComponent
   ],
   imports: [
     BrowserModule,

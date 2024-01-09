@@ -1,0 +1,57 @@
+<div class="headerdiv">
+    <h2>Transfer Request</h2>
+</div>
+
+<div class="example-full-width">
+    <form class="example-form" [formGroup]="tranferForm" #formDir="ngForm" (ngSubmit)="requestSubmit()">
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <h4 style="color: #3f51b5;text-align: center;">Enter necessary Information</h4>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>User Name</mat-label>
+                    <input matInput  formControlName="requestedBy" type="text"  placeholder="User Name">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Your Role</mat-label>
+                    <input matInput  formControlName="requestedType" type="text"  placeholder="Your Role">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <mat-form-field class="example-full-width">
+                <mat-label>Type of Action</mat-label>
+                <mat-select [value]="agentPrev" formControlName="actionType">
+                    <mat-option *ngFor="let ag of agents" [value]="ag.tin">
+                        {{ag.name}}
+                    </mat-option>
+                    </mat-select>                
+                </mat-form-field>
+               
+            </tr>
+          
+          
+        
+            <tr class="clear:both;">
+                
+                <td>  
+                    <app-button
+                        [label]="buttonLabel"
+                        [color]="buttonColor" 
+                        [type]="buttonType"
+                        (click)="requestSubmit()"
+                        >
+                    </app-button>
+                </td>
+            </tr>
+        </table>
+    
+    </form>
+
+</div>
