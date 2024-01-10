@@ -26,7 +26,7 @@ export class RepresentativeService {
     private commonService: CommonService,
   ) {
     let url = environment.production? environmentProd.apiUrl: environment.apiUrl
-    this.url_trp = url + "api/representative/"
+    this.url_trp = url + "api/v1/representative/"
     this.url_ereturn = url + "api/trpereturn"
   }
 
@@ -107,4 +107,12 @@ export class RepresentativeService {
     }
     return this.http.get<any>(this.url_trp+'assign/'+tin+"/"+agent,httpOptions)
   }
+
+  getTheAgentDetails(tin: any): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_trp+'agentinfo/'+tin,httpOptions)
+  }
+
 }

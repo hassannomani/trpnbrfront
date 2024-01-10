@@ -25,15 +25,30 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>Previous Resource Center</mat-label>
+                    <input matInput  formControlName="previouslyAssignedName" type="text"  placeholder="Previous Resource Center">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
                 <mat-form-field class="example-full-width">
-                <mat-label>Type of Action</mat-label>
-                <mat-select [value]="agentPrev" formControlName="actionType">
-                    <mat-option *ngFor="let ag of agents" [value]="ag.tin">
-                        {{ag.name}}
-                    </mat-option>
-                    </mat-select>                
+                <mat-label>Please describe the reason</mat-label>
+                <textarea matInput placeholder="Reason" formControlName="reason"></textarea>
                 </mat-form-field>
                
+            </tr>
+
+            <tr>
+                <mat-form-field class="example-full-width">
+                <mat-label>Choose Desired Resource Center</mat-label>
+                <mat-select formControlName="requestFor">
+                    <mat-option *ngFor="let ag of agents" [value]="ag.tin" [disabled]="ag.tin==agentPrev">
+                        {{ag.name}}
+                    </mat-option>
+                </mat-select>                
+                </mat-form-field>
             </tr>
           
           

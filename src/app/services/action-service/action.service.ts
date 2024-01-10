@@ -18,7 +18,7 @@ export class ActionService {
   ) { 
     let url = environment.production? environmentProd.apiUrl: environment.apiUrl
     this.url_base_action = url + 'api/action/'
-    this.url_base_user = url + 'api/users/'
+    this.url_base_user = url + 'api/v1/users/'
   }
 
   private url_base_action : string = ''

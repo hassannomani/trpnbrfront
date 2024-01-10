@@ -23,17 +23,19 @@ export class TrpComponent implements OnInit{
   message : string = ""
   localStoreObj : any = {}
   username : string = ""
-  agents: any = {}
+  agents: any = []
   agentPrev: any = ""
   trpData: any = {}
   tranferForm = new FormGroup({
-    'requestedBy' : new FormControl('',[Validators.required]),
-    'requestedType' : new FormControl('',[Validators.required]),
+    'requestedBy' : new FormControl({value:'',disabled:true},[Validators.required],),
+    'requestedType' : new FormControl({value:'',disabled:true},[Validators.required]),
     'requestFor' : new FormControl('',[Validators.required]),
-    'previouslyAssigned' : new FormControl('',[Validators.required]),
+    'previouslyAssigned' : new FormControl({value:'',disabled:true},[Validators.required]),
+    'previouslyAssignedName' : new FormControl({value:'',disabled:true},[Validators.required]),
     'requestForType' : new FormControl('',[Validators.required]),  //agent
     'reason' : new FormControl('',[Validators.required]), //trp
-    'filePath' : new FormControl('') //trp
+    'filePath' : new FormControl(''), //trp,
+    'status': new FormControl('')
   })
 
   constructor(
@@ -53,28 +55,36 @@ export class TrpComponent implements OnInit{
     this.username = temp.username!=null?JSON.parse(temp.username):""
     let role = temp.role!=null?JSON.parse(temp.role):""
 
-    forkJoin([this.agentServ.getAll(),this.representativeServ.getARepresentative(this.username)])
+    forkJoin([this.agentServ.getAll(),this.representativeServ.getTheAgentDetails(this.username)])
       .subscribe({
         next: (data) => {
-          //console.log(data)
-          //console.log(data)
           this.trpData = data[1]
-          this.agentPrev = data[1].agentId
+          this.agentPrev = data[1].tin
           this.agents = data[0]
+          this.tranferForm.get('requestedBy')?.setValue(this.username)
+          this.tranferForm.get('requestedType')?.setValue("ROLE_REPRESENTATIVE")
+          this.tranferForm.get('requestForType')?.setValue("ROLE_AGENT")
+          this.tranferForm.get('previouslyAssigned')?.setValue(this.agentPrev)
+          this.tranferForm.get('previouslyAssignedName')?.setValue(this.trpData.name)
         },
         error: (e) => {
           console.log("Error retrieving")
         }
       });
 
-      this.tranferForm.get('requestedBy')?.setValue(this.username)
-      this.tranferForm.get('requestedType')?.setValue("ROLE_REPRESENTATIVE")
-      this.tranferForm.get('requestForType')?.setValue("ROLE_AGENT")
-      this.tranferForm.get('previouslyAssigned')?.setValue(this.agentPrev)
+    
   }
 
   requestSubmit(){
+    this.tranferForm.get('requestedBy')?.setValue(this.username)
+    this.tranferForm.get('requestedType')?.setValue("ROLE_REPRESENTATIVE")
+    this.tranferForm.get('requestForType')?.setValue("ROLE_AGENT")
+    this.tranferForm.get('previouslyAssigned')?.setValue(this.agentPrev)
+    this.tranferForm.get('previouslyAssignedName')?.setValue(this.trpData.name)
+    this.tranferForm.get('status')?.setValue("0")
+    this.tranferForm.get('previouslyAssignedName')?.setValue(this.trpData.name)
 
+    console.log(this.tranferForm.value)
   }
 
 }
