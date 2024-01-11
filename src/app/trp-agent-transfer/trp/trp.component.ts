@@ -27,6 +27,9 @@ export class TrpComponent implements OnInit{
   agentPrev: any = ""
   trpData: any = {}
   tranferForm = new FormGroup({
+    'username': new FormControl({value:'',disabled:true},[Validators.required]),
+    'role': new FormControl({value:'',disabled:true},[Validators.required]),
+    'agent': new FormControl({value:'',disabled:true},[Validators.required]),
     'requestedBy' : new FormControl({value:'',disabled:true},[Validators.required],),
     'requestedType' : new FormControl({value:'',disabled:true},[Validators.required]),
     'requestFor' : new FormControl('',[Validators.required]),
@@ -44,6 +47,7 @@ export class TrpComponent implements OnInit{
     private route: ActivatedRoute,
     private localStore: LocalStorageService,
     private representativeServ: RepresentativeService,
+    private transferServ: TransferService,
     private agentServ: AgentService,
     private _snackBar: MatSnackBar
   ){
@@ -61,11 +65,11 @@ export class TrpComponent implements OnInit{
           this.trpData = data[1]
           this.agentPrev = data[1].tin
           this.agents = data[0]
-          this.tranferForm.get('requestedBy')?.setValue(this.username)
-          this.tranferForm.get('requestedType')?.setValue("ROLE_REPRESENTATIVE")
+          this.tranferForm.get('username')?.setValue(this.username)
+          this.tranferForm.get('role')?.setValue("ROLE_REPRESENTATIVE")
           this.tranferForm.get('requestForType')?.setValue("ROLE_AGENT")
           this.tranferForm.get('previouslyAssigned')?.setValue(this.agentPrev)
-          this.tranferForm.get('previouslyAssignedName')?.setValue(this.trpData.name)
+          this.tranferForm.get('agent')?.setValue(this.trpData.name)
         },
         error: (e) => {
           console.log("Error retrieving")
@@ -76,15 +80,41 @@ export class TrpComponent implements OnInit{
   }
 
   requestSubmit(){
-    this.tranferForm.get('requestedBy')?.setValue(this.username)
-    this.tranferForm.get('requestedType')?.setValue("ROLE_REPRESENTATIVE")
-    this.tranferForm.get('requestForType')?.setValue("ROLE_AGENT")
-    this.tranferForm.get('previouslyAssigned')?.setValue(this.agentPrev)
-    this.tranferForm.get('previouslyAssignedName')?.setValue(this.trpData.name)
-    this.tranferForm.get('status')?.setValue("0")
-    this.tranferForm.get('previouslyAssignedName')?.setValue(this.trpData.name)
+    this.tranferForm.value['requestedBy']=this.username
+    this.tranferForm.value['requestedType']="ROLE_REPRESENTATIVE"
+    this.tranferForm.value['requestForType']="ROLE_AGENT"
+    this.tranferForm.value['previouslyAssigned']=this.agentPrev
+    this.tranferForm.value['previouslyAssignedName']=this.trpData.name
+    this.tranferForm.value['status']="0"
+    this.tranferForm.value['previouslyAssignedName']=this.trpData.name
 
-    console.log(this.tranferForm.value)
+    this.transferServ.save(this.tranferForm.value).subscribe({
+      next: (data) => {
+        if(data==true||data=="true"){
+          this.message = "Request Sent Successfully"
+          this.tranferForm.reset();
+          this.openSnackBar()
+        } 
+        else{
+          this.message = "Request Sent Failed"
+          this.openSnackBar()
+        }
+      },
+      error: (e) => {
+        this.message = e
+        this.openSnackBar()
+
+      } 
+    })
+  }
+
+  openSnackBar() {
+    this._snackBar.open(this.message, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 5 * 1000,
+
+    });
   }
 
 }

@@ -64,6 +64,7 @@ import { BillApprovedComponent } from './bill/bill-approved/bill-approved.compon
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { TrpComponent } from './trp-agent-transfer/trp/trp.component';
 import { AgentComponent } from './trp-agent-transfer/agent/agent.component';
+import { AdminComponent } from './trp-agent-transfer/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +125,8 @@ import { AgentComponent } from './trp-agent-transfer/agent/agent.component';
     BillApprovedComponent,
     ChangePasswordComponent,
     TrpComponent,
-    AgentComponent
+    AgentComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
