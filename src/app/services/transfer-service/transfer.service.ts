@@ -38,4 +38,20 @@ export class TransferService {
     }
     return this.http.get<any[]>(this.url+"all",httpOptions)
   }
+
+  approve(id: any): Observable<any>{
+
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url+"approve/"+id,httpOptions)
+  }
+
+  reject(id: any): Observable<any>{
+
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url+"reject/"+id,httpOptions)
+  }
 }

@@ -40,7 +40,7 @@ import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.compon
 import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { TrpComponent } from './trp-agent-transfer/trp/trp.component';
-import { AdminComponent } from './trp-agent-transfer/admin/admin.component';
+import { AdminTransferPendingComponent } from './trp-agent-transfer/admin/admin.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -84,7 +84,7 @@ const routes: Routes = [
   {path: "bill-approved", component: BillApprovedComponent},
   {path: "profile", component: ChangePasswordComponent},
   {path: "change-agent", component: TrpComponent},
-  {path: "transfer-pending", component: AdminComponent},
+  {path: "transfer-pending", component: AdminTransferPendingComponent},
   { path: '**', pathMatch: 'full', redirectTo: ''}
 
 ];

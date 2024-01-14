@@ -57,7 +57,6 @@ export class ActionListBlockedComponent implements OnInit{
         if(data.length){
           this.messageList = data
           this.displayedColumns = [ 'name','username','addedBy','action']
-          console.log(this.messageList)
         } 
         else{
           this.messageList = []
