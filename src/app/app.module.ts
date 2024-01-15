@@ -63,7 +63,7 @@ import { BillRejectedComponent } from './bill/bill-rejected/bill-rejected.compon
 import { BillApprovedComponent } from './bill/bill-approved/bill-approved.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { TrpComponent } from './trp-agent-transfer/trp/trp.component';
-import { AgentComponent } from './trp-agent-transfer/agent/agent.component';
+import { AgentChangeTRPComponent } from './trp-agent-transfer/agent/agent.component';
 import { AdminTransferPendingComponent } from './trp-agent-transfer/admin/admin.component';
 import { DetailsModalComponent } from './layouts/details-modal/details-modal.component';
 
@@ -126,7 +126,7 @@ import { DetailsModalComponent } from './layouts/details-modal/details-modal.com
     BillApprovedComponent,
     ChangePasswordComponent,
     TrpComponent,
-    AgentComponent,
+    AgentChangeTRPComponent,
     AdminTransferPendingComponent,
     DetailsModalComponent
   ],

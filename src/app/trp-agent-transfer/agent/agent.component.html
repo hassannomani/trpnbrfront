@@ -1,1 +1,30 @@
-<p>agent works!</p>
+<div class="headerdiv">
+    <h2>Transfer Request</h2>
+</div>
+
+<div class="example-full-width">
+    <form class="example-form" [formGroup]="searchForm" #formDir="ngForm">
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <h4 style="color: #3f51b5;text-align: center;">Please search by the TRP username</h4>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                    <mat-label>User Name</mat-label>
+                    <input matInput formControlName="uname" type="text"  placeholder="User Name">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <app-button
+                [label]="buttonLabel"
+                [color]="buttonColor" 
+                [type]="buttonType"
+                (click)="searchTRP()"
+                >
+            </app-button>
+            </tr>
+        </table>
+    </form>
+</div>

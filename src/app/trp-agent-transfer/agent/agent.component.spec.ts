@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgentComponent } from './agent.component';
+import { AgentChangeTRPComponent } from './agent.component';
 
-describe('AgentComponent', () => {
-  let component: AgentComponent;
-  let fixture: ComponentFixture<AgentComponent>;
+describe('AgentChangeTRPComponent', () => {
+  let component: AgentChangeTRPComponent;
+  let fixture: ComponentFixture<AgentChangeTRPComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AgentComponent ]
+      declarations: [ AgentChangeTRPComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AgentComponent);
+    fixture = TestBed.createComponent(AgentChangeTRPComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

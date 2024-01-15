@@ -115,4 +115,11 @@ export class RepresentativeService {
     return this.http.get<any>(this.url_trp+'agentinfo/'+tin,httpOptions)
   }
 
+  getSingleTRPOfAgent(ag: any,trp: any): Observable<any>{
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any>(this.url_trp+'single/'+ag+'/'+trp,httpOptions)
+  }
+
 }
