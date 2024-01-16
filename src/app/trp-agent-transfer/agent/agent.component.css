@@ -11,11 +11,12 @@ h3{
 
 .example-full-width {
   width: 100%;
+  overflow: hidden;
 }
 
 td {
   padding-right: 8px;
-  width: 50%;
+  width: 25%;
 }
 h4{
   display: block;
@@ -33,4 +34,10 @@ h4{
   font-weight: 600;
   color:#3f51b5;
   margin-top: 15px;
+}
+
+.example-form-table {
+ 
+  width: 100%;
+  float: left;
 }

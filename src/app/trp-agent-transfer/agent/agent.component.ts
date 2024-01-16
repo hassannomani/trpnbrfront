@@ -18,8 +18,12 @@ import { AgentService } from 'src/app/services/agent-service/agent.service';
 export class AgentChangeTRPComponent implements OnInit{
 
   buttonLabel: string = "Search"
+  buttonLabel2: string = "Remove"
+  buttonLabel3: string = "Submit"
   buttonColor: string = "primary"
+  buttonColor2: string = "warn"
   buttonType: string = "button"
+  role: string = ""
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   message : string = ""
@@ -27,19 +31,21 @@ export class AgentChangeTRPComponent implements OnInit{
   username : string = ""
   agents: any = []
   agentPrev: any = ""
-  trpData: any = {}
+  trpData: any = []
+  trp_name: string = ""
+  displayedColumn: any = []
   searchForm = new FormGroup({
-    'uname': new FormControl([Validators.required]),
+    'uname': new FormControl('',[Validators.required])
   })
+  showTable: Boolean = false
+  clicked: Boolean = false
+
   tranferForm = new FormGroup({
-    'username': new FormControl({value:'',disabled:true},[Validators.required]),
-    'role': new FormControl({value:'',disabled:true},[Validators.required]),
-    'agent': new FormControl({value:'',disabled:true},[Validators.required]),
-    'requestedBy' : new FormControl({value:'',disabled:true},[Validators.required],),
-    'requestedType' : new FormControl({value:'',disabled:true},[Validators.required]),
+    'requestedBy' : new FormControl('',[Validators.required],),
+    'requestedType' : new FormControl('',[Validators.required]),
     'requestFor' : new FormControl('',[Validators.required]),
-    'previouslyAssigned' : new FormControl({value:'',disabled:true},[Validators.required]),
-    'previouslyAssignedName' : new FormControl({value:'',disabled:true},[Validators.required]),
+    'previouslyAssigned' : new FormControl('',[Validators.required]),
+    'previouslyAssignedName' : new FormControl('',[Validators.required]),
     'requestForType' : new FormControl('',[Validators.required]),  //agent
     'reason' : new FormControl('',[Validators.required]), //trp
     'filePath' : new FormControl(''), //trp,
@@ -62,25 +68,7 @@ export class AgentChangeTRPComponent implements OnInit{
   ngOnInit(): void {
     let temp = this.localStore.getStorageItems()
     this.username = temp.username!=null?JSON.parse(temp.username):""
-    let role = temp.role!=null?JSON.parse(temp.role):""
-
-    forkJoin([this.agentServ.getAll(),this.representativeServ.getTheAgentDetails(this.username)])
-      .subscribe({
-        next: (data) => {
-          this.trpData = data[1]
-          this.agentPrev = data[1].tin
-          this.agents = data[0]
-          this.tranferForm.get('username')?.setValue(this.username)
-          this.tranferForm.get('role')?.setValue("ROLE_REPRESENTATIVE")
-          this.tranferForm.get('requestForType')?.setValue("ROLE_AGENT")
-          this.tranferForm.get('previouslyAssigned')?.setValue(this.agentPrev)
-          this.tranferForm.get('agent')?.setValue(this.trpData.name)
-        },
-        error: (e) => {
-          console.log("Error retrieving")
-        }
-      });
-
+    this.role = temp.role!=null?JSON.parse(temp.role):""
     
   }
 
@@ -90,6 +78,17 @@ export class AgentChangeTRPComponent implements OnInit{
     this.representativeServ.getSingleTRPOfAgent(this.username,a).subscribe({
       next: (data) => {
         console.log(data)
+        if(data?.userid){
+          let temp = data
+          this.trpData.push(temp)
+          this.displayedColumn = ['reName','tinNo','trpId','action']
+          this.trp_name = data.reName
+          this.showTable = true
+        }else{
+          this.showTable = false
+          this.message = "Username not matched with any of your TRP"
+          this.openSnackBar()
+        }
       },
       error: (e) => {
         this.message = e
@@ -99,20 +98,37 @@ export class AgentChangeTRPComponent implements OnInit{
     })
   }
 
+  changeTRP(){
+    this.clicked = true
+  }
+
   requestSubmit(){
+    if(this.tranferForm.value['reason']==""){
+      this.message = "Reason must not be empty"
+      this.openSnackBar()
+    }else{
+      this.submitBody()
+    }
+    
+  }
+
+  submitBody(){
+    let temp = this.trpData[0]
     this.tranferForm.value['requestedBy']=this.username
-    this.tranferForm.value['requestedType']="ROLE_REPRESENTATIVE"
-    this.tranferForm.value['requestForType']="ROLE_AGENT"
-    this.tranferForm.value['previouslyAssigned']=this.agentPrev
-    this.tranferForm.value['previouslyAssignedName']=this.trpData.name
+    this.tranferForm.value['requestedType']="ROLE_AGENT"
+    this.tranferForm.value['requestForType']="ROLE_REPRESENTATIVE"
+    this.tranferForm.value['previouslyAssigned']=temp.tinNo
+    this.tranferForm.value['previouslyAssignedName']=temp.reName
     this.tranferForm.value['status']="0"
-    this.tranferForm.value['previouslyAssignedName']=this.trpData.name
 
     this.transferServ.save(this.tranferForm.value).subscribe({
       next: (data) => {
         if(data==true||data=="true"){
           this.message = "Request Sent Successfully"
           this.tranferForm.reset();
+          this.searchForm.reset()
+          this.clicked = false
+          this.showTable = false
           this.openSnackBar()
         } 
         else{
