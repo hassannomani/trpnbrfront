@@ -10,13 +10,15 @@ import { TransferService } from 'src/app/services/transfer-service/transfer.serv
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 // import { ConfirmDialogModel, ConfirmModalComponent } from 'src/app/layouts/confirm-modal/confirm-modal.component';
 import {  MatDialog,MAT_DIALOG_DATA,MatDialogTitle,MatDialogContent} from '@angular/material/dialog';
-import { DetailsModalComponent, DetailsModalModel } from 'src/app/layouts/details-modal/details-modal.component';
+import { DetailsAgentModalModel, DetailsModalAgentComponent } from 'src/app/layouts/details-modal-agent/details-modal-agent.component';
+import { AgentSelectionDialogModel, AgentSelectionModalComponent } from 'src/app/layouts/agent-selection-modal/agent-selection-modal.component';
+
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'app-admin-agent',
+  templateUrl: './admin-agent.component.html',
+  styleUrls: ['./admin-agent.component.css']
 })
-export class AdminTransferPendingTRPComponent implements OnInit{
+export class AdminTransferPendingAgentReqComponent implements OnInit{
 
   buttonLabel: string = "Approve"
   buttonColor: string = "primary"
@@ -30,7 +32,9 @@ export class AdminTransferPendingTRPComponent implements OnInit{
   message : string = ""
   localStoreObj : any = {}
   displayedColumns : any =[]
-  reqs : any =[]
+  allAgents : any =[]
+  reqs : any = []
+  toBeApproved: any = {}
   constructor(
     private router: Router,
     private titleService:Title,
@@ -46,8 +50,51 @@ export class AdminTransferPendingTRPComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.loadRequests()
+    if(this.allAgents.length==0)
+      this.getAllAgents()
+
+    this.getAllAgentReq()
   }
+
+  getAllAgents(){
+    this.agentServ.getAll().subscribe({
+      next: (data) => {
+        if(data.length==0){
+          this.message = "Agents information not found"
+          this.openSnackBar()
+        }
+        else{
+          this.allAgents = data
+        }
+      },
+      error: (e) => {
+        this.message = "Error occurred while retrieving agents list! Please try again!"
+        this.openSnackBar()
+      }
+    })
+  }
+
+  getAllAgentReq(){
+    this.transferServ.getAllAgentReq().subscribe({
+      next: (data) => {
+       
+        if(data.length==0){
+          this.message = "No new req found"
+          this.openSnackBar()
+          this.reqs = data
+        }else{
+          this.reqs = data
+          this.displayedColumns = [ 'serial','previouslyAssigned','previouslyAssignedName','requestedBy','action']
+        }
+      },
+      error: (e) => {
+        this.message = "Error occurred! Please try again!"
+        this.openSnackBar()
+      }
+    })
+  }
+
+
 
   openSnackBar() {
     this._snackBar.open(this.message, 'x', {
@@ -58,44 +105,31 @@ export class AdminTransferPendingTRPComponent implements OnInit{
     });
   }
 
-  loadRequests(){
-    this.transferServ.getAll().subscribe({
-      next: (data) => {
-        if(data.length){
-          this.displayedColumns = [ 'serial','requestedBy','requestFor','previouslyAssigned','action']
-          this.reqs = data
-        }else{
-          this.message = "No request found"
-          this.openSnackBar()
-
-        }
-        console.log(data)
-      },
-      error: (e) => {
-        this.message = e
-        this.openSnackBar()
-
-      } 
-    })
-  }
-
   confirm(id: string){
-    this.transferServ.approve(id).subscribe({
-      next: (data) => {
-        if(data==true||data=="true"){
-          this.message = "Successfully Approved"
-          this.openSnackBar()
-          this.loadRequests()
-        }else{
-          this.message = "Request couldn't be rejected"
-          this.openSnackBar()
-        }
-      },
-      error: (e) => {
-        this.message = "Error occurred! Please try later"
-        this.openSnackBar()
-      } 
-    })
+    // this.transferServ.approve(id).subscribe({
+    //   next: (data) => {
+    //     if(data==true||data=="true"){
+    //       this.message = "Successfully Approved"
+    //       this.openSnackBar()
+    //       this.ngOnInit()
+    //     }else{
+    //       this.message = "Request couldn't be rejected"
+    //       this.openSnackBar()
+    //     }
+    //   },
+    //   error: (e) => {
+    //     this.message = "Error occurred! Please try later"
+    //     this.openSnackBar()
+    //   } 
+    // })
+
+    for(let i=0;i<this.reqs.length;i++){
+      if(this.reqs[i].transferid==id){
+        this.toBeApproved = this.reqs[i]
+        this.selectAgentDialog(id)
+        break
+      }
+    }
   }
 
   reject(id: string){
@@ -104,7 +138,7 @@ export class AdminTransferPendingTRPComponent implements OnInit{
       next: (data) => {
         if(data==true||data=="true"){
           this.message = "Successfully rejected"
-          this.loadRequests()
+          this.getAllAgentReq()
           this.openSnackBar()
         }else{
           this.message = "Request couldn't be rejected"
@@ -131,13 +165,31 @@ export class AdminTransferPendingTRPComponent implements OnInit{
   confirmDialog(data: any): void {
     data.title = "Details"
 
-    const dialogData = new DetailsModalModel(data.title,data.first_name,data.last_name,data.ag_first_name,data.ag_last_name,data.prev_first_name,data.prev_last_name,data.reason,data.created_at);
+    const dialogData = new DetailsAgentModalModel(data.title,data.previouslyAssignedName,data.previouslyAssigned,data.requestedBy,data.reason,data.createdAt);
 
-    const dialogRef = this.dialog.open(DetailsModalComponent, {
+    const dialogRef = this.dialog.open(DetailsModalAgentComponent, {
+      maxWidth: "600px",
+      data: dialogData
+    });
+  }
+
+
+  selectAgentDialog(data: string): void {
+    let title = "Select Agent"
+
+    const dialogData = new AgentSelectionDialogModel(title,this.allAgents,data);
+
+    const dialogRef = this.dialog.open(AgentSelectionModalComponent, {
       maxWidth: "600px",
       data: dialogData
     });
 
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      let result = dialogResult;
+      console.log(result)
+    });
+
   }
-//title: string, public first_name: string,public last_name: string,public ag_first_name: string,public ag_last_name: string,public prev_first_name: string,public prev_last_name: string,public reason: string, public created_at: string
+
+  
 }

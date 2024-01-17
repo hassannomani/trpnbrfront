@@ -64,8 +64,11 @@ import { BillApprovedComponent } from './bill/bill-approved/bill-approved.compon
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { TrpComponent } from './trp-agent-transfer/trp/trp.component';
 import { AgentChangeTRPComponent } from './trp-agent-transfer/agent/agent.component';
-import { AdminTransferPendingComponent } from './trp-agent-transfer/admin/admin.component';
+import { AdminTransferPendingTRPComponent } from './trp-agent-transfer/admin/admin.component';
 import { DetailsModalComponent } from './layouts/details-modal/details-modal.component';
+import { AdminTransferPendingAgentReqComponent } from './trp-agent-transfer/admin-agent/admin-agent.component';
+import { DetailsModalAgentComponent } from './layouts/details-modal-agent/details-modal-agent.component';
+import { AgentSelectionModalComponent } from './layouts/agent-selection-modal/agent-selection-modal.component';
 
 @NgModule({
   declarations: [
@@ -127,8 +130,11 @@ import { DetailsModalComponent } from './layouts/details-modal/details-modal.com
     ChangePasswordComponent,
     TrpComponent,
     AgentChangeTRPComponent,
-    AdminTransferPendingComponent,
-    DetailsModalComponent
+    AdminTransferPendingTRPComponent,
+    DetailsModalComponent,
+    AdminTransferPendingAgentReqComponent,
+    DetailsModalAgentComponent,
+    AgentSelectionModalComponent
   ],
   imports: [
     BrowserModule,

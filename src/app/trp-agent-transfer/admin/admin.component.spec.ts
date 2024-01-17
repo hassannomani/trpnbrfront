@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminTransferPendingComponent } from './admin.component';
+import { AdminTransferPendingTRPComponent } from './admin.component';
 
 describe('AdminComponent', () => {
-  let component: AdminTransferPendingComponent;
-  let fixture: ComponentFixture<AdminTransferPendingComponent>;
+  let component: AdminTransferPendingTRPComponent;
+  let fixture: ComponentFixture<AdminTransferPendingTRPComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminTransferPendingComponent ]
+      declarations: [ AdminTransferPendingTRPComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AdminTransferPendingComponent);
+    fixture = TestBed.createComponent(AdminTransferPendingTRPComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

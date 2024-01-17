@@ -36,3 +36,29 @@ export class DetailsModalModel {
   constructor(public title: string, public first_name: string,public last_name: string,public ag_first_name: string,public ag_last_name: string,public prev_first_name: string,public prev_last_name: string,public reason: string, public created_at: string) {
   }
 }
+
+
+// export class DetailsModalAgentComponent {
+//   title: string="";
+//   trp_name : string ="";
+//   username : string ="";
+//   ag_username: string ="";
+//   reason: string = "";
+//   created_at: string = ""
+  
+//   constructor(public dialogRef: MatDialogRef<DetailsModalAgentComponent>,
+//     @Inject(MAT_DIALOG_DATA) public data: DetailsModalAgentComponent) {
+//     this.title = data.title;
+//     this.trp_name = data.trp_name;
+//     this.username = data.username;
+//     this.ag_username = data.ag_username;
+//     this.reason = data.reason;
+//     this.created_at = data.created_at;
+//   }
+// }
+
+// export class DetailsAgentModalModel {
+
+//   constructor(public title: string, public trp_name: string,public username: string,public ag_username: string,public reason: string, public created_at: string) {
+//   }
+// }
