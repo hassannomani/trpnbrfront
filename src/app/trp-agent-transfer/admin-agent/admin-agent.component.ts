@@ -35,6 +35,8 @@ export class AdminTransferPendingAgentReqComponent implements OnInit{
   allAgents : any =[]
   reqs : any = []
   toBeApproved: any = {}
+  toBeapprovedId: string = ""
+  tobeAgentId: string = ""
   constructor(
     private router: Router,
     private titleService:Title,
@@ -106,30 +108,33 @@ export class AdminTransferPendingAgentReqComponent implements OnInit{
   }
 
   confirm(id: string){
-    // this.transferServ.approve(id).subscribe({
-    //   next: (data) => {
-    //     if(data==true||data=="true"){
-    //       this.message = "Successfully Approved"
-    //       this.openSnackBar()
-    //       this.ngOnInit()
-    //     }else{
-    //       this.message = "Request couldn't be rejected"
-    //       this.openSnackBar()
-    //     }
-    //   },
-    //   error: (e) => {
-    //     this.message = "Error occurred! Please try later"
-    //     this.openSnackBar()
-    //   } 
-    // })
-
     for(let i=0;i<this.reqs.length;i++){
       if(this.reqs[i].transferid==id){
         this.toBeApproved = this.reqs[i]
-        this.selectAgentDialog(id)
+        this.toBeapprovedId = id;
+        this.selectAgentDialog(this.toBeApproved.requestedBy)
         break
       }
     }
+  }
+
+  approve(){
+     this.transferServ.approveAgentRequest(this.toBeapprovedId,this.tobeAgentId).subscribe({
+      next: (data) => {
+        if(data==true||data=="true"){
+          this.message = "Successfully Approved"
+          this.openSnackBar()
+          this.ngOnInit()
+        }else{
+          this.message = "Request couldn't be rejected"
+          this.openSnackBar()
+        }
+      },
+      error: (e) => {
+        this.message = "Error occurred! Please try later"
+        this.openSnackBar()
+      } 
+    })
   }
 
   reject(id: string){
@@ -186,7 +191,10 @@ export class AdminTransferPendingAgentReqComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       let result = dialogResult;
-      console.log(result)
+      if(result!=false&&result!="false"){
+        this.tobeAgentId = result
+        this.approve()
+      }
     });
 
   }

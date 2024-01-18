@@ -95,8 +95,8 @@ export class TrpComponent implements OnInit{
           this.tranferForm.reset();
           this.openSnackBar()
         } 
-        else{
-          this.message = "Request Sent Failed"
+        else if(data==false||data=="false"){
+          this.message = "Already a req is sent. Please wait for the reply"
           this.openSnackBar()
         }
       },
