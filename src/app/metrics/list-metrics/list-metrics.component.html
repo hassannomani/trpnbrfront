@@ -6,6 +6,11 @@
   </div> -->
   <table mat-table [dataSource]="metricsList" class="mat-elevation-z8">
 
+      <ng-container matColumnDef="serial">
+        <th mat-header-cell *matHeaderCellDef>Serial </th>
+        <td mat-cell *matCellDef="let element;let i=index;"> {{i+1}} </td>
+      </ng-container>
+      
       <ng-container matColumnDef="assessmentYear">
         <th mat-header-cell *matHeaderCellDef>Assessment Year </th>
         <td mat-cell *matCellDef="let element"> {{element.assessmentYear}} </td>

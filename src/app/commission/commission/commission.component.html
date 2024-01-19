@@ -7,6 +7,11 @@
   <table mat-table [dataSource]="comList" class="mat-elevation-z8">
     
       <!-- Name Column -->
+      <ng-container matColumnDef="serial">
+        <th mat-header-cell *matHeaderCellDef>Serial </th>
+        <td mat-cell *matCellDef="let element;let i=index;"> {{i+1}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="taxpayerName">
         <th mat-header-cell *matHeaderCellDef>Tax Payer Name</th>
         <td mat-cell *matCellDef="let element"> {{element.taxpayerName}} </td>
@@ -23,7 +28,7 @@
       </ng-container>
 
       <ng-container matColumnDef="agentCommission">
-        <th mat-header-cell *matHeaderCellDef>Agent Commission</th>
+        <th mat-header-cell *matHeaderCellDef>Resource Center Commission</th>
         <td mat-cell *matCellDef="let element"> {{element.agentCommission}} </td>
       </ng-container>
 
@@ -42,7 +47,7 @@
         <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
       </ng-container>
       <ng-container matColumnDef="agentcom" *ngIf="!trp">
-        <th mat-header-cell *matHeaderCellDef>Agent Commission </th>
+        <th mat-header-cell *matHeaderCellDef>Resource Center Commission </th>
         <td mat-cell *matCellDef="let element"> {{element.agentcom}} </td>
       </ng-container>
       <ng-container matColumnDef="trpcom" *ngIf="!trp">

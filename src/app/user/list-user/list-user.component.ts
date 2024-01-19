@@ -35,7 +35,7 @@ export class ListUserComponent implements OnInit{
         if(data.length){
           this.agentsArr = data
           this.loaded  = true
-          this.displayedColumns = [ 'username','firstName','lastName','email','roles','addedDate','action']
+          this.displayedColumns = ['serial','username','firstName','lastName','email','roles','addedDate','action']
 
           console.log(this.agentsArr)
         } 

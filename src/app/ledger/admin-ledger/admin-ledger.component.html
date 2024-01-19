@@ -30,6 +30,11 @@
         </ng-container> -->
       
         <!-- Symbol Column -->
+        <ng-container matColumnDef="serial">
+          <th mat-header-cell *matHeaderCellDef>Serial </th>
+          <td mat-cell *matCellDef="let element;let i=index;"> {{i+1}} </td>
+        </ng-container>
+        
         <ng-container matColumnDef="assessmentYear">
           <th mat-header-cell *matHeaderCellDef> Assessment Year </th>
           <td mat-cell *matCellDef="let element"> {{element.assessmentYear}} </td>
@@ -37,12 +42,12 @@
     
 
         <ng-container matColumnDef="agentTin">
-        <th mat-header-cell *matHeaderCellDef>Agent TIN</th>
+        <th mat-header-cell *matHeaderCellDef>Resource Center TIN</th>
         <td mat-cell *matCellDef="let element"> {{element.agentTin}} </td>
         </ng-container>
 
         <ng-container matColumnDef="representativeId">
-            <th mat-header-cell *matHeaderCellDef>Representative TIN</th>
+            <th mat-header-cell *matHeaderCellDef>TRP TIN</th>
             <td mat-cell *matCellDef="let element"> {{element.representativeTin}} </td>
             </ng-container>
     

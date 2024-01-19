@@ -131,7 +131,11 @@ export class AgentChangeTRPComponent implements OnInit{
           this.showTable = false
           this.openSnackBar()
         } 
-        else{
+        else if(data==false||data=="false"){
+          this.message = "A request to change this trp is already pending. Please wait for the confirmation"
+          this.tranferForm.reset()
+          this.openSnackBar()
+        }else{
           this.message = "Request Sent Failed"
           this.openSnackBar()
         }

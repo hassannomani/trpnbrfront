@@ -46,7 +46,7 @@ export class CommissionComponent implements OnInit{
             this.trp = true
             //this.metricsList.sort((a,b) => a.slotNo.rendered - b.slotNo.rendered);
   
-            this.displayedColumns = [ 'taxpayerId','taxpayerName','paidAmount','agentCommission','representativeCommission','created_at','action']
+            this.displayedColumns = ['serial', 'taxpayerId','taxpayerName','paidAmount','agentCommission','representativeCommission','created_at','action']
           } 
           else{
             this.message = "No Data found"

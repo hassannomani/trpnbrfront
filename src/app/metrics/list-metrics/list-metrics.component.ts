@@ -41,7 +41,7 @@ export class ListMetricsComponent implements OnInit{
           this.metricsList = data
           //this.metricsList.sort((a,b) => a.slotNo.rendered - b.slotNo.rendered);
 
-          this.displayedColumns = [ 'assessmentYear','taxAmount','agentRate','representativeRate','yearNo']
+          this.displayedColumns = ['serial', 'assessmentYear','taxAmount','agentRate','representativeRate','yearNo']
         } 
         else{
           this.message = "No Data found"

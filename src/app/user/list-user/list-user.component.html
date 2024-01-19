@@ -10,6 +10,11 @@
           The actual rendered columns are set as a property on the row definition" -->
   
     <!-- Position Column -->
+    <ng-container matColumnDef="serial">
+      <th mat-header-cell *matHeaderCellDef>Serial </th>
+      <td mat-cell *matCellDef="let element;let i=index;"> {{i+1}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="username">
       <th mat-header-cell *matHeaderCellDef> Username (TIN) </th>
       <td mat-cell *matCellDef="let element"> {{element.username}} </td>
@@ -37,7 +42,7 @@
         <th mat-header-cell *matHeaderCellDef> Roles </th>
         <td mat-cell *matCellDef="let element">
             <span *ngFor="let role of element.roles;"> 
-                {{ role?.name }}
+                {{ role?.name=="ROLE_REPRESENTATIVE"?"TRP":"Resource Center" }}
              </span> 
         </td>
       </ng-container>

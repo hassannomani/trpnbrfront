@@ -47,7 +47,7 @@ export class ListCertificateComponent implements OnInit{
           this.alertDialog()
         } else{
           this.certificates = data
-          this.displayedColumn = ['examineeTin','examineeNid','examineeLicense','examineeMobile','examineeCertno']
+          this.displayedColumn = ['serial','examineeTin','examineeNid','examineeLicense','examineeMobile','examineeCertno']
         }
       },
       error: (e) => {

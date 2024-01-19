@@ -32,7 +32,7 @@ export class ListAgentComponent implements OnInit{
         //console.log(data)
         this.agentsArr = data
         this.loaded = true
-        this.displayedColumns = [ 'name','username','mobile_no','registration_no','contact_email', 'action']
+        this.displayedColumns = [ 'serial','name','username','mobile_no','registration_no','contact_email', 'action']
 
       },
       error: (e) => {
