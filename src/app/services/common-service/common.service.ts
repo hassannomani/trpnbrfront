@@ -272,4 +272,16 @@ export class CommonService {
     return this.http.get(this.url_common+"photo/"+filename, {headers, responseType: 'blob'})
 
   }
+
+  uploadProfilePhoto(file: File): Observable<any>{
+
+    const httpOptions = {
+      headers: this.httpReturnerCustom()
+    };
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+  
+    return this.http.post<any>(this.url_common+"profilephoto",formData, httpOptions)
+    
+  }
 }

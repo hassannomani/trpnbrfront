@@ -5,6 +5,7 @@ import {Title} from "@angular/platform-browser";
 import { UserService } from 'src/app/services/user-service/user.service';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
+import { CommonService } from 'src/app/services/common-service/common.service';
 
 @Component({
   selector: 'app-change-password',
@@ -16,7 +17,8 @@ export class ChangePasswordComponent implements OnInit{
     'username' : new FormControl('',[Validators.required]),
     'password' : new FormControl('',[Validators.required]),
     'newpassword' : new FormControl('',[Validators.required]),
-    'confirmpassword' : new FormControl('',[Validators.required])
+    'confirmpassword' : new FormControl('',[Validators.required]),
+    'photo' :  new FormControl('',[Validators.required])
   })
   buttonLabel: string = "Change"
   buttonColor: string = "primary"
@@ -25,12 +27,16 @@ export class ChangePasswordComponent implements OnInit{
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   message: string = ""
+  photo!: File;
+  photoUploaded: boolean = false
+
   constructor(
     private userService: UserService,
     private router: Router,
     private titleService:Title,
     private LocalStorageServ: LocalStorageService,
     private _snackBar: MatSnackBar,
+    private commonService: CommonService
 
   ){
     this.titleService.setTitle("Change Password");
@@ -78,5 +84,26 @@ export class ChangePasswordComponent implements OnInit{
 
     });
   }
+
+  selectPhoto(event: any){
+    this.photo = event.target.files.item(0);
+  }
+
+  uploadPhoto() {
+    this.commonService.uploadProfilePhoto(this.photo).subscribe({
+      next: (data) => {
+        console.log(data.fileUri)
+        if(data.fileUri){
+          this.paswordSubmit.get('photo')?.setValue(data.fileUri);
+          this.photoUploaded = true
+        }
+  
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    });
+  }
+
 
 }

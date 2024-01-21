@@ -96,4 +96,18 @@ export class BillingService {
     return this.http.get<any[]>(this.url_base_commission+'get_applicants',httpOptions)
   }
 
+  getAgentApproved(agentId: string): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base_ledger+'approved-agt/'+agentId,httpOptions)
+  }
+
+  getTRPApproved(trpId: string): Observable<any[]>{
+    const httpOptions = {
+      headers: this.commonServ.httpReturner()
+    }
+    return this.http.get<any[]>(this.url_base_ledger+'approved-trp/'+trpId,httpOptions)
+  }
+
 }

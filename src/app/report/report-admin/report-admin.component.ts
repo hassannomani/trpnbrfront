@@ -1,3 +1,4 @@
+import { BillingService } from 'src/app/services/billing-service/billing.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AgentService } from 'src/app/services/agent-service/agent.service';
@@ -47,6 +48,7 @@ export class ReportAdminComponent implements OnInit{
     private titleService:Title,
     private adminService: AdminService,
     private commissionServ: CommissionService,
+    private billServ: BillingService
   ){
     this.titleService.setTitle("Report");
   }
@@ -60,27 +62,36 @@ export class ReportAdminComponent implements OnInit{
     console.log(value)
     this.firstOption = value
     if(value==1)
-      this.dataSecondary = [{"id":1,"value":"All Agents"},{"id":2, "value": "All TRP of an Agent"}/*,{"id":3,"value":"Search By Creation Date"}*/]
+      this.dataSecondary = [{"id":1,"value":"All Resource Center"},{"id":2, "value": "All TRP of a Resource Center"}/*,{"id":3,"value":"Search By Creation Date"}*/]
     else if(value==2)
       this.dataSecondary = [{"id":1,"value":"All TRPs"}/*,{"id":2,"value":"Search By Creation Date"}*/]
     else if (value==3)
       this.dataSecondary = [
         {"id":"1","value":"All"},
-        {"id":"2", "value": "Agent"},
+        {"id":"2", "value": "Resource Center"},
         {"id":"3", "value":"TRP"},
         {"id":"4","value":"Date Range"},
-        {"id":"5","value":"Agent Ledger with Date Range"},
+        {"id":"5","value":"Resource Center Ledger with Date Range"},
         {"id":"6","value":"TRP Ledger with Date Range"}
       ]
     else if(value==4)
       this.dataSecondary = [
         {"id":"1","value":"All"},
-        {"id":"2", "value": "Agent"},
+        {"id":"2", "value": "Resource Center"},
         {"id":"3", "value":"TRP"},
         {"id":"4","value":"Date Range"}/*,
         {"id":"5","value":"Agent Commission with Date Range"},
         {"id":"6","value":"TRP Commission with Date Range"}*/
       ]
+    else if(value==5)
+      this.dataSecondary = [
+        {"id":"1","value":"All"},
+        {"id":"2", "value": "Resource Center"},
+        {"id":"3", "value":"TRP"}
+        /*{"id":"4","value":"Date Range"}/*,
+      {"id":"5","value":"Agent Commission with Date Range"},
+      {"id":"6","value":"TRP Commission with Date Range"}*/
+    ]
 
   }
   reportSubType(value: any){
@@ -116,6 +127,14 @@ export class ReportAdminComponent implements OnInit{
         this.showThirdR = true
       }
      
+    } else if(this.firstOption=="5"){
+      if(value=="2"){
+        this.showThirdA=true
+        this.showThirdR = false
+      }else if(value=="3"){
+        this.showThirdA=false
+        this.showThirdR = true
+      }
     }
     else{
       this.showThirdA = false
@@ -189,6 +208,16 @@ export class ReportAdminComponent implements OnInit{
         let thirdVal= this.reportSubmission.value["startDate"]
         let fourthVal= this.reportSubmission.value["endDate"]
         this.getRangeCommission(thirdVal, fourthVal);
+      }
+    }else if(this.firstOption=="5"){
+      if(this.secondOption=="1"){
+        this.getAllBills()
+      }else if(this.secondOption=="2"){
+        let thirVal = this.reportSubmission.value["agusername"]
+        this.getAgentBills(thirVal);
+      }else if(this.secondOption=="3"){
+        let thirdVal = this.reportSubmission.value["repusername"]
+        this.getTRPBills(thirdVal);
       }
     }
   }
@@ -368,6 +397,43 @@ export class ReportAdminComponent implements OnInit{
     // this.representativeService.getAllRepresentativesInRange(startDate,endDate).subscribe({
 
     // })
+  }
+
+  getAllBills(){
+    this.billServ.approvedBills().subscribe({
+      next: (data) => {
+        let col = ['taxpayer_id','taxpayer_name','payee_type','payee','name','commission']     
+         this.positiveResponse(data, col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
+  }
+
+  getTRPBills(tin: any){
+    this.billServ.getTRPApproved(tin).subscribe({
+      next: (data) => {
+        let col = ['taxpayer_id','taxpayer_name','payee_type','payee','name','commission']     
+         this.positiveResponse(data, col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
+  }
+
+  
+  getAgentBills(tin: any){
+    this.billServ.getAgentApproved(tin).subscribe({
+      next: (data) => {
+        let col = ['taxpayer_id','taxpayer_name','payee_type','payee','name','commission']     
+         this.positiveResponse(data, col)
+      },
+      error: (e) => {
+        this.loaded = false
+      }
+    })
   }
 
   open(){
