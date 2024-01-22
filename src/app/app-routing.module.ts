@@ -43,6 +43,7 @@ import { TrpComponent } from './trp-agent-transfer/trp/trp.component';
 import { AdminTransferPendingTRPComponent } from './trp-agent-transfer/admin/admin.component';
 import { AgentChangeTRPComponent } from './trp-agent-transfer/agent/agent.component';
 import { AdminTransferPendingAgentReqComponent } from './trp-agent-transfer/admin-agent/admin-agent.component';
+import { PreviousTrpComponent } from './history/previous-trp/previous-trp.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -87,6 +88,7 @@ const routes: Routes = [
   {path: "profile", component: ChangePasswordComponent},
   {path: "change-agent", component: TrpComponent},
   {path: "change-trp", component: AgentChangeTRPComponent},
+  {path: "previous-trp", component: PreviousTrpComponent},
   {path: "transfer-pending-trp", component: AdminTransferPendingTRPComponent},
   {path: "transfer-pending-agent", component: AdminTransferPendingAgentReqComponent},
   { path: '**', pathMatch: 'full', redirectTo: ''}

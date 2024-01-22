@@ -69,6 +69,7 @@ import { DetailsModalComponent } from './layouts/details-modal/details-modal.com
 import { AdminTransferPendingAgentReqComponent } from './trp-agent-transfer/admin-agent/admin-agent.component';
 import { DetailsModalAgentComponent } from './layouts/details-modal-agent/details-modal-agent.component';
 import { AgentSelectionModalComponent } from './layouts/agent-selection-modal/agent-selection-modal.component';
+import { PreviousTrpComponent } from './history/previous-trp/previous-trp.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +135,8 @@ import { AgentSelectionModalComponent } from './layouts/agent-selection-modal/ag
     DetailsModalComponent,
     AdminTransferPendingAgentReqComponent,
     DetailsModalAgentComponent,
-    AgentSelectionModalComponent
+    AgentSelectionModalComponent,
+    PreviousTrpComponent
   ],
   imports: [
     BrowserModule,

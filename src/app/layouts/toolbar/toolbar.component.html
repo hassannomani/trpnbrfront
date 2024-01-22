@@ -17,7 +17,8 @@
         <div class="right">
             
             <div class="icon" *ngIf="isLoggedIn">
-                <i class="material-icons">account_circle</i>
+                <i class="material-icons" *ngIf="!image">account_circle</i>
+                <img [attr.src]="image" alt="" *ngIf="image" class="img-responsive">
             </div>
             <div class="text">
                 <h4 class="first">{{username}}</h4>

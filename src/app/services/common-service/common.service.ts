@@ -284,4 +284,22 @@ export class CommonService {
     return this.http.post<any>(this.url_common+"profilephoto",formData, httpOptions)
     
   }
+
+  loadProfilePhoto(): Observable<any>{
+    const httpOptions = {
+      headers: this.httpReturnerBlob()
+    };
+    let headers = new HttpHeaders();
+    let obj = this.localStorageServc.getStorageItems()
+    if(obj.token!=null){
+      //headers = headers.set('Accept', 'application/pdf');
+      headers =headers.set( 'Authorization', "Bearer "+ JSON.parse(obj.token))
+    }
+    let temp
+    if(obj.username!=null)
+      temp = JSON.parse(obj.username)
+  
+    return this.http.get(this.url_common+"get-profile-photo/"+temp, {headers, responseType: 'blob'})
+
+  }
 }

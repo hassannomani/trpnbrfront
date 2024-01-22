@@ -1,9 +1,11 @@
+import { CommonService } from 'src/app/services/common-service/common.service';
 import { Component,OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { SigninService } from 'src/app/services/signin-service/signin.service';
 import {MatBadgeModule} from '@angular/material/badge';
 import { ActionService } from 'src/app/services/action-service/action.service';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-toolbar',
@@ -21,12 +23,15 @@ export class ToolbarComponent implements OnInit{
   unread: number = 0
   role: string = ""
   username: string = ""
+  image: any 
   constructor(
     
     private localStorage: LocalStorageService,
     private signInService: SigninService,
     private actionService: ActionService,
     private router: Router, 
+    private commonServ: CommonService,
+    private sanitizer: DomSanitizer
   ){}
   ngOnInit(): void {
     this.signInService.loginStatusChange().subscribe(loggedIn => {
@@ -48,7 +53,7 @@ export class ToolbarComponent implements OnInit{
         this.username  = local.username?JSON.parse(local.username): ""
         if(this.username!="000000000000")
           this.getMessageCount();
-
+        this.getPhoto()
         if(role=="ROLE_ADMIN")
           this.isAdmin = true
         else if(role=="ROLE_AGENT"){
@@ -116,6 +121,20 @@ export class ToolbarComponent implements OnInit{
   decreaseFun(){
     console.log("called")
     this.unread = this.unread-1
+  }
+
+  getPhoto(){
+    this.commonServ.loadProfilePhoto().subscribe({
+      next: (data) => {
+        let temp = data
+        let objectURL = URL.createObjectURL(temp)
+        this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        
+      },
+      error: (e) => {
+        console.log(e)
+      }  
+    })
   }
 
 }

@@ -4,7 +4,7 @@
 }
 .semileft{
     float: left;
-    width: 4%;
+    width: 6%;
 }
 .semileft> i{
     cursor: pointer;
@@ -24,4 +24,13 @@
 .right> .text{
     float: right;
     width: 85%;
+}
+.img-responsive{
+    display: block;
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin-left: -30px;
 }
