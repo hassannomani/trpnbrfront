@@ -26,6 +26,7 @@ export class TrpComponent implements OnInit{
   agents: any = []
   agentPrev: any = ""
   trpData: any = {}
+  submitted: boolean = false
   tranferForm = new FormGroup({
     'username': new FormControl({value:'',disabled:true},[Validators.required]),
     'role': new FormControl({value:'',disabled:true},[Validators.required]),
@@ -93,6 +94,7 @@ export class TrpComponent implements OnInit{
         if(data==true||data=="true"){
           this.message = "Request Sent Successfully"
           this.tranferForm.reset();
+          this.submitted = true
           this.openSnackBar()
         } 
         else if(data==false||data=="false"){

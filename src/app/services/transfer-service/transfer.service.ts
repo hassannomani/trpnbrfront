@@ -71,4 +71,12 @@ export class TransferService {
     return this.http.get<any>(this.url+"approve-agent-req/"+id+"/"+ag,httpOptions)
   }
 
+  getAllPreviousTRPsOfAnAgent(id: any): Observable<any[]>{
+
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+    return this.http.get<any[]>(this.url+"previous-trp-of-agent/"+id,httpOptions)
+  }
+
 }

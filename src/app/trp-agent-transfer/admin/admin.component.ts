@@ -65,6 +65,7 @@ export class AdminTransferPendingTRPComponent implements OnInit{
           this.displayedColumns = [ 'serial','requestedBy','requestFor','previouslyAssigned','action']
           this.reqs = data
         }else{
+          this.reqs = data
           this.message = "No request found"
           this.openSnackBar()
 
