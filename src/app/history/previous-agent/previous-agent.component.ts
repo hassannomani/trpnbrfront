@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Title} from "@angular/platform-browser";
-import { forkJoin } from 'rxjs';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 import { RepresentativeService } from 'src/app/services/representative-service/representative.service';
@@ -9,17 +7,12 @@ import { TransferService } from 'src/app/services/transfer-service/transfer.serv
 import { AgentService } from 'src/app/services/agent-service/agent.service';
 // import { ConfirmDialogModel, ConfirmModalComponent } from 'src/app/layouts/confirm-modal/confirm-modal.component';
 import {  MatDialog,MAT_DIALOG_DATA,MatDialogTitle,MatDialogContent} from '@angular/material/dialog';
-
 @Component({
-  selector: 'app-previous-trp',
-  templateUrl: './previous-trp.component.html',
-  styleUrls: ['./previous-trp.component.css']
+  selector: 'app-previous-agent',
+  templateUrl: './previous-agent.component.html',
+  styleUrls: ['./previous-agent.component.css']
 })
-export class PreviousTrpComponent implements OnInit {
-
-  buttonLabel: string = "Approve"
-  buttonColor: string = "primary"
-  buttonType: string = "button"
+export class PreviousAgentComponent implements OnInit{
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   message : string = ""
@@ -27,14 +20,9 @@ export class PreviousTrpComponent implements OnInit {
   displayedColumns : any =[]
   allAgents : any =[]
   data : any = []
-  toBeApproved: any = {}
-  toBeapprovedId: string = ""
-  tobeAgentId: string = ""
   username: string = ""
   constructor(
-    private router: Router,
     private titleService:Title,
-    private route: ActivatedRoute,
     private localStore: LocalStorageService,
     private representativeServ: RepresentativeService,
     private transferServ: TransferService,
@@ -42,19 +30,18 @@ export class PreviousTrpComponent implements OnInit {
     private _snackBar: MatSnackBar,
     public dialog: MatDialog
   ){
-    this.titleService.setTitle("Transfer Request Approval");
+    this.titleService.setTitle("Previous Resource Center");
   }
 
   ngOnInit(): void {
     let temp = this.localStore.getStorageItems()
     this.username = temp.username!=null?JSON.parse(temp.username):""
-    this.getPreviousTRPs()
-
+    this.getPreviousRCs()
   }
   
 
-  getPreviousTRPs(){
-    this.transferServ.getAllPreviousTRPsOfAnAgent(this.username).subscribe({
+  getPreviousRCs(){
+    this.transferServ.getAllPreviousRCsOfATRP(this.username).subscribe({
       next: (data) => {
         this.data = data
         this.displayedColumns = ['serial','trp_name','trp_username','date_of_approval']
