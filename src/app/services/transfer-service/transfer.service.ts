@@ -78,13 +78,13 @@ export class TransferService {
     }
     return this.http.get<any[]>(this.url+"previous-trp-of-agent/"+id,httpOptions)
   }
-  
+
   getAllPreviousRCsOfATRP(id: any): Observable<any[]>{
 
     const httpOptions = {
       headers: this.commonService.httpReturner()
     }
-    return this.http.get<any[]>(this.url+"previous-trp-of-agent/"+id,httpOptions)
+    return this.http.get<any[]>(this.url+"previous-agents-of-trp/"+id,httpOptions)
   }
 
 }
