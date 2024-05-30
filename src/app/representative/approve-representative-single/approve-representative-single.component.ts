@@ -118,7 +118,7 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
     }else{
       let agent = this.assignAgent.value['agentId']
       if(agent==""){
-        this.message = "Please select an agent!"
+        this.message = "Please select an Resource Center!"
         this.openSnackBar()
       }else{
         this.representativeServ.assignAgent(username, agent).subscribe({
@@ -129,7 +129,7 @@ export class ApproveRepresentativeSingleComponent implements OnInit {
             } 
           },
           error: (e) => {
-            this.message = "Failed to assign agent!"
+            this.message = "Failed to assign Resource Center!"
             this.openSnackBar()
             console.log(e)
           } 

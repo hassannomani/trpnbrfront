@@ -55,15 +55,15 @@
     <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
       <mat-expansion-panel-header>
           <mat-panel-title>
-            Agent Information
+            Resource Center Information
           </mat-panel-title>
           <mat-panel-description>
               Click to Expand
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div *ngIf="agentLoaded">
-          <p>Agent Name: {{agent.name}}</p>
-          <p>Agent TIN: {{agent.tin}}</p>
+          <p>Resource Center Name: {{agent.name}}</p>
+          <p>Resource Center TIN: {{agent.tin}}</p>
           <p>Focal Person: {{agent.contactPerson}}</p>
           <p>Focal Person Mobile: {{agent.contactNumber}}</p>
           <p>Focal Person Email: {{agent.contactEmail}}</p>  
@@ -72,7 +72,7 @@
           <form class="example-form" [formGroup]="assignAgent" #formDir="ngForm">
 
             <mat-form-field class="example-full-width">
-              <mat-label>Agent</mat-label>
+              <mat-label>Resource Center</mat-label>
               <mat-select matNativeControl required formControlName="agentId">
                   <mat-option value="">--Select--</mat-option>
                   <mat-option *ngFor="let age of agentAll" [value]="age[1]">{{age[2]}}</mat-option>  

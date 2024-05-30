@@ -98,7 +98,7 @@ export class EditAgentComponent implements OnInit {
     private titleService:Title,
     private sanitizer :DomSanitizer,
   ){
-    this.titleService.setTitle("Add Agent");
+    this.titleService.setTitle("Add Resource Center");
   }
   ngOnInit(): void {
     this

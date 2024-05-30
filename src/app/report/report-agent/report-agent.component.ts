@@ -48,7 +48,7 @@ export class ReportAgentComponent implements OnInit{
     private commissionServ: CommissionService,
     private localStorage: LocalStorageService,
   ){
-    this.titleService.setTitle("Agent Report");
+    this.titleService.setTitle("Resource Center Report");
   }
   
   ngOnInit(): void {

@@ -25,6 +25,7 @@ export class ReportAdminComponent implements OnInit{
   showThirdR: boolean = false
   showThirdD1: boolean = false
   showThirdD2: boolean = false
+  showCaption: boolean = false
   firstOption: string = ""
   secondOption: string = ""
   loaded: boolean = false
@@ -58,7 +59,7 @@ export class ReportAdminComponent implements OnInit{
   }
 
   reportType(value:any){
-
+    this.showCaption = false
     console.log(value)
     this.firstOption = value
     if(value==1)
@@ -95,6 +96,7 @@ export class ReportAdminComponent implements OnInit{
 
   }
   reportSubType(value: any){
+    this.showCaption = false
     this.secondOption  = value
     if((value=="2" && this.firstOption=="1")||(this.firstOption=="3"&&value=="2")||(this.firstOption=="4"&&value=="2")){
       this.showThirdA = true
@@ -147,6 +149,7 @@ export class ReportAdminComponent implements OnInit{
   
   formSubmit(){
    
+    this.showCaption = true
     if(this.firstOption=="1"&&this.secondOption=="1")
       this.getAllAgents()
 

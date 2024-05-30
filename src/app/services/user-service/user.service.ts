@@ -156,7 +156,7 @@ export class UserService {
       headers: this.commonService.httpReturner()
     }
     const body=JSON.stringify(formData);
-    return this.http.post(this.url+"register/", body,httpOptions)
+    return this.http.post(this.url+"register", body,httpOptions)
   }
 
   changePassword(formData: any): Observable<any>{

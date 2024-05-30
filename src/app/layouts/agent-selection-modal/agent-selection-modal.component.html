@@ -4,7 +4,7 @@
   
   <div mat-dialog-content>
         <mat-form-field>
-        <mat-label>Agent List</mat-label>
+        <mat-label>Resource Center List</mat-label>
         <input matInput >
         <mat-select [(ngModel)]="agent_tin">
             <mat-option *ngFor="let ag of agents" [value]="ag.tin" [disabled]="ag.tin==selected">

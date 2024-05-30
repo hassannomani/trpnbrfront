@@ -22,7 +22,7 @@ export class ListAgentComponent implements OnInit{
     private router: Router
 
   ){
-    this.titleService.setTitle("List of Agents");
+    this.titleService.setTitle("List of Resource Center");
 
   }
   ngOnInit(): void {
