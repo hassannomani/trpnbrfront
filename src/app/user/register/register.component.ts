@@ -16,7 +16,7 @@ import { CommonService } from 'src/app/services/common-service/common.service';
 export class RegisterComponent {
   display: any;
   public timerInterval: any;
-  buttonLabel: string = "Check"
+  buttonLabel: string = "Verify"
   buttonColor: string = "primary"
   buttonType: string = "button"
   buttonLabel1: string = "Validate"

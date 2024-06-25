@@ -23,11 +23,11 @@ import {MatDialog} from '@angular/material/dialog';
 export class AddRepresentativeComponent implements OnInit{
 
   addUser = new FormGroup({
-    'username' : new FormControl('',[Validators.required, Validators.minLength(10)]),
+    'username' : new FormControl({value:'',disabled:true},[Validators.required, Validators.minLength(10)]),
     'password' : new FormControl('',[Validators.required, Validators.minLength(4)]),
     'repassword' : new FormControl('',[Validators.required, Validators.minLength(4)]),
-    'firstName' : new FormControl('',[Validators.required, Validators.minLength(2)]),
-    'lastName' : new FormControl('',[Validators.required, Validators.minLength(2)]),
+    'firstName' : new FormControl({value:'',disabled:true},[Validators.required, Validators.minLength(2),]),
+    'lastName' : new FormControl({value:'',disabled:true},[Validators.required, Validators.minLength(2)]),
     'email' : new FormControl('',[Validators.required]),
     'addedBy': new FormControl(''),
     'status': new FormControl(''),

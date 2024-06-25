@@ -76,7 +76,7 @@
               <mat-select matNativeControl required formControlName="agentId">
                   <mat-option value="">--Select--</mat-option>
                   <mat-option *ngFor="let age of agentAll" [value]="age[1]">{{age[2]}}</mat-option>  
-                  <mat-option value="0">None</mat-option> 
+                  <!-- <mat-option value="0">None</mat-option>  -->
               </mat-select>
             </mat-form-field>
           </form>

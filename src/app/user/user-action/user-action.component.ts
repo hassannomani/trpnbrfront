@@ -82,15 +82,19 @@ export class UserActionComponent implements OnInit{
       this.receiver = uname
       console.log(deny)
       if(uname!=null){
-        this.type_of_message = ['WARNING','DENY','SUSPEND','BLOCK']
         let items = this.localStore.getStorageItems()
         this.sender = items.username?JSON.parse(items.username):""
         this.addAction.get("receiver")?.setValue(uname)
         if(deny=="1"){
+          this.type_of_message = ['WARNING','DENY','SUSPEND','CANCEL']
           this.subject = "Subject of Deny"
           this.reason = "Reason of Deny"
           this.addAction.get("actionType")?.setValue("DENY")
           this.flag = false
+        }
+        else
+        {
+          this.type_of_message = ['WARNING','SUSPEND','CANCEL']
         }
         
         console.log(uname)

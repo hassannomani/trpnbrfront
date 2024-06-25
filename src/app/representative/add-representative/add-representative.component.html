@@ -124,7 +124,7 @@
                         <mat-select matNativeControl required formControlName="agId" (selectionChange)="setAgent($event.value)">
                             <mat-option value="">--Select--</mat-option>
                             <mat-option *ngFor="let age of agents" [value]="age[1]">{{age[2]}}</mat-option>  
-                            <mat-option value="0">None</mat-option> 
+                            <mat-option value="0">Authorization given to NBR</mat-option> 
                         </mat-select>
                     </mat-form-field>
                 </td>
@@ -132,7 +132,7 @@
             <tr>
                 <td>
                     <mat-form-field class="example-full-width">
-                    <mat-label>Smarok No</mat-label>
+                    <mat-label>Sarok No</mat-label>
                     <input matInput  formControlName="refNo" type="String"  placeholder="Smarok No">
                     </mat-form-field>
                 </td>
