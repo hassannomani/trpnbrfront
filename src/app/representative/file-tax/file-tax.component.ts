@@ -26,6 +26,7 @@ export class FileTaxComponent {
   agentId: string = ""
   otpShow: Boolean = false
   resetShow: Boolean = false
+  showErr: Boolean = false
   checkTaxPayer = new FormGroup({
     'tinNo' : new FormControl('',[Validators.required]),
     'phoneNo' : new FormControl('',[Validators.required]),
@@ -72,6 +73,7 @@ export class FileTaxComponent {
           this.message = "OTP has been shared with the requested phone number!"
           this.otpShow = true
           this.resetShow = true
+          this.showErr = false
           this.openSnackBar()
         }else{
           let errMessage = data.errorMessage
@@ -80,10 +82,12 @@ export class FileTaxComponent {
           if(json?.errorCode=="48921"){
             this.message = "OTP already sent to the mobile"
             this.otpShow = true
+            this.showErr = false
             this.openSnackBar()
           }else if(/*json.errorCode==undefined&&*/json.errorMessage){
             this.message = json.errorMessage
             this.openSnackBar()
+            this.showErr = true
           }
         }
         
@@ -130,5 +134,6 @@ export class FileTaxComponent {
   reset(){
     this.checkTaxPayer.reset()
     this.otpShow = false
+    this.showErr = false
   }
 }

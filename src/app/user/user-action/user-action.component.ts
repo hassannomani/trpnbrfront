@@ -169,9 +169,9 @@ export class UserActionComponent implements OnInit{
       this.reason = "Reason of Deny"
       this.flag = false
 
-    }else if(value=="BLOCK"){
-      this.subject = "Subject of Block"
-      this.reason = "Reason of Block"
+    }else if(value=="CANCEL"){
+      this.subject = "Subject of cancel"
+      this.reason = "Reason of cancel"
       this.flag = false
 
     }else if(value=="SUSPEND"){

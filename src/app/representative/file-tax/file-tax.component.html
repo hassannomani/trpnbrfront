@@ -68,6 +68,9 @@
                     </app-button>
                 </td>
             </tr>
+            <tr *ngIf="showErr">
+                <p>Please go to <a href="https://secure.incometax.gov.bd/TINHome">e-TIN</a> to resolve error</p>
+            </tr>
         </table>
     
     </form>
