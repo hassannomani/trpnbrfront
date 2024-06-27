@@ -43,12 +43,29 @@
                         <mat-label>Password</mat-label>
                         <input matInput  formControlName="password" type="password"  placeholder="Password">
                         </mat-form-field>
+                        <div class="text-red-400 text-sm" *ngIf="passwordFormField?.dirty">
+                            <span class="block" [ngClass]="{'text-primary': passwordFormField?.value?.match('^(?=.*[A-Z])')}">At least oneu ppercase
+                                                    letter.</span>
+                            <span class="block" [ngClass]="{'text-primary': passwordFormField?.value?.match('(?=.*[a-z])')}">At least one lowercase
+                                                    letter.</span>
+                            <span class="block" [ngClass]="{'text-primary': passwordFormField?.value?.match('(.*[0-9].*)')}">At least one
+                                                    digit.</span>
+                            <span class="block" [ngClass]="{'text-primary': passwordFormField?.value?.match('(?=.*[!@#$%^&*])')}">At least one
+                                                    special
+                                                    character.</span>
+                            <span class="block" [ngClass]="{'text-primary': passwordFormField?.value?.match('.{8,}')}">At least 8 characters
+                                                    long.</span>
+                         </div>
                     </td>
                     <td>
                         <mat-form-field class="example-full-width">
                         <mat-label>Confirm Password</mat-label>
-                        <input matInput  formControlName="repassword" type="password"  placeholder="Re Password">
+                        <input matInput  formControlName="repassword" (keyup)="checkBothFields($event)" type="password"  placeholder="Re Password">
                         </mat-form-field>
+
+                        <div class="text-red-400 text-sm" *ngIf="repasswordFormField?.dirty">
+                            <span class="text-red"  *ngIf="notMatch">Password doesn't match.</span>
+                         </div>
                     </td>
                 </tr>
                 <tr style="margin-top:10px;margin-bottom:10px;">

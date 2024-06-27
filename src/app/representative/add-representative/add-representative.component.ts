@@ -22,9 +22,12 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class AddRepresentativeComponent implements OnInit{
 
+  StrongPasswordRegx: RegExp =
+  /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
+  
   addUser = new FormGroup({
     'username' : new FormControl({value:'',disabled:true},[Validators.required, Validators.minLength(10)]),
-    'password' : new FormControl('',[Validators.required, Validators.minLength(4)]),
+    'password' : new FormControl('',[Validators.required, /*Validators.minLength(4)]*/Validators.pattern(this.StrongPasswordRegx)]),
     'repassword' : new FormControl('',[Validators.required, Validators.minLength(4)]),
     'firstName' : new FormControl({value:'',disabled:true},[Validators.required, Validators.minLength(2),]),
     'lastName' : new FormControl({value:'',disabled:true},[Validators.required, Validators.minLength(2)]),
@@ -164,6 +167,7 @@ export class AddRepresentativeComponent implements OnInit{
   bcccheck: boolean = false
   pmcccheck: boolean = false
   prcccheck: boolean = false
+  notMatch: boolean = false
   modalTitle: string = ""
   modalMessage: string= ""
   constructor(
@@ -494,6 +498,15 @@ export class AddRepresentativeComponent implements OnInit{
       }
     }
     this.addUser.value['roles'] = this.roleRep;
+    if(!this.passwordFormField?.value?.match('^(?=.*[A-Z])')
+    ||!this.passwordFormField?.value?.match('(?=.*[a-z])')
+    ||!this.passwordFormField?.value?.match('(.*[0-9].*)')
+    ||!this.passwordFormField?.value?.match('(?=.*[!@#$%^&*])')
+    ||!this.passwordFormField?.value?.match('.{8,}')
+    ||this.addUser.get('password')?.value!=this.addUser.get('repassword')?.value)
+    {
+      return
+    }
     this.userService.registerUser(this.addUser.value).subscribe({
      
       next: (data) => {
@@ -836,6 +849,24 @@ export class AddRepresentativeComponent implements OnInit{
 
   freeLocal(){
     this.localStorage.deleteUnregisteredUser()
+  }
+
+  get passwordFormField() {
+    return this.addUser.get('password');
+  }
+
+  get repasswordFormField() {
+    return this.addUser.get('repassword');
+  }
+
+  checkBothFields(event: any){
+    let a = this.addUser.get('password')?.value
+    let b = this.addUser.get('repassword')?.value
+    console.log(a+" "+b)
+    if (this.addUser.get('password')?.value!=this.addUser.get('repassword')?.value)
+      this.notMatch = true
+    else
+      this.notMatch = false
   }
 }
 

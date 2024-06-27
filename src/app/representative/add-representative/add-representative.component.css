@@ -49,3 +49,10 @@ mat-spinner{
 .success{
   color: green;
 }
+.text-red-400{
+  color: red;
+}
+
+.text-red{
+  color: red;
+}
