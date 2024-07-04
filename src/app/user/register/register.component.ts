@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import {SafeResourceUrl, Title} from "@angular/platform-browser";
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
@@ -13,9 +13,10 @@ import { CommonService } from 'src/app/services/common-service/common.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit{
   display: any;
   public timerInterval: any;
+  year: any = ""
   buttonLabel: string = "Verify"
   buttonColor: string = "primary"
   buttonType: string = "button"
@@ -37,6 +38,8 @@ export class RegisterComponent {
     'otp' : new FormControl('',[Validators.required])
   })
 
+ 
+
   constructor(
     private router: Router,
     private titleService:Title,
@@ -49,6 +52,26 @@ export class RegisterComponent {
   ){
     this.titleService.setTitle("Register");
   }
+
+  // getAssessmentYear
+
+  ngOnInit(): void {
+    this.registerServ.getAssessmentYear().subscribe({
+      next: (data) => {
+        if(data){
+          this.year = data.year
+          console.log(this.year)
+        }
+      }
+      ,
+      error: (e) => {
+        this.message = "Error retrieving year"
+        this.openSnackBar()
+      }  
+    })
+  
+  }
+
 
   taxpayerSubmit(){
     this.submitted = true
@@ -173,6 +196,7 @@ export class RegisterComponent {
           this.message = "TIN not found"
         }else{
           this.tinInfo = data
+          this.psrValidate(tin)
           this.getMobileValidated(this.registerForm.value['phoneNo'])
         }
       }
@@ -245,5 +269,19 @@ export class RegisterComponent {
         clearInterval(this.timerInterval);
       }
     }, 1000);
+  }
+
+  psrValidate(tin:any){
+    this.commonServ.psrValidate(this.year,tin).subscribe({
+      next: (data) => {
+        console.log(data)
+      }
+      ,
+      error: (e) => {
+        console.log(e)
+
+      }     
+    })
+    
   }
 }

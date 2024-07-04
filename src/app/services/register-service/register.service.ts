@@ -12,6 +12,7 @@ export class RegisterService {
   private base_url : string ='' 
   private cert_base_url : string =""
   private otp_base_url : string =""
+  private assmnt_base_url : string =""
   constructor(
     private http: HttpClient,
     private localStorageServc: LocalStorageService,
@@ -21,6 +22,7 @@ export class RegisterService {
     this.base_url = url+"api/"
     this.cert_base_url = this.base_url+"certificate"
     this.otp_base_url = this.base_url+"otp"
+    this.assmnt_base_url = this.base_url+"v1/year"
   }
 
   checkCertificate(tin: any, nid: any){
@@ -52,4 +54,10 @@ export class RegisterService {
       return this.http.get<any>(this.cert_base_url+"/get/"+tin+"/"+nid,httpOptions)
   }
 
+  getAssessmentYear(){
+    const httpOptions = {
+      headers: this.commonService.httpReturner()
+    }
+      return this.http.get<any>(this.assmnt_base_url+"/find-latest",httpOptions)
+  }
 }

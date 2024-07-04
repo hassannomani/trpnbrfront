@@ -35,6 +35,7 @@ export class CommonService {
   private urladdaddress : string ='http://localhost:8080/api/address/add';
   private urladdbank : string ='http://localhost:8080/api/bank/add';
   private urletin : string ='http://localhost:8080/api/etin/tin/';
+  private urlereturn : string ='http://localhost:8080/api/trpereturn';
 
   private url_common : any = ""
   private url_bank : any = ""
@@ -302,4 +303,14 @@ export class CommonService {
     return this.http.get(this.url_common+"get-profile-photo/"+temp, {headers, responseType: 'blob'})
 
   }
+
+  psrValidate(year: String, tin: String): Observable<any>{
+    const httpOptions = {
+      headers: this.httpReturner()
+    };
+  
+    return this.http.get<any>(this.urlereturn +"/psr/"+year+"/"+tin,httpOptions)
+  }
+
+
 }
