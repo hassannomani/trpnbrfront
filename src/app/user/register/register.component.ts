@@ -176,6 +176,8 @@ export class RegisterComponent implements OnInit{
           this.getTinValidation(this.registerForm.value['tinNo'])
         }else{
           this.message = "No certificate found with this NID and TIN"
+          //this.getTinValidation(this.registerForm.value['tinNo'])
+
           this.submitted  =false
           this.openSnackBar()
         }
@@ -194,9 +196,10 @@ export class RegisterComponent implements OnInit{
       next: (data) => {
         if(data.isError==1){
           this.message = "TIN not found"
+
         }else{
           this.tinInfo = data
-          this.psrValidate(tin)
+          //this.psrValidate(tin)
           this.getMobileValidated(this.registerForm.value['phoneNo'])
         }
       }
@@ -274,12 +277,17 @@ export class RegisterComponent implements OnInit{
   psrValidate(tin:any){
     this.commonServ.psrValidate(this.year,tin).subscribe({
       next: (data) => {
-        console.log(data)
+        if(data.success==true){
+          
+        }else{
+          this.message = "PSR Couldn't be verified"
+          this.openSnackBar()
+        }
       }
       ,
       error: (e) => {
-        console.log(e)
-
+        this.message = "PSR Verification error"
+        this.openSnackBar()
       }     
     })
     

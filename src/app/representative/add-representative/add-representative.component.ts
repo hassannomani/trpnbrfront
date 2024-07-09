@@ -170,6 +170,9 @@ export class AddRepresentativeComponent implements OnInit{
   notMatch: boolean = false
   modalTitle: string = ""
   modalMessage: string= ""
+  username: string= ""
+  firstname: string= ""
+  lastname: string= ""
   constructor(
     private representativeServ: RepresentativeService,  
     private commonService: CommonService,
@@ -190,7 +193,8 @@ export class AddRepresentativeComponent implements OnInit{
   ngOnInit(): void {
     this.localStore = this.localStorage.getUnregisteredUser();
     //let temp = JSON.parse(this.localStore)
-    var tin = JSON.parse(this.localStore.un_tin)
+    var tin = this.username= JSON.parse(this.localStore.un_tin)
+    
     var nid = JSON.parse(this.localStore.un_nid)
     console.log(this.localStore)
     if(this.localStore.un_nid!=""){
@@ -207,9 +211,11 @@ export class AddRepresentativeComponent implements OnInit{
         let split = name.split(" ")
         let lastpart=""
         this.addUser.get("firstName")?.setValue(split[0])
+        this.firstname = split[0]
         for (let i=1;i<split.length;i++)
           lastpart+=split[i]+" "
         this.addUser.get("lastName")?.setValue(lastpart)
+        this.lastname = lastpart
       }
 
       if(temp.dob!=""){
@@ -507,6 +513,9 @@ export class AddRepresentativeComponent implements OnInit{
     {
       return
     }
+    this.addUser.value["username"] = this.username
+    this.addUser.value["firstName"]= this.firstname
+    this.addUser.value["lastName"] = this.lastname
     this.userService.registerUser(this.addUser.value).subscribe({
      
       next: (data) => {
