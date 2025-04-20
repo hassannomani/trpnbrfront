@@ -42,8 +42,10 @@ export class ListUserComponent implements OnInit{
         else{
           this.noDatafound = true
         }
+        console.log(data)
       },
       error: (e) => {
+        console.log(e)
         this.errorMsg = e
         this.failed = true
       }  

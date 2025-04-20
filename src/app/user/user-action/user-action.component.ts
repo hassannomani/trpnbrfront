@@ -121,7 +121,12 @@ export class UserActionComponent implements OnInit{
         //alert("File Uploaded Successfully")
       },
       error: (e) => {
-        console.log(e);
+        //if(e.status==413||e.status==500){
+          console.log(e)
+        //this.message="File too large"
+        //this.openSnackBar()
+        //}
+        console.log(e.status)
         this.uploadFailed= true
       }
     });

@@ -75,11 +75,11 @@ export class UserService {
     }
   }
 
-  getAllUSers(): Observable<any[]>{
-    const httpOptions = {
+  getAllUSers(): Observable<any>{
+    const httpOptions:any = {
       headers: this.commonService.httpReturner()
     }
-    return this.http.get<any[]>(this.url+"all",httpOptions)
+    return this.http.get<any>(this.url+"all",httpOptions)
   }
 
   getAllPendingUsers(): Observable<any[]>{

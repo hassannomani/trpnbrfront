@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -71,6 +71,7 @@ import { DetailsModalAgentComponent } from './layouts/details-modal-agent/detail
 import { AgentSelectionModalComponent } from './layouts/agent-selection-modal/agent-selection-modal.component';
 import { PreviousTrpComponent } from './history/previous-trp/previous-trp.component';
 import { PreviousAgentComponent } from './history/previous-agent/previous-agent.component';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,9 @@ import { PreviousAgentComponent } from './history/previous-agent/previous-agent.
     MaterialExampleModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi : true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

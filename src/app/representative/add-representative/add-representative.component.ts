@@ -187,7 +187,7 @@ export class AddRepresentativeComponent implements OnInit{
   ){
     this.titleService.setTitle
     
-    ("Add TRP");
+    ("TRP Registration");
 
   }
   ngOnInit(): void {
